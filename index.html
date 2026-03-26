@@ -441,7 +441,17 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
       <div class="muted">ROOM CODE</div>
       <div id="w-code" style="font-size:3.5rem;font-weight:900;color:var(--gold);letter-spacing:.4rem;"></div>
     </div>
-    <div class="card" style="text-align:center;"><div class="muted">SCAN TO JOIN</div><div id="w-qr"></div></div>
+    <div class="card" style="text-align:center;">
+      <div class="muted">SCAN TO JOIN</div>
+      <div id="w-qr"></div>
+      <div id="w-url-wrap" style="display:none;margin-top:.6rem;flex-direction:column;gap:.4rem;align-items:center;">
+        <div style="font-size:.75rem;color:#FFD700;">Set your Netlify URL so players can scan:</div>
+        <div style="display:flex;gap:.4rem;width:100%;">
+          <input id="w-custom-url" class="inp" placeholder="https://yourapp.netlify.app" style="font-size:.78rem;padding:.4rem .7rem;">
+          <button class="btn btn-g btn-sm" onclick="applyCustomQrUrl()">Set</button>
+        </div>
+      </div>
+    </div>
     <div class="card" style="text-align:center;min-width:140px;">
       <div id="w-count" style="font-size:3.5rem;font-weight:900;color:var(--accent);">0</div>
       <div class="muted">Players Joined</div>
@@ -817,14 +827,74 @@ async function hostResumeGame(code){
   if(g.phase==='ended'){alert('This game has already ended.');showHostDashboard();return;}
   roomCode=code;
   myRole='host';
+  _lbRoomCode=null;
   // Save to localStorage again
-  try{localStorage.setItem('qa_roomCode',code);localStorage.setItem('qa_hostUid',currentHostProfile?.uid||'');}catch(e){}
-  // Restore host game screen
-  S('host-game');
+  try{
+    localStorage.setItem('qa_roomCode',code);
+    localStorage.setItem('qa_hostUid',currentHostProfile?.uid||'');
+    if(!localStorage.getItem('qa_startedAt'))localStorage.setItem('qa_startedAt',g.startedAt||new Date().toISOString());
+  }catch(e){}
+
+  // Go to correct screen
+  S('hostgame');
+  requestWakeLock();
+
+  // Populate header info
   document.getElementById('h-room').textContent=code;
-  // Re-attach Firebase listener
-  if(unsubGame)unsubGame();
-  unsubGame=dbOn('games/'+code,gs=>{if(gs)renderHostGame(gs,code);});
+  document.getElementById('h-qt').textContent=(g.questions||[]).length;
+
+  // Rebuild QR code
+  const qrEl=document.getElementById('h-qr');qrEl.innerHTML='';
+  const _rqrUrl=window._customQrUrl||window.location.href;
+  if(!_rqrUrl.startsWith('file://')){try{new QRCode(qrEl,{text:_rqrUrl,width:180,height:180,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}}
+  else{qrEl.innerHTML='<div style="font-size:.7rem;color:#FFD700;text-align:center;padding:.3rem;">Set URL in waiting room</div>';}
+
+  // Restore the current question display based on phase
+  const qIdx=g.currentQ>=0?g.currentQ:0;
+  const ph=getPhase(g,qIdx);
+  setBadge(ph);
+  document.getElementById('h-qn').textContent=qIdx+1;
+  document.getElementById('h-qlbl').textContent='Question '+(qIdx+1)+' of '+(g.questions||[]).length;
+
+  if(g.phase==='waiting'){
+    // Still in waiting room — go back to waiting screen
+    S('waiting');
+    document.getElementById('w-code').textContent=code;
+    if(unsubGame)unsubGame();
+    unsubGame=dbOn('games/'+code+'/players',players=>{
+      const arr=Object.values(players||{});
+      document.getElementById('w-count').textContent=arr.length;
+      document.getElementById('w-chips').innerHTML=arr.map(p=>'<div style="background:linear-gradient(135deg,#7c3aed,#c026d3);border-radius:50px;padding:.35rem 1rem;font-size:.9rem;font-weight:600;">'+p.name+'</div>').join('');
+    });
+  } else if(g.phase==='question'||g.phase==='reveal'||g.phase==='locking'||g.phase==='auction'){
+    // Mid-game — restore current question and restart timers
+    const q=g.questions[qIdx];
+    showHostQuestion(q);
+    updateLB(g,code);
+    document.getElementById('h-aans').textContent=Object.keys(g.answers||{}).length;
+    document.getElementById('h-bars').style.display='none';
+
+    if(g.phase==='reveal'){
+      // Show the answer highlight and bars
+      const ci=q.opts.findIndex(o=>o===q.answer);
+      const ck=KEYS[ci];
+      KEYS.forEach(k=>{const el=document.getElementById('hopt-'+k);if(el&&k===ck)el.classList.add('opt-correct');});
+      showBars(ck,q,g.answers||{});
+      // Restart reveal countdown from remaining timer
+      let rt=g.timer||REV_SEC;setArc('h-arc','h-tsec',rt,REV_SEC);
+      clearInterval(timerInt);
+      timerInt=setInterval(async()=>{if(paused)return;rt--;setArc('h-arc','h-tsec',Math.max(0,rt),REV_SEC);await dbUpd('games/'+code,{timer:Math.max(0,rt)});if(rt<=0){clearInterval(timerInt);nextQ();}},1000);
+    } else {
+      // Restart question timer from remaining time
+      let t=g.timer||Q_SEC;setArc('h-arc','h-tsec',t,Q_SEC);
+      clearInterval(timerInt);
+      timerInt=setInterval(async()=>{if(paused)return;t--;setArc('h-arc','h-tsec',Math.max(0,t),Q_SEC);playTick(t);await dbUpd('games/'+code,{timer:Math.max(0,t)});if(t<=0){clearInterval(timerInt);doReveal();}},1000);
+      // Re-attach answer count listener
+      if(unsubAns)unsubAns();
+      unsubAns=dbOn('games/'+code+'/answers',ans=>{document.getElementById('h-aans').textContent=Object.keys(ans||{}).length;});
+    }
+  }
+
   // Show resume notification
   const notif=document.createElement('div');
   notif.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#2ED573;color:#000;padding:.6rem 1.5rem;border-radius:50px;font-weight:700;z-index:9999;';
@@ -995,7 +1065,15 @@ function showWaiting(){
   S('waiting');
   document.getElementById('w-code').textContent=roomCode;
   const qrEl=document.getElementById('w-qr');qrEl.innerHTML='';
-  try{new QRCode(qrEl,{text:window.location.href,width:240,height:240,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}
+  const _qrUrl=window._customQrUrl||window.location.href;
+  if(_qrUrl.startsWith('file://')){
+    qrEl.innerHTML='<div style="width:240px;height:240px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;background:#ffffff0a;border-radius:10px;border:2px dashed #ffffff22;padding:1rem;text-align:center;"><div style="font-size:2rem;">⚠️</div><div style="font-size:.8rem;color:#FFD700;font-weight:700;">QR not available locally</div><div style="font-size:.72rem;color:#aaa;">Upload to Netlify or set a custom URL below</div></div>';
+  } else {
+    try{new QRCode(qrEl,{text:_qrUrl,width:240,height:240,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}
+  }
+  // Custom URL input (shown only when local)
+  var _urlWrap=document.getElementById('w-url-wrap');
+  if(_urlWrap){_urlWrap.style.display=_qrUrl.startsWith('file://')?'flex':'none';}
   if(unsubGame)unsubGame();
   unsubGame=dbOn('games/'+roomCode+'/players',players=>{
     const arr=Object.values(players||{});
@@ -1013,11 +1091,14 @@ async function beginQuiz(){
 /* ══ HOST GAME ══ */
 async function setupHostGame(){
   S('hostgame');
+  requestWakeLock();
   const g=await dbGet('games/'+roomCode);
   document.getElementById('h-room').textContent=roomCode;
   document.getElementById('h-qt').textContent=g.questions.length;
   const qrEl=document.getElementById('h-qr');qrEl.innerHTML='';
-  try{new QRCode(qrEl,{text:window.location.href,width:180,height:180,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}
+  const _hqrUrl=window._customQrUrl||window.location.href;
+  if(!_hqrUrl.startsWith('file://')){try{new QRCode(qrEl,{text:_hqrUrl,width:180,height:180,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}}
+  else{qrEl.innerHTML='<div style="font-size:.7rem;color:#FFD700;text-align:center;padding:.3rem;">Set URL in waiting room</div>';}
   startQuestion(g,0);
 }
 
@@ -1169,6 +1250,7 @@ async function togglePause(){paused=!paused;document.getElementById('h-pause').t
 
 async function endGame(){
   clearInterval(timerInt);clearInterval(bidInt);if(unsubAns){unsubAns();unsubAns=null;}
+  releaseWakeLock();
   await dbUpd('games/'+roomCode,{phase:'ended'});
   await logSessionEnd();
   // Clear saved roomCode since game is properly ended
@@ -1294,6 +1376,7 @@ async function joinGame(){
     myId=existing.id;myName=name;roomCode=code;myRole='player';
     mySlotNum=existing.slotNum||'?';
     try{sessionStorage.setItem('qa_psession',JSON.stringify({id:existing.id,name:name,code:code,slotNum:existing.slotNum,pin:parseInt(pinInput)}));}catch(e){}
+    requestWakeLock();
     showPlayerBadge(name,mySlotNum,true);
     // Clear PIN field for privacy
     document.getElementById('j-pin').value='';
@@ -1312,6 +1395,7 @@ async function joinGame(){
   await dbSet('games/'+code+'/players/'+myId,{id:myId,name,score:0,slotNum:mySlotNum,pin:myPin});
   try{sessionStorage.setItem('qa_psession',JSON.stringify({id:myId,name:name,code:code,slotNum:mySlotNum,pin:myPin}));}catch(e){}
   showPlayerBadge(name,mySlotNum,false,myPin);
+  requestWakeLock();
   S('player');startPlayerListener(code);
 }
 
@@ -1363,7 +1447,7 @@ function startPlayerListener(code){
     document.getElementById('p-ring').style.display=(gs.phase==='question'||gs.phase==='reveal'||gs.phase==='locking'||isBid)?'':'none';
 
     if(gs.phase==='waiting')renderPC(msgBox('⏳','Waiting...','Game will start soon'));
-    else if(gs.phase==='ended'){renderPC(msgBox('🏁','Game Over!','Check the main screen for results'));if(unsubGame){unsubGame();unsubGame=null;}}
+    else if(gs.phase==='ended'){releaseWakeLock();renderPC(msgBox('🏁','Game Over!','Check the main screen for results'));if(unsubGame){unsubGame();unsubGame=null;}}
     else if(gs.phase==='locking'){
       if(playerSelected&&!playerAnswered){playerAnswered=true;dbSet('games/'+code+'/answers/'+myId,playerSelected).catch(()=>{});}
       const stored=gs.answers?.[myId];const dk=stored||playerSelected;
@@ -1757,8 +1841,52 @@ function exportMIS(){
 function fmtDate(iso){if(!iso)return '—';try{const d=new Date(iso);return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}catch(e){return iso;}}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+/* ══ CUSTOM QR URL ══ */
+function applyCustomQrUrl(){
+  var url=document.getElementById('w-custom-url').value.trim();
+  if(!url){alert('Enter your Netlify URL first.');return;}
+  if(!url.startsWith('http')){url='https://'+url;}
+  window._customQrUrl=url;
+  // Rebuild QR
+  var qrEl=document.getElementById('w-qr');
+  qrEl.innerHTML='';
+  try{new QRCode(qrEl,{text:url,width:240,height:240,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}
+  var wrap=document.getElementById('w-url-wrap');
+  if(wrap)wrap.style.display='none';
+  // Save for reuse this session
+  try{sessionStorage.setItem('qa_customUrl',url);}catch(e){}
+}
+
+/* ══ SCREEN WAKE LOCK ══ */
+var _wakeLock=null;
+
+async function requestWakeLock(){
+  if(!('wakeLock' in navigator)){return;} // API not supported — silent fail
+  try{
+    if(_wakeLock&&_wakeLock.released===false){return;} // already held
+    _wakeLock=await navigator.wakeLock.request('screen');
+    _wakeLock.addEventListener('release',function(){_wakeLock=null;});
+  }catch(e){/* user denied or not available — silent */}
+}
+
+function releaseWakeLock(){
+  if(_wakeLock){_wakeLock.release().catch(function(){});_wakeLock=null;}
+}
+
+// Re-acquire wake lock when tab becomes visible again (OS may release it on tab switch)
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible'&&_wakeLock===null){
+    // Only re-acquire if a game is currently active
+    if(roomCode&&myRole==='host'&&document.getElementById('hostgame').classList.contains('active')){requestWakeLock();}
+    if(roomCode&&myRole==='player'&&document.getElementById('player').classList.contains('active')){requestWakeLock();}
+  }
+});
+
 /* ══ AUTO LOGIN RESTORE ══ */
 document.addEventListener('firebaseReady',()=>{
+  // Restore custom QR URL from previous session
+  try{var _su=sessionStorage.getItem('qa_customUrl');if(_su)window._customQrUrl=_su;}catch(e){}
+
   window._onAuthStateChanged(window._auth,async user=>{
     if(user&&user.emailVerified&&document.getElementById('auth-landing').classList.contains('active')){
       const profile=await dbGet('hosts/'+user.uid);
@@ -1782,7 +1910,7 @@ document.addEventListener('firebaseReady',()=>{
           _toast.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:.6rem 1.5rem;border-radius:50px;font-weight:700;z-index:9999;font-size:.9rem;';
           _toast.textContent='Reconnecting to '+_pd.code+'...';
           document.body.appendChild(_toast);
-          setTimeout(function(){_toast.remove();S('player');startPlayerListener(_pd.code);},1500);
+          setTimeout(function(){_toast.remove();requestWakeLock();S('player');startPlayerListener(_pd.code);},1500);
         }).catch(function(){sessionStorage.removeItem('qa_psession');});
       }
     }
