@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuizArena</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+           sendEmailVerification, signOut, onAuthStateChanged, updateProfile }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyDzxuqiIWYGl5hzrOZvEweUHNMq1xG7eKY",
+    authDomain:        "quizomania-8f783.firebaseapp.com",
+    databaseURL:       "https://quizomania-8f783-default-rtdb.firebaseio.com",
+    projectId:         "quizomania-8f783",
+    storageBucket:     "quizomania-8f783.firebasestorage.app",
+    messagingSenderId: "734661787918",
+    appId:             "1:734661787918:web:2c3c74bbca9ccc6ffd575f"
+  };
+  const app  = initializeApp(firebaseConfig);
+  const db   = getDatabase(app);
+  const auth = getAuth(app);
+
+  window._db=db; window._ref=ref; window._set=set; window._get=get;
+  window._update=update; window._onValue=onValue;
+  window._auth=auth;
+  window._createUser=createUserWithEmailAndPassword;
+  window._signIn=signInWithEmailAndPassword;
+  window._sendVerification=sendEmailVerification;
+  window._signOut=signOut;
+  window._onAuthStateChanged=onAuthStateChanged;
+  window._updateProfile=updateProfile;
+  window._firebaseReady=true;
+  document.dispatchEvent(new Event('firebaseReady'));
+</script>
+<style>
+:root{--c1:#FF4757;--c2:#1E90FF;--c3:#2ED573;--c4:#FFA502;--dark:#0a0a1a;--card:#12122a;--accent:#7c3aed;--gold:#FFD700;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:#fff;min-height:100vh;}
+.screen{display:none;min-height:100vh;flex-direction:column;}
+.screen.active{display:flex;}
+.btn{border:none;border-radius:50px;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px;padding:.8rem 2rem;font-size:.9rem;}
+.btn:hover{transform:translateY(-2px);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-p{background:linear-gradient(135deg,#7c3aed,#c026d3);color:#fff;box-shadow:0 0 20px #7c3aed44;}
+.btn-b{background:linear-gradient(135deg,#0ea5e9,#1E90FF);color:#fff;}
+.btn-g{background:linear-gradient(135deg,#FFD700,#FFA502);color:#000;}
+.btn-d{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;}
+.btn-k{background:#1e1e3a;color:#ccc;border:1px solid #333;}
+.btn-sm{padding:.4rem 1rem;font-size:.8rem;}
+.inp{width:100%;background:#ffffff11;border:2px solid #ffffff22;border-radius:12px;padding:.8rem 1rem;color:#fff;font-size:1rem;outline:none;}
+.inp:focus{border-color:var(--accent);}
+.card{background:var(--card);border-radius:18px;padding:1.5rem;border:1px solid #ffffff14;}
+.logo{font-size:clamp(3rem,10vw,5.5rem);font-weight:900;background:linear-gradient(135deg,#FFD700,#FF4757,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;}
+.hdr{background:var(--card);padding:.8rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff11;flex-wrap:wrap;gap:.5rem;}
+.hbody{flex:1;display:flex;gap:1rem;padding:1rem;overflow:hidden;flex-wrap:wrap;}
+.opt-box{border-radius:16px;padding:1.3rem 1.4rem;display:flex;align-items:center;gap:.8rem;font-weight:700;font-size:1.4rem;transition:all .3s;}
+.opt-A{background:#FF475722;border:2px solid var(--c1);}
+.opt-B{background:#1E90FF22;border:2px solid var(--c2);}
+.opt-C{background:#2ED57322;border:2px solid var(--c3);}
+.opt-D{background:#FFA50222;border:2px solid var(--c4);}
+.opt-A.opt-correct{background:#FF475799;box-shadow:0 0 30px #FF4757;transform:scale(1.03);}
+.opt-B.opt-correct{background:#1E90FF99;box-shadow:0 0 30px #1E90FF;transform:scale(1.03);}
+.opt-C.opt-correct{background:#2ED57399;box-shadow:0 0 30px #2ED573;transform:scale(1.03);}
+.opt-D.opt-correct{background:#FFA50299;box-shadow:0 0 30px #FFA502;transform:scale(1.03);}
+.bar-fill{height:100%;border-radius:6px;transition:width .8s;display:flex;align-items:center;padding:0 .8rem;font-size:.85rem;font-weight:700;white-space:nowrap;}
+.pbtn{border:none;border-radius:24px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1.8rem 1rem;font-weight:700;color:#fff;transition:all .25s;font-size:1.1rem;width:100%;}
+.pbtn.selected{transform:scale(1.07);outline:4px solid #fff;}
+.gold{color:var(--gold);}.muted{color:#aaa;font-size:.85rem;}
+.row{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;}
+.pulse{animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.fade{animation:fadeUp .4s;}.pop{animation:popIn .35s cubic-bezier(.175,.885,.32,1.275);}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;background:#ffffff08;border-radius:12px;padding:.9rem 1.2rem;margin-bottom:.8rem;}
+.toggle{position:relative;width:52px;height:28px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:#333;border-radius:28px;cursor:pointer;transition:.3s;}
+.toggle-slider:before{content:'';position:absolute;width:22px;height:22px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s;}
+input:checked+.toggle-slider{background:var(--accent);}
+input:checked+.toggle-slider:before{transform:translateX(24px);}
+.music-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.5rem;}
+.music-btn{background:#ffffff08;border:2px solid #ffffff11;border-radius:10px;padding:.6rem;color:#fff;cursor:pointer;font-size:.85rem;transition:.2s;text-align:center;}
+.music-btn.active{border-color:var(--accent);background:#7c3aed22;}
+.bid-screen{text-align:center;padding:2rem 1rem;}
+.bid-countdown{font-size:7rem;font-weight:900;color:#FF4757;line-height:1;text-shadow:0 0 40px #FF475788;}
+.upload-box{border:2px dashed #7c3aed55;border-radius:14px;padding:2rem;text-align:center;cursor:pointer;transition:.3s;margin-bottom:1rem;}
+.upload-box:hover{border-color:#7c3aed;background:#7c3aed11;}
+/* AUTH */
+.auth-card{width:100%;max-width:460px;background:var(--card);border-radius:20px;padding:2rem;border:1px solid #ffffff14;}
+.auth-title{font-size:1.6rem;font-weight:800;color:var(--gold);margin-bottom:.3rem;text-align:center;}
+.auth-sub{color:#aaa;font-size:.9rem;text-align:center;margin-bottom:1.5rem;}
+.auth-err{color:#FF4757;font-size:.85rem;padding:.6rem 1rem;background:#FF475711;border-radius:8px;margin-bottom:.8rem;display:none;}
+.auth-ok{color:#2ED573;font-size:.85rem;padding:.6rem 1rem;background:#2ED57311;border-radius:8px;margin-bottom:.8rem;display:none;}
+.inp-label{color:#aaa;font-size:.8rem;margin-bottom:.25rem;display:block;}
+.inp-wrap{margin-bottom:.9rem;}
+.form-row{display:flex;gap:.7rem;}
+.form-row .inp-wrap{flex:1;}
+/* ADMIN */
+.admin-hdr{background:linear-gradient(135deg,#1a0a3a,#0d0d2e);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #FFD70033;flex-wrap:wrap;gap:.5rem;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;padding:1rem 1.5rem;}
+.stat-card{background:var(--card);border-radius:16px;padding:1.2rem;border:1px solid #ffffff14;text-align:center;}
+.stat-num{font-size:2.4rem;font-weight:900;color:var(--gold);}
+.stat-lbl{color:#aaa;font-size:.75rem;margin-top:.2rem;text-transform:uppercase;letter-spacing:1px;}
+.mis-table{width:100%;border-collapse:collapse;font-size:.85rem;}
+.mis-table th{background:#ffffff0a;padding:.7rem 1rem;text-align:left;color:#aaa;font-weight:600;text-transform:uppercase;font-size:.75rem;letter-spacing:.5px;border-bottom:1px solid #ffffff11;}
+.mis-table td{padding:.7rem 1rem;border-bottom:1px solid #ffffff08;vertical-align:middle;}
+.mis-table tr:hover td{background:#ffffff05;}
+.badge{display:inline-block;border-radius:50px;padding:.2rem .7rem;font-size:.75rem;font-weight:700;}
+.badge-live{background:#2ED57322;color:#2ED573;border:1px solid #2ED57344;}
+.badge-end{background:#ffffff11;color:#aaa;border:1px solid #ffffff22;}
+.badge-no{background:#FF475722;color:#FF4757;border:1px solid #FF475744;}
+.tab-bar{display:flex;gap:.3rem;padding:.8rem 1.5rem;background:var(--card);border-bottom:1px solid #ffffff11;flex-wrap:wrap;}
+.tab{background:transparent;border:none;color:#aaa;padding:.5rem 1.2rem;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;transition:.2s;}
+.tab.active{background:#7c3aed33;color:#c084fc;}
+.mis-section{padding:1rem 1.5rem;}
+.mis-wrap{background:var(--card);border-radius:16px;border:1px solid #ffffff14;overflow:auto;}
+.filter-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
+.filter-row select,.filter-row input{background:#ffffff0d;border:1px solid #ffffff22;border-radius:8px;padding:.45rem .8rem;color:#fff;font-size:.85rem;outline:none;}
+.filter-row select option{background:#12122a;}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="auth-landing" class="screen active" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#1a0a3a,#0a0a1a);gap:1.5rem;padding:2rem;">
+  <div class="logo pulse">⚡ QuizArena</div>
+  <div style="color:#aaa;font-size:1.1rem;text-align:center;">The Ultimate Live Quiz Game Show</div>
+  <div class="row">
+    <button class="btn btn-p" style="font-size:1.1rem;padding:1rem 2.5rem;" onclick="S('host-login')">🎮 Host Login</button>
+    <button class="btn btn-b" style="font-size:1.1rem;padding:1rem 2.5rem;" onclick="S('join')">📱 Join as Player</button>
+  </div>
+  <button class="btn btn-k btn-sm" onclick="promptAdmin()">🔐 Admin Panel</button>
+  <div class="card" style="max-width:480px;text-align:center;">
+    <div class="muted" style="margin-bottom:.5rem;">How to play</div>
+    <div style="font-size:.9rem;color:#ccc;line-height:1.9;">
+      1. Host registers &amp; logs in to set up the game<br>
+      2. Players open this page on their phone<br>
+      3. Enter the room code shown on host screen<br>
+      4. Tap colored shapes to answer — win big!
+    </div>
+  </div>
+</div>
+
+<!-- HOST LOGIN -->
+<div id="host-login" class="screen" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0d0d2e,#0a0a1a);padding:2rem;">
+  <div class="auth-card">
+    <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem;">🎮</div>
+    <div class="auth-title">Host Login</div>
+    <div class="auth-sub">Sign in to your host account</div>
+    <div class="auth-err" id="login-err"></div>
+    <div class="auth-ok"  id="login-ok"></div>
+    <div class="inp-wrap">
+      <label class="inp-label">Email Address</label>
+      <input class="inp" id="login-email" type="email" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <div class="inp-wrap">
+      <label class="inp-label">Password</label>
+      <input class="inp" id="login-pwd" type="password" placeholder="Your password"
+        onkeydown="if(event.key==='Enter')hostLogin()">
+    </div>
+    <button class="btn btn-p" style="width:100%;margin-bottom:.8rem;" onclick="hostLogin()">Sign In →</button>
+    <div style="text-align:center;color:#aaa;font-size:.9rem;margin-bottom:.8rem;">
+      Don't have an account?
+      <span style="color:#c084fc;cursor:pointer;font-weight:600;" onclick="S('host-register')"> Register here</span>
+    </div>
+    <button class="btn btn-k btn-sm" style="width:100%;" onclick="S('auth-landing')">← Back</button>
+  </div>
+</div>
+
+<!-- HOST REGISTER -->
+<div id="host-register" class="screen" style="background:radial-gradient(ellipse at center,#0d0d2e,#0a0a1a);">
+  <div style="flex:1;overflow-y:auto;display:flex;justify-content:center;padding:2rem;">
+    <div class="auth-card" style="max-width:520px;height:fit-content;">
+      <div style="text-align:center;font-size:2rem;margin-bottom:.4rem;">📋</div>
+      <div class="auth-title">Create Host Account</div>
+      <div class="auth-sub">Fill in your details to register as a quiz host</div>
+      <div class="auth-err" id="reg-err"></div>
+      <div class="auth-ok"  id="reg-ok"></div>
+      <div class="form-row">
+        <div class="inp-wrap"><label class="inp-label">Full Name *</label><input class="inp" id="reg-name" placeholder="Your full name"></div>
+        <div class="inp-wrap"><label class="inp-label">Mobile Number *</label><input class="inp" id="reg-mobile" type="tel" placeholder="+91 9876543210"></div>
+      </div>
+      <div class="form-row">
+        <div class="inp-wrap"><label class="inp-label">City / Place *</label><input class="inp" id="reg-city" placeholder="Mumbai"></div>
+        <div class="inp-wrap"><label class="inp-label">Country *</label><input class="inp" id="reg-country" placeholder="India"></div>
+      </div>
+      <div class="form-row">
+        <div class="inp-wrap"><label class="inp-label">PIN / ZIP Code *</label><input class="inp" id="reg-pin" placeholder="400001" maxlength="10"></div>
+        <div class="inp-wrap"><label class="inp-label">Organisation (optional)</label><input class="inp" id="reg-org" placeholder="Company / School"></div>
+      </div>
+      <div class="inp-wrap"><label class="inp-label">Email Address *</label><input class="inp" id="reg-email" type="email" placeholder="your@email.com"></div>
+      <div class="form-row">
+        <div class="inp-wrap"><label class="inp-label">Password *</label><input class="inp" id="reg-pwd" type="password" placeholder="Min 6 characters"></div>
+        <div class="inp-wrap"><label class="inp-label">Confirm Password *</label><input class="inp" id="reg-pwd2" type="password" placeholder="Repeat password"></div>
+      </div>
+      <div style="background:#FFD70011;border:1px solid #FFD70033;border-radius:10px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.85rem;color:#FFD700;">
+        📧 A verification link will be sent to your email. You must verify before hosting.
+      </div>
+      <button class="btn btn-p" style="width:100%;margin-bottom:.8rem;" onclick="hostRegister()">Create Account &amp; Send Verification</button>
+      <button class="btn btn-k btn-sm" style="width:100%;" onclick="S('host-login')">← Back to Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL VERIFY -->
+<div id="host-verify" class="screen" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0d0d2e,#0a0a1a);padding:2rem;">
+  <div class="auth-card" style="text-align:center;">
+    <div style="font-size:4rem;margin-bottom:1rem;">📧</div>
+    <div class="auth-title">Verify Your Email</div>
+    <div style="color:#aaa;font-size:.95rem;margin-bottom:1.2rem;line-height:1.7;" id="verify-msg">
+      A verification link has been sent to your email.<br>
+      Click the link in the email, then press <strong style="color:#FFD700;">Check Verification</strong> below.
+    </div>
+    <div class="auth-err" id="verify-err"></div>
+    <div class="auth-ok"  id="verify-ok"></div>
+    <button class="btn btn-g" style="width:100%;margin-bottom:.8rem;" onclick="checkVerification()">✅ Check Verification</button>
+    <button class="btn btn-k btn-sm" style="width:100%;margin-bottom:.6rem;" onclick="resendVerification()">🔄 Resend Email</button>
+    <button class="btn btn-k btn-sm" style="width:100%;" onclick="doSignOut()">← Sign Out</button>
+  </div>
+</div>
+
+<!-- HOST DASHBOARD -->
+<div id="host-dash" class="screen" style="background:var(--dark);">
+  <div class="hdr">
+    <div>
+      <div style="font-weight:900;font-size:1.2rem;color:var(--gold);">⚡ QuizArena</div>
+      <div class="muted" id="hd-welcome">Welcome back</div>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;">
+      <div style="background:#2ED57322;color:#2ED573;border:1px solid #2ED57344;border-radius:50px;padding:.3rem .9rem;font-size:.8rem;font-weight:700;">✅ Verified Host</div>
+      <button class="btn btn-p btn-sm" onclick="goToSetup()">🎮 New Game</button>
+      <button class="btn btn-k btn-sm" onclick="doSignOut()">Sign Out</button>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:1.5rem;">
+    <div style="max-width:900px;margin:auto;">
+      <div id="hd-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.5rem;"></div>
+      <h2 style="color:var(--gold);margin-bottom:1rem;font-size:1.1rem;">📋 Your Session History</h2>
+      <div class="mis-wrap">
+        <table class="mis-table" style="min-width:580px;">
+          <thead><tr><th>Room Code</th><th>Theme</th><th>Date &amp; Time</th><th>Players</th><th>Questions</th><th>Mode</th><th>Status</th></tr></thead>
+          <tbody id="hd-sessions"><tr><td colspan="7" style="text-align:center;color:#aaa;padding:2rem;">No sessions yet. Start your first game!</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="admin" class="screen" style="background:var(--dark);">
+  <div class="admin-hdr">
+    <div>
+      <div style="font-weight:900;font-size:1.3rem;color:var(--gold);">🛡️ QuizArena — Admin MIS</div>
+      <div class="muted">Management Information System</div>
+    </div>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+      <button class="btn btn-g btn-sm" onclick="loadAdminDashboard()">🔄 Refresh</button>
+      <button class="btn btn-k btn-sm" onclick="exportMIS()">📥 Export CSV</button>
+      <button class="btn btn-d btn-sm" onclick="S('auth-landing')">✕ Close</button>
+    </div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-num" id="as-hosts">–</div><div class="stat-lbl">Total Hosts</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-verified">–</div><div class="stat-lbl">Verified Hosts</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-sessions">–</div><div class="stat-lbl">Total Sessions</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-players">–</div><div class="stat-lbl">Total Players Served</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-live">–</div><div class="stat-lbl">Live Right Now</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-rooms">–</div><div class="stat-lbl">Unique Room Codes</div></div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab active" onclick="adminTab('sessions',this)">📋 All Sessions</button>
+    <button class="tab" onclick="adminTab('hosts',this)">👤 All Hosts</button>
+    <button class="tab" onclick="adminTab('live',this)">🔴 Live Games</button>
+  </div>
+  <!-- Sessions -->
+  <div class="mis-section" id="tab-sessions">
+    <div class="filter-row">
+      <input id="f-search" placeholder="🔍 Search name, email, room, theme…" style="flex:1;min-width:200px;" oninput="renderSessionsTable()">
+      <select id="f-status" onchange="renderSessionsTable()"><option value="">All Status</option><option value="live">Live</option><option value="ended">Ended</option></select>
+      <select id="f-sort" onchange="renderSessionsTable()"><option value="newest">Newest First</option><option value="oldest">Oldest First</option><option value="players">Most Players</option></select>
+    </div>
+    <div class="mis-wrap">
+      <table class="mis-table" style="min-width:960px;">
+        <thead><tr><th>#</th><th>Host Name</th><th>Email</th><th>Mobile</th><th>Location</th><th>Room Code</th><th>Theme</th><th>Started</th><th>Players</th><th>Questions</th><th>Mode</th><th>Status</th></tr></thead>
+        <tbody id="admin-sessions-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Hosts -->
+  <div class="mis-section" id="tab-hosts" style="display:none;">
+    <div class="mis-wrap">
+      <table class="mis-table" style="min-width:900px;">
+        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Mobile</th><th>City</th><th>Country</th><th>PIN</th><th>Organisation</th><th>Registered</th><th>Sessions</th><th>Total Players</th><th>Verified</th></tr></thead>
+        <tbody id="admin-hosts-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Live -->
+  <div class="mis-section" id="tab-live" style="display:none;">
+    <div id="admin-live-body" style="display:grid;gap:1rem;max-width:900px;"></div>
+  </div>
+</div>
+
+<!-- JOIN (players) -->
+<div id="join" class="screen" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0d0d2e,#0a0a1a);padding:2rem;">
+  <div class="card" style="width:100%;max-width:400px;text-align:center;margin:auto;">
+    <div style="font-size:4rem;margin-bottom:.5rem;">⚡</div>
+    <h2 class="gold" style="font-size:2rem;margin-bottom:.4rem;">Join Game</h2>
+    <div class="muted" style="margin-bottom:1.5rem;">Enter the code shown on the host screen</div>
+    <input id="j-code" class="inp" placeholder="ROOM CODE" maxlength="10"
+      style="text-align:center;font-size:1.6rem;letter-spacing:.3rem;font-weight:700;margin-bottom:.8rem;"
+      oninput="this.value=this.value.toUpperCase()">
+    <input id="j-name" class="inp" placeholder="Your Name" maxlength="20"
+      style="text-align:center;font-size:1.2rem;margin-bottom:.8rem;"
+      oninput="checkNameExists(this.value)">
+    <!-- PIN field — hidden until name matches existing player -->
+    <div id="j-pin-wrap" style="display:none;margin-bottom:.8rem;">
+      <div style="background:#FFD70011;border:1px solid #FFD70033;border-radius:10px;padding:.6rem 1rem;margin-bottom:.6rem;font-size:.85rem;color:#FFD700;text-align:center;">
+        🔒 This name is already in the game.<br>Enter your 4-digit PIN to rejoin.
+      </div>
+      <input id="j-pin" class="inp" placeholder="Your 4-digit PIN" maxlength="4" type="number"
+        style="text-align:center;font-size:1.6rem;letter-spacing:.5rem;font-weight:700;"
+        onkeydown="if(event.key==='Enter')joinGame()">
+    </div>
+    <div id="j-err" style="color:var(--c1);font-size:.9rem;margin-bottom:.8rem;display:none;padding:.6rem;background:#FF475711;border-radius:8px;"></div>
+    <button class="btn btn-p" id="j-btn" style="width:100%;margin-bottom:.8rem;font-size:1.1rem;padding:1rem;" onclick="joinGame()">Join Game 🎮</button>
+    <button class="btn btn-k btn-sm" onclick="S('auth-landing')">← Back</button>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setup" class="screen" style="background:var(--dark);">
+  <div class="hdr">
+    <button class="btn btn-k btn-sm" onclick="S('host-dash')">← Dashboard</button>
+    <span style="font-weight:700;color:var(--gold);font-size:1.1rem;">Game Setup</span>
+    <span id="setup-host-badge" style="color:#aaa;font-size:.85rem;"></span>
+  </div>
+  <div style="flex:1;display:flex;justify-content:center;padding:2rem;overflow-y:auto;">
+    <div class="card" style="width:100%;max-width:700px;">
+      <h2 class="gold" style="margin-bottom:1.5rem;">📋 Step 1 — Upload Questions</h2>
+      <label class="upload-box">
+        <input type="file" id="xlfile" accept=".xlsx,.xls" style="display:none;" onchange="loadXL(this)">
+        <div style="font-size:3rem;">📊</div>
+        <div style="font-weight:700;margin-bottom:.3rem;font-size:1.1rem;" id="ul-label">Click to upload Excel file</div>
+        <div class="muted">Columns: Question | Option1 | Option2 | Option3 | Option4 | Answer</div>
+      </label>
+      <div id="q-preview" style="margin-bottom:1.2rem;"></div>
+      <h2 class="gold" style="margin-bottom:1rem;font-size:1.3rem;">⚙️ Step 2 — Game Settings</h2>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem;">
+        <div style="flex:1;min-width:130px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Room Code</label>
+          <input id="s-code" class="inp" value="QUIZ01" maxlength="10" style="padding:.65rem .9rem;font-size:1.1rem;font-weight:700;" oninput="this.value=this.value.toUpperCase()"></div>
+        <div style="flex:1;min-width:130px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Quiz Theme / Title</label>
+          <input id="s-theme" class="inp" placeholder="e.g. Science Quiz" style="padding:.65rem .9rem;"></div>
+        <div style="flex:1;min-width:120px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Max Players</label>
+          <input id="s-maxp" class="inp" type="number" value="100" min="1" max="100" style="padding:.65rem .9rem;"></div>
+      </div>
+      <h2 class="gold" style="margin-bottom:1rem;font-size:1.3rem;">🎯 Step 3 — Scoring Rules</h2>
+      <div class="toggle-row">
+        <div><div style="font-size:1rem;font-weight:600;">⚠️ Negative Marking</div><div class="muted">Wrong answer deducts points</div></div>
+        <label class="toggle"><input type="checkbox" id="t-neg" onchange="toggleNeg()"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="neg-opts" style="display:none;background:#ffffff06;border-radius:12px;padding:1rem;margin-bottom:.8rem;">
+        <label class="muted" style="display:block;margin-bottom:.4rem;">Start from Question #</label>
+        <input id="s-neg" class="inp" type="number" value="1" min="1" max="100" style="padding:.65rem .9rem;margin-bottom:.6rem;">
+        <label class="muted" style="display:block;margin-bottom:.4rem;">Points deducted per wrong answer</label>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <button class="music-btn active" id="neg-5" onclick="setNegPts(5)">-5 pts</button>
+          <button class="music-btn" id="neg-10" onclick="setNegPts(10)">-10 pts</button>
+          <button class="music-btn" id="neg-15" onclick="setNegPts(15)">-15 pts</button>
+          <button class="music-btn" id="neg-20" onclick="setNegPts(20)">-20 pts</button>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <div><div style="font-size:1rem;font-weight:600;">⚡ Auction / Bidding Round</div><div class="muted">Players bid their score — blind bidding</div></div>
+        <label class="toggle"><input type="checkbox" id="t-auc" onchange="toggleAuc()"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="auc-opts" style="display:none;background:#ffffff06;border-radius:12px;padding:1rem;margin-bottom:.8rem;">
+        <label class="muted" style="display:block;margin-bottom:.4rem;">Start auction from Question #</label>
+        <input id="s-auc" class="inp" type="number" value="1" min="1" max="100" style="padding:.65rem .9rem;">
+      </div>
+      <h2 class="gold" style="margin-bottom:1rem;font-size:1.3rem;">🎵 Step 4 — Music</h2>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;"><div class="muted" style="margin-bottom:.4rem;">Question Music</div>
+          <div class="music-grid" id="q-music-grid">
+            <button class="music-btn active" onclick="setMusic('q','none',this)">🔇 None</button>
+            <button class="music-btn" onclick="setMusic('q','tension',this)">🥁 Tension</button>
+            <button class="music-btn" onclick="setMusic('q','upbeat',this)">🎵 Upbeat</button>
+            <button class="music-btn" onclick="setMusic('q','countdown',this)">⏱️ Countdown</button>
+          </div></div>
+        <div style="flex:1;min-width:200px;"><div class="muted" style="margin-bottom:.4rem;">Answer Reveal Music</div>
+          <div class="music-grid" id="r-music-grid">
+            <button class="music-btn active" onclick="setMusic('r','none',this)">🔇 None</button>
+            <button class="music-btn" onclick="setMusic('r','fanfare',this)">🎺 Fanfare</button>
+            <button class="music-btn" onclick="setMusic('r','dramatic',this)">🎭 Dramatic</button>
+            <button class="music-btn" onclick="setMusic('r','cheerful',this)">🎉 Cheerful</button>
+          </div></div>
+      </div>
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button id="s-start" class="btn btn-p" disabled style="font-size:1.1rem;padding:1rem 3rem;">🚀 Start Game</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WAITING ROOM -->
+<div id="waiting" class="screen" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0d0d2e,#0a0a1a);gap:1.5rem;padding:2rem;">
+  <div style="font-size:2rem;font-weight:900;color:var(--gold);">Waiting for Players...</div>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;">
+    <div class="card" style="text-align:center;min-width:200px;">
+      <div class="muted">ROOM CODE</div>
+      <div id="w-code" style="font-size:3.5rem;font-weight:900;color:var(--gold);letter-spacing:.4rem;"></div>
+    </div>
+    <div class="card" style="text-align:center;"><div class="muted">SCAN TO JOIN</div><div id="w-qr"></div></div>
+    <div class="card" style="text-align:center;min-width:140px;">
+      <div id="w-count" style="font-size:3.5rem;font-weight:900;color:var(--accent);">0</div>
+      <div class="muted">Players Joined</div>
+    </div>
+  </div>
+  <div id="w-chips" style="display:flex;flex-wrap:wrap;gap:.6rem;max-width:800px;justify-content:center;min-height:40px;"></div>
+  <button class="btn btn-p" style="font-size:1.1rem;padding:1rem 3rem;" onclick="beginQuiz()">▶ Begin Quiz</button>
+</div>
+
+<!-- HOST GAME -->
+<div id="hostgame" class="screen" style="background:var(--dark);">
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:.8rem;">
+      <span style="font-weight:900;font-size:1.3rem;color:var(--gold);">⚡ QuizArena</span>
+      <span id="h-badge" style="background:#2ED57322;color:#2ED573;border:1px solid #2ED573;border-radius:50px;padding:.3rem 1rem;font-size:.8rem;font-weight:700;">Normal</span>
+    </div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
+      <span class="muted">Q<span id="h-qn">1</span>/<span id="h-qt">0</span></span>
+      <button class="btn btn-k btn-sm" id="h-pause" onclick="togglePause()">⏸ Pause</button>
+      <button class="btn btn-sm btn-d" onclick="endGame()">🏁 End</button>
+    </div>
+  </div>
+  <div class="hbody">
+    <div style="display:flex;flex-direction:column;gap:.7rem;flex:0 0 200px;">
+      <div class="card" style="text-align:center;">
+        <div class="muted">ROOM</div>
+        <div id="h-room" style="font-size:2rem;font-weight:900;color:var(--gold);letter-spacing:.2rem;"></div>
+        <div id="h-qr" style="margin:.4rem 0;"></div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div id="h-pcount" style="font-size:2.2rem;font-weight:900;color:var(--accent);">0</div>
+        <div class="muted">PLAYERS</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div id="h-aans" style="font-size:2.2rem;font-weight:900;color:var(--c3);">0</div>
+        <div class="muted">ANSWERED</div>
+      </div>
+      <button class="btn btn-g btn-sm" onclick="revealNow()">👁 Show Answer</button>
+      <button class="btn btn-p btn-sm" onclick="nextQ()">Next ▶</button>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:1rem;min-width:0;">
+      <div class="card" id="h-question-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem;">
+          <div id="h-qlbl" style="color:var(--accent);font-size:.9rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;">Question 1</div>
+          <div style="position:relative;width:80px;height:80px;flex-shrink:0;">
+            <svg width="80" height="80" viewBox="0 0 100 100" style="transform:rotate(-90deg);">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#ffffff11" stroke-width="10"/>
+              <circle id="h-arc" cx="50" cy="50" r="42" fill="none" stroke="var(--gold)" stroke-width="10"
+                stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset .5s,stroke .5s;"/>
+            </svg>
+            <div id="h-tsec" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900;font-size:1.5rem;color:var(--gold);">45</div>
+          </div>
+        </div>
+        <div id="h-qtxt" style="font-size:clamp(1.4rem,3vw,2rem);font-weight:700;margin-bottom:1.2rem;line-height:1.5;min-height:3rem;"></div>
+        <div id="h-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;"></div>
+      </div>
+      <div id="h-bars" class="card fade" style="display:none;">
+        <div class="muted" style="margin-bottom:.8rem;">📊 Response Distribution</div>
+        <div id="h-bars-inner"></div>
+      </div>
+    </div>
+    <div class="card" style="flex:0 0 210px;overflow-y:auto;">
+      <div class="muted" style="margin-bottom:.8rem;text-transform:uppercase;letter-spacing:1px;">🏆 Leaderboard</div>
+      <div id="h-lb"></div>
+    </div>
+  </div>
+  <div id="pause-ov" style="display:none;position:fixed;inset:0;background:#000000cc;z-index:50;align-items:center;justify-content:center;">
+    <div class="card" style="text-align:center;padding:3rem;max-width:400px;">
+      <div style="font-size:4rem;margin-bottom:1rem;">⏸</div>
+      <div style="font-size:1.8rem;font-weight:700;color:var(--gold);margin-bottom:.5rem;">Game Paused</div>
+      <div class="muted" style="margin-bottom:1.5rem;">Explain the rules, then resume</div>
+      <button class="btn btn-p" style="font-size:1.1rem;" onclick="togglePause()">▶ Resume</button>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYER -->
+<div id="player" class="screen" style="align-items:center;background:radial-gradient(ellipse at center,#0d0d2e,#0a0a1a);padding:1.5rem;gap:.5rem;">
+  <div style="text-align:center;padding-top:.5rem;margin-bottom:.5rem;">
+    <div id="p-namebadge" style="background:linear-gradient(135deg,#7c3aed,#c026d3);border-radius:50px;padding:.4rem 1.3rem;display:inline-block;font-weight:700;font-size:1rem;margin-bottom:.3rem;"></div>
+    <div id="p-score" style="font-size:3.2rem;font-weight:900;color:var(--gold);">0</div>
+    <div id="p-phase" style="color:#aaa;font-size:.9rem;">✅ Normal Mode</div>
+  </div>
+  <div id="p-ring" style="position:relative;width:90px;height:90px;margin-bottom:.5rem;">
+    <svg width="90" height="90" viewBox="0 0 100 100" style="transform:rotate(-90deg);">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="#ffffff11" stroke-width="10"/>
+      <circle id="p-arc" cx="50" cy="50" r="42" fill="none" stroke="var(--gold)" stroke-width="10"
+        stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset .5s,stroke .5s;"/>
+    </svg>
+    <div id="p-tsec" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900;font-size:1.6rem;color:var(--gold);">45</div>
+  </div>
+  <div id="p-content" style="width:100%;max-width:420px;padding:0 .5rem;"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen" style="align-items:center;background:radial-gradient(ellipse at center,#0d0d2e,#0a0a1a);padding:2rem;gap:1rem;">
+  <div style="font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;color:var(--gold);text-align:center;" class="pulse">🏆 Final Results</div>
+  <div id="r-subtitle" style="color:#aaa;text-align:center;font-size:1rem;"></div>
+  <div id="r-cards" style="width:100%;max-width:650px;display:flex;flex-direction:column;gap:.9rem;"></div>
+  <div class="row" style="margin-top:1rem;">
+    <button id="r-next" class="btn btn-p" onclick="nextResultGroup()">Next Group ▶</button>
+    <button class="btn btn-k btn-sm" onclick="S('auth-landing')">🏠 Home</button>
+  </div>
+</div>
+
+
+<!-- ADMIN LOGIN -->
+<div id="admin-login" class="screen" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0a0014,#0a0a1a);padding:2rem;">
+  <div class="auth-card" style="max-width:400px;">
+    <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem;">🛡️</div>
+    <div class="auth-title">Admin Access</div>
+    <div class="auth-sub">Sign in with your admin account</div>
+    <div class="auth-err" id="adm-err"></div>
+    <div class="inp-wrap">
+      <label class="inp-label">Admin Email</label>
+      <input class="inp" id="adm-email" type="email" placeholder="admin@yourdomain.com" autocomplete="off">
+    </div>
+    <div class="inp-wrap">
+      <label class="inp-label">Password</label>
+      <input class="inp" id="adm-pwd" type="password" placeholder="Admin password"
+        onkeydown="if(event.key==='Enter')adminLogin()">
+    </div>
+    <div style="background:#FF475711;border:1px solid #FF475733;border-radius:10px;padding:.7rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#FF4757;">
+      🔒 This page is not visible in the HTML source code to regular users.<br>
+      Admin credentials are verified against Firebase — no password is stored in the app code.
+    </div>
+    <button class="btn btn-d" style="width:100%;margin-bottom:.8rem;" onclick="adminLogin()">🛡️ Sign In as Admin</button>
+    <button class="btn btn-k btn-sm" style="width:100%;" onclick="S('auth-landing')">← Back</button>
+  </div>
+</div>
+
+<script>
+/* ══ FIREBASE HELPERS ══ */
+const dbR=p=>window._ref(window._db,p);
+const dbSet=(p,v)=>window._set(dbR(p),v);
+const dbGet=async p=>{const s=await window._get(dbR(p));return s.exists()?s.val():null;};
+const dbUpd=(p,v)=>window._update(dbR(p),v);
+const dbOn=(p,cb)=>window._onValue(dbR(p),s=>cb(s.exists()?s.val():null));
+
+/* ══ AUDIO ══ */
+const AC=new(window.AudioContext||window.webkitAudioContext)();
+function beep(f,d,t='sine',v=.3){try{const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.start();o.stop(AC.currentTime+d);}catch(e){}}
+function playMusic(type){if(AC.state==='suspended')AC.resume();const P={tension:[[220,.15],[220,.15],[220,.15],[180,.4]],upbeat:[[440,.1],[550,.1],[660,.2],[550,.1],[660,.3]],countdown:[[330,.08],[330,.08],[330,.08],[330,.08],[330,.08],[660,.4]],fanfare:[[523,.1],[659,.1],[784,.1],[1047,.4],[784,.1],[1047,.5]],dramatic:[[150,.3],[180,.3],[200,.5],[150,.8]],cheerful:[[523,.08],[659,.08],[784,.08],[1047,.08],[784,.08],[1047,.08],[1319,.3]]};const p=P[type];if(!p)return;p.forEach(([f,d],i)=>setTimeout(()=>beep(f,d,'sine',.25),i*150));}
+function playTick(t){if(t<=10&&t>0)beep(t<=5?880:660,.08,'square',.15);}
+function playCorrect(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.2,'sine',.2),i*80));}
+function playWrong(){[300,250,200].forEach((f,i)=>setTimeout(()=>beep(f,.15,'sawtooth',.15),i*100));}
+
+/* ══ CONSTANTS ══ */
+const SHAPES=['🔴','🔵','🟢','🟡'],LABELS=['Red','Blue','Green','Yellow'],KEYS=['A','B','C','D'];
+const Q_SEC=45,REV_SEC=15,BID_SEC=10;
+// No admin password stored in code. Admin uses Firebase Auth login + isAdmin flag in DB.
+
+/* ══ GLOBALS ══ */
+let roomCode=null,myId=null,myName=null,myRole=null;
+let timerInt=null,bidInt=null,unsubAns=null,unsubGame=null;
+let paused=false,negPts=5,qMusic='none',rMusic='none';
+let useNeg=false,useAuc=false;
+let playerSelected=null,playerAnswered=false,playerBidDone=false,playerBid=5;
+let mySlotNum=0;
+let lastPlayerQ=-1,lastBidPhase=false;
+let resultGroup=0,resultSorted=[];
+let _questions=[],_allAnsweredTimer=null;
+let currentHostProfile=null,_sessionLogKey=null;
+
+function S(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+/* ══ AUTH — REGISTER ══ */
+async function hostRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const mobile=document.getElementById('reg-mobile').value.trim();
+  const city=document.getElementById('reg-city').value.trim();
+  const country=document.getElementById('reg-country').value.trim();
+  const pin=document.getElementById('reg-pin').value.trim();
+  const org=document.getElementById('reg-org').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const pwd=document.getElementById('reg-pwd').value;
+  const pwd2=document.getElementById('reg-pwd2').value;
+  const err=document.getElementById('reg-err');
+  const ok=document.getElementById('reg-ok');
+  err.style.display='none';ok.style.display='none';
+  if(!name||!mobile||!city||!country||!pin||!email||!pwd){err.textContent='Please fill all required fields (*).';err.style.display='block';return;}
+  if(pwd!==pwd2){err.textContent='Passwords do not match.';err.style.display='block';return;}
+  if(pwd.length<6){err.textContent='Password must be at least 6 characters.';err.style.display='block';return;}
+  if(!/\S+@\S+\.\S+/.test(email)){err.textContent='Please enter a valid email address.';err.style.display='block';return;}
+  try{
+    const cred=await window._createUser(window._auth,email,pwd);
+    await window._updateProfile(cred.user,{displayName:name});
+    const profile={name,mobile,city,country,pin,org,email,uid:cred.user.uid,
+      registeredAt:new Date().toISOString(),verified:false};
+    await dbSet('hosts/'+cred.user.uid,profile);
+    await window._sendVerification(cred.user);
+    currentHostProfile=profile;
+    ok.textContent='Account created! A verification email has been sent. Please check your inbox.';
+    ok.style.display='block';
+    setTimeout(()=>S('host-verify'),1800);
+  }catch(e){err.textContent=authErr(e.code);err.style.display='block';}
+}
+
+/* ══ AUTH — LOGIN ══ */
+async function hostLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const pwd=document.getElementById('login-pwd').value;
+  const err=document.getElementById('login-err');
+  const ok=document.getElementById('login-ok');
+  err.style.display='none';ok.style.display='none';
+  if(!email||!pwd){err.textContent='Please enter email and password.';err.style.display='block';return;}
+  try{
+    const cred=await window._signIn(window._auth,email,pwd);
+    if(!cred.user.emailVerified){
+      currentHostProfile=await dbGet('hosts/'+cred.user.uid)||{email};
+      S('host-verify');return;
+    }
+    await afterLogin(cred.user);
+  }catch(e){err.textContent=authErr(e.code);err.style.display='block';}
+}
+
+async function afterLogin(user){
+  let profile=await dbGet('hosts/'+user.uid);
+  if(!profile){profile={name:user.displayName||user.email,email:user.email,uid:user.uid,mobile:'',city:'',country:'',pin:'',org:'',registeredAt:new Date().toISOString(),verified:true};await dbSet('hosts/'+user.uid,profile);}
+  if(!profile.verified){await dbUpd('hosts/'+user.uid,{verified:true});profile.verified=true;}
+  currentHostProfile=profile;myRole='host';
+  showHostDashboard();
+}
+
+async function checkVerification(){
+  const err=document.getElementById('verify-err');
+  const ok=document.getElementById('verify-ok');
+  err.style.display='none';ok.style.display='none';
+  const user=window._auth.currentUser;
+  if(!user){err.textContent='No session. Please log in again.';err.style.display='block';return;}
+  await user.reload();
+  if(user.emailVerified){ok.textContent='✅ Verified! Redirecting to dashboard…';ok.style.display='block';await afterLogin(user);}
+  else{err.textContent='Email not yet verified. Please click the link in your email first.';err.style.display='block';}
+}
+
+async function resendVerification(){
+  const user=window._auth.currentUser;if(!user)return;
+  const ok=document.getElementById('verify-ok');const err=document.getElementById('verify-err');
+  try{await window._sendVerification(user);ok.textContent='Verification email resent! Check your inbox.';ok.style.display='block';}
+  catch(e){err.textContent='Could not resend: '+e.message;err.style.display='block';}
+}
+
+async function doSignOut(){
+  try{await window._signOut(window._auth);}catch(e){}
+  // Clean up admin live listeners if any
+  if(_adminUnsubSessions){_adminUnsubSessions();_adminUnsubSessions=null;}
+  currentHostProfile=null;myRole=null;roomCode=null;_sessionLogKey=null;
+  S('auth-landing');
+}
+
+function authErr(code){
+  const m={'auth/email-already-in-use':'This email is already registered. Please log in.',
+    'auth/invalid-email':'Invalid email address.','auth/weak-password':'Password too weak (min 6 chars).',
+    'auth/user-not-found':'No account with this email.','auth/wrong-password':'Incorrect password.',
+    'auth/invalid-credential':'Incorrect email or password.','auth/too-many-requests':'Too many attempts. Please wait.',
+    'auth/network-request-failed':'Network error. Check your connection.'};
+  return m[code]||'Error: '+code;
+}
+
+/* ══ ADMIN LOGIN ══ */
+function promptAdmin(){S('admin-login');}
+
+async function adminLogin(){
+  const email=document.getElementById('adm-email').value.trim();
+  const pwd=document.getElementById('adm-pwd').value;
+  const err=document.getElementById('adm-err');
+  err.style.display='none';
+  if(!email||!pwd){err.textContent='Enter email and password.';err.style.display='block';return;}
+  try{
+    const cred=await window._signIn(window._auth,email,pwd);
+    const adminFlag=await dbGet('admin_flags/'+cred.user.uid+'/isAdmin');
+    if(adminFlag!==true){
+      await window._signOut(window._auth);
+      err.textContent='Access denied. This account does not have admin privileges.';
+      err.style.display='block';return;
+    }
+    await loadAdminDashboard();
+  }catch(e){err.textContent=authErr(e.code);err.style.display='block';}
+}
+
+/* ══ HOST DASHBOARD ══ */
+async function showHostDashboard(){
+  S('host-dash');
+  const p=currentHostProfile;
+  document.getElementById('hd-welcome').textContent='Welcome, '+p.name+' · '+p.email;
+  // Only fetch this host's own sessions — rule-enforced at DB level
+  const mySessionsRaw=await dbGet('sessions/'+p.uid);
+  const mine=mySessionsRaw?Object.values(mySessionsRaw):[];
+  mine.sort((a,b)=>new Date(b.startedAt)-new Date(a.startedAt));
+  const totalPl=mine.reduce((a,s)=>a+(s.peakPlayers||0),0);
+  document.getElementById('hd-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-num">${mine.length}</div><div class="stat-lbl">Sessions Hosted</div></div>
+    <div class="stat-card"><div class="stat-num">${totalPl}</div><div class="stat-lbl">Total Players</div></div>
+    <div class="stat-card"><div class="stat-num">${mine.filter(s=>s.status==='live').length}</div><div class="stat-lbl">Live Now</div></div>`;
+  const tbody=document.getElementById('hd-sessions');
+  if(!mine.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#aaa;padding:2rem;">No sessions yet. Start your first game!</td></tr>';return;}
+  tbody.innerHTML=mine.map(s=>`<tr>
+    <td><span style="font-weight:800;color:var(--gold);">${esc(s.roomCode)}</span></td>
+    <td style="color:#aaa;font-size:.85rem;">${esc(s.theme||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${fmtDate(s.startedAt)}</td>
+    <td style="color:var(--accent);font-weight:700;">${s.peakPlayers||0}</td>
+    <td>${s.questionCount||0}</td>
+    <td style="font-size:.8rem;">${esc(s.mode||'Normal')}</td>
+    <td><span class="badge ${s.status==='live'?'badge-live':'badge-end'}">${s.status==='live'?'🔴 Live':'✅ Ended'}</span></td>
+  </tr>`).join('');
+}
+
+function goToSetup(){document.getElementById('setup-host-badge').textContent='🎮 '+currentHostProfile.name;S('setup');}
+
+/* ══ SESSION LOGGING ══ */
+async function logSessionStart(code,theme,questionCount,mode){
+  const p=currentHostProfile;if(!p){console.warn('logSessionStart: no host profile');return;}
+  const key='sess_'+code+'_'+Date.now();
+  _sessionLogKey='sessions/'+p.uid+'/'+key;
+  try{
+    await dbSet(_sessionLogKey,{key,roomCode:code,theme:theme||'Untitled',questionCount,mode,
+      hostUid:p.uid,hostName:p.name,hostEmail:p.email,hostMobile:p.mobile,
+      hostCity:p.city,hostCountry:p.country,
+      startedAt:new Date().toISOString(),status:'live',peakPlayers:0,endedAt:null});
+    console.log('Session logged at:',_sessionLogKey);
+  }catch(e){
+    console.error('Session log FAILED:',e.message,'path:',_sessionLogKey);
+    // Rules may be blocking — try without auth requirement path as fallback
+    _sessionLogKey=null;
+  }
+}
+async function logSessionUpdate(upd){
+  if(!_sessionLogKey)return;
+  try{await dbUpd(_sessionLogKey,upd);}
+  catch(e){console.error('Session update failed:',e.message);}
+}
+async function logSessionEnd(){await logSessionUpdate({status:'ended',endedAt:new Date().toISOString()});}
+function trackPeakPlayers(code){
+  dbOn('games/'+code+'/players',players=>{
+    const count=Object.keys(players||{}).length;
+    logSessionUpdate({peakPlayers:count});
+  });
+}
+
+/* ══ SETUP ══ */
+function toggleNeg(){useNeg=document.getElementById('t-neg').checked;document.getElementById('neg-opts').style.display=useNeg?'block':'none';}
+function toggleAuc(){useAuc=document.getElementById('t-auc').checked;document.getElementById('auc-opts').style.display=useAuc?'block':'none';}
+function setNegPts(n){negPts=n;['5','10','15','20'].forEach(v=>document.getElementById('neg-'+v).classList.remove('active'));document.getElementById('neg-'+n).classList.add('active');}
+function setMusic(type,val,btn){if(type==='q')qMusic=val;else rMusic=val;const grid=document.getElementById(type==='q'?'q-music-grid':'r-music-grid');grid.querySelectorAll('.music-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(val!=='none')playMusic(val);}
+
+/* ══ EXCEL ══ */
+function loadXL(inp){
+  const file=inp.files[0];if(!file)return;
+  document.getElementById('ul-label').textContent='Loading...';
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const wb=XLSX.read(e.target.result,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+    _questions=rows.slice(1).filter(r=>r[0]).slice(0,100).map(r=>{
+      const q=String(r[0]).trim();
+      const answer=String(r[5]||'').trim();
+      const origOpts=[r[1],r[2],r[3],r[4]].map(x=>String(x||'').trim());
+      // Detect "collective" options that must always stay at the end
+      // Matches phrases like: all of the above, both a and b, neither a nor b,
+      // any of the above, none of the above, all the above, both of the above etc.
+      // Case-insensitive, partial match is enough
+      const TAIL_PATTERNS=[
+        /all\s+of\s+the\s+above/i,
+        /all\s+the\s+above/i,
+        /any\s+of\s+the\s+above/i,
+        /none\s+of\s+the\s+above/i,
+        /both\s+a\s+and\s+b/i,
+        /both\s+of\s+the\s+above/i,
+        /neither\s+a\s+nor\s+b/i,
+        /neither\s+of\s+the\s+above/i,
+        /all\s+of\s+above/i,
+        /any\s+of\s+above/i,
+        /none\s+of\s+above/i,
+      ];
+      function isTailOption(txt){return TAIL_PATTERNS.some(p=>p.test(txt));}
+
+      // Split into normal options and tail options
+      const normalOpts=origOpts.filter(o=>!isTailOption(o));
+      const tailOpts=origOpts.filter(o=>isTailOption(o));
+
+      // Shuffle only the normal options
+      for(let i=normalOpts.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [normalOpts[i],normalOpts[j]]=[normalOpts[j],normalOpts[i]];
+      }
+      // Tail options keep their relative order, appended after normal options
+      const shuffled=[...normalOpts,...tailOpts];
+      return {q,opts:shuffled,answer};
+    });
+    document.getElementById('ul-label').textContent=`✅ ${_questions.length} questions loaded`;
+    document.getElementById('q-preview').innerHTML=_questions.slice(0,4).map((q,i)=>`<div style="background:#ffffff08;border-radius:8px;padding:.5rem .9rem;margin-bottom:.4rem;font-size:.85rem;"><strong style="color:var(--gold);">Q${i+1}:</strong> ${q.q.substring(0,65)} <span class="muted">✓ ${q.answer}</span></div>`).join('')+(_questions.length>4?`<div class="muted" style="text-align:center;margin-top:.3rem;">...and ${_questions.length-4} more</div>`:'');
+    const b=document.getElementById('s-start');b.disabled=false;b.onclick=hostStart;
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+/* ══ HOST START ══ */
+async function hostStart(){
+  if(!_questions.length){alert('Upload questions first!');return;}
+  if(!window._firebaseReady){alert('Firebase not ready.');return;}
+  roomCode=document.getElementById('s-code').value.toUpperCase().trim()||'QUIZ01';
+  const theme=document.getElementById('s-theme').value.trim()||'General Quiz';
+  myRole='host';
+  const negStart=useNeg?parseInt(document.getElementById('s-neg').value)||1:99999;
+  const aucStart=useAuc?parseInt(document.getElementById('s-auc').value)||1:99999;
+  const mode=useAuc?'Auction':useNeg?'Negative':'Normal';
+  try{
+    await dbSet('games/'+roomCode,{roomCode,questions:_questions,players:{},
+      currentQ:-1,phase:'waiting',timer:Q_SEC,paused:false,negStart,aucStart,negPts,
+      maxPlayers:parseInt(document.getElementById('s-maxp').value)||100,
+      qMusic,rMusic,useNeg,useAuc,answers:{},bids:{},correctKey:null,bidPhase:false,
+      hostName:currentHostProfile?.name||'Host',theme});
+    await logSessionStart(roomCode,theme,_questions.length,mode);
+    trackPeakPlayers(roomCode);
+    showWaiting();
+  }catch(e){alert('Firebase Error: '+e.message);}
+}
+
+/* ══ WAITING ══ */
+function showWaiting(){
+  S('waiting');
+  document.getElementById('w-code').textContent=roomCode;
+  const qrEl=document.getElementById('w-qr');qrEl.innerHTML='';
+  try{new QRCode(qrEl,{text:window.location.href,width:240,height:240,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}
+  if(unsubGame)unsubGame();
+  unsubGame=dbOn('games/'+roomCode+'/players',players=>{
+    const arr=Object.values(players||{});
+    document.getElementById('w-count').textContent=arr.length;
+    document.getElementById('w-chips').innerHTML=arr.map(p=>`<div style="background:linear-gradient(135deg,#7c3aed,#c026d3);border-radius:50px;padding:.35rem 1rem;font-size:.9rem;font-weight:600;">${p.name}</div>`).join('');
+  });
+}
+
+async function beginQuiz(){
+  if(unsubGame){unsubGame();unsubGame=null;}
+  await dbUpd('games/'+roomCode,{phase:'question',currentQ:0,answers:{},bids:{},correctKey:null,timer:Q_SEC,bidPhase:false});
+  setupHostGame();
+}
+
+/* ══ HOST GAME ══ */
+async function setupHostGame(){
+  S('hostgame');
+  const g=await dbGet('games/'+roomCode);
+  document.getElementById('h-room').textContent=roomCode;
+  document.getElementById('h-qt').textContent=g.questions.length;
+  const qrEl=document.getElementById('h-qr');qrEl.innerHTML='';
+  try{new QRCode(qrEl,{text:window.location.href,width:180,height:180,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}
+  startQuestion(g,0);
+}
+
+/* ══ PHASE ══ */
+function getPhase(g,qIdx){const n=(qIdx!==undefined?qIdx:g.currentQ)+1;if(g.useAuc&&n>=g.aucStart)return 'auction';if(g.useNeg&&n>=g.negStart)return 'negative';return 'normal';}
+function setBadge(ph){const b=document.getElementById('h-badge');const map={normal:['#2ED57322','#2ED573','✅ Normal'],negative:['#FF475722','#FF4757','⚠️ Negative'],auction:['#FFD70022','#FFD700','⚡ Auction']};const[bg,col,lbl]=map[ph]||map.normal;b.style.background=bg;b.style.color=col;b.style.borderColor=col;b.textContent=lbl;}
+
+/* ══ START QUESTION ══ */
+async function startQuestion(g,qIdx){
+  clearInterval(timerInt);clearInterval(bidInt);
+  if(_allAnsweredTimer){clearTimeout(_allAnsweredTimer);_allAnsweredTimer=null;}
+  const q=g.questions[qIdx];const n=qIdx+1;const ph=getPhase(g,qIdx);
+  document.getElementById('h-qn').textContent=n;
+  document.getElementById('h-qlbl').textContent=`Question ${n} of ${g.questions.length}`;
+  setBadge(ph);document.getElementById('h-bars').style.display='none';
+  document.getElementById('h-aans').textContent='0';updateLB(g);
+  if(g.qMusic&&g.qMusic!=='none')playMusic(g.qMusic);
+
+  if(ph==='auction'){
+    await dbUpd('games/'+roomCode,{bidPhase:true,timer:BID_SEC,answers:{},bids:{}});
+    document.getElementById('h-qtxt').innerHTML=`<div class="bid-screen">
+      <div style="font-size:1.4rem;font-weight:700;color:#FFD700;margin-bottom:.5rem;">⚡ AUCTION ROUND — BLIND BIDDING</div>
+      <div style="color:#aaa;margin-bottom:1rem;font-size:1rem;">Players are placing their bids — question hidden</div>
+      <div class="bid-countdown" id="bid-host-cd">${BID_SEC}</div>
+      <div id="bid-host-count" style="color:#aaa;font-size:.9rem;margin-top:.8rem;">Bids: 0 / ${Object.keys(g.players||{}).length}</div>
+    </div>`;
+    document.getElementById('h-opts').innerHTML='';
+    let bs=BID_SEC;setArc('h-arc','h-tsec',bs,BID_SEC);
+    if(unsubAns)unsubAns();
+    unsubAns=dbOn('games/'+roomCode+'/bids',bids=>{
+      const bc=Object.keys(bids||{}).length;const pc=Object.keys(g.players||{}).length;
+      const el=document.getElementById('bid-host-count');if(el)el.textContent=`Bids: ${bc} / ${pc}`;
+      if(pc>0&&bc>=pc&&bs>0)bs=0;
+    });
+    bidInt=setInterval(async()=>{
+      if(paused)return;bs--;
+      setArc('h-arc','h-tsec',Math.max(0,bs),BID_SEC);
+      await dbUpd('games/'+roomCode,{timer:Math.max(0,bs)});
+      const el=document.getElementById('bid-host-cd');if(el)el.textContent=Math.max(0,bs);
+      if(bs<=0){
+        clearInterval(bidInt);if(unsubAns){unsubAns();unsubAns=null;}
+        document.getElementById('h-qtxt').innerHTML=`<div class="bid-screen pop">
+          <div style="font-size:2rem;font-weight:900;color:#FFD700;margin-bottom:.5rem;">🎯 QUESTION REVEALING!</div>
+          <div style="font-size:1.1rem;color:#aaa;">Get ready to answer...</div>
+        </div>`;
+        await dbUpd('games/'+roomCode,{bidPhase:false,timer:Q_SEC});
+        setTimeout(()=>{
+          showHostQuestion(q);startMainTimer(g,qIdx);
+          if(unsubAns)unsubAns();
+          unsubAns=dbOn('games/'+roomCode+'/answers',ans=>{document.getElementById('h-aans').textContent=Object.keys(ans||{}).length;});
+        },1500);
+      }
+    },1000);
+  }else{
+    await dbUpd('games/'+roomCode,{bidPhase:false,timer:Q_SEC,answers:{},bids:{}});
+    showHostQuestion(q);startMainTimer(g,qIdx);
+    if(unsubAns)unsubAns();
+    unsubAns=dbOn('games/'+roomCode+'/answers',ans=>{document.getElementById('h-aans').textContent=Object.keys(ans||{}).length;});
+  }
+}
+
+function showHostQuestion(q){
+  document.getElementById('h-qtxt').textContent=q.q;
+  document.getElementById('h-opts').innerHTML=q.opts.map((o,i)=>`<div class="opt-box opt-${KEYS[i]}" id="hopt-${KEYS[i]}"><span style="font-size:2rem;">${SHAPES[i]}</span>${o}</div>`).join('');
+}
+
+/* ══ TIMER ══ */
+function startMainTimer(g,qIdx){
+  clearInterval(timerInt);let t=Q_SEC;setArc('h-arc','h-tsec',t,Q_SEC);
+  timerInt=setInterval(async()=>{if(paused)return;t--;setArc('h-arc','h-tsec',t,Q_SEC);playTick(t);await dbUpd('games/'+roomCode,{timer:t});if(t<=0){clearInterval(timerInt);doReveal();}},1000);
+}
+
+async function nextQ(){
+  clearInterval(timerInt);clearInterval(bidInt);
+  if(_allAnsweredTimer){clearTimeout(_allAnsweredTimer);_allAnsweredTimer=null;}
+  if(unsubAns){unsubAns();unsubAns=null;}
+  const g=await dbGet('games/'+roomCode);const ni=g.currentQ+1;
+  if(ni>=g.questions.length){endGame();return;}
+  await dbUpd('games/'+roomCode,{currentQ:ni,answers:{},bids:{},correctKey:null,phase:'question',timer:Q_SEC,bidPhase:false});
+  const ng=await dbGet('games/'+roomCode);startQuestion(ng,ni);
+}
+
+async function revealNow(){clearInterval(timerInt);clearInterval(bidInt);if(_allAnsweredTimer){clearTimeout(_allAnsweredTimer);_allAnsweredTimer=null;}doReveal();}
+
+/* ══ REVEAL ══ */
+async function doReveal(){
+  clearInterval(timerInt);clearInterval(bidInt);if(unsubAns){unsubAns();unsubAns=null;}
+  await dbUpd('games/'+roomCode,{phase:'locking',bidPhase:false,timer:0});
+  await new Promise(res=>setTimeout(res,2000));
+  const g=await dbGet('games/'+roomCode);
+  const q=g.questions[g.currentQ];
+  const ci=q.opts.findIndex(o=>o===q.answer);const ck=KEYS[ci];
+  const ph=getPhase(g,g.currentQ);
+  const players=JSON.parse(JSON.stringify(g.players||{}));
+  const answers=g.answers||{};const bids=g.bids||{};
+  Object.keys(players).forEach(pid=>{
+    const p=players[pid];p.score=parseInt(p.score)||0;
+    const ans=answers[pid];const rawBid=parseInt(bids[pid])||5;const bid=Math.min(50,Math.max(5,rawBid));
+    if(ph==='auction'){if(ans===ck)p.score+=bid;else if(ans)p.score-=bid;}
+    else if(ph==='negative'){if(ans===ck)p.score+=10;else if(ans)p.score-=parseInt(g.negPts||5);}
+    else{if(ans===ck)p.score+=10;}
+    players[pid]=p;
+  });
+  await dbUpd('games/'+roomCode,{correctKey:ck,phase:'reveal',players,timer:REV_SEC});
+  KEYS.forEach(k=>{const el=document.getElementById('hopt-'+k);if(el&&k===ck)el.classList.add('opt-correct');});
+  showBars(ck,q,answers);updateLB({...g,players});
+  if(g.rMusic&&g.rMusic!=='none')playMusic(g.rMusic);else playCorrect();
+  let rt=REV_SEC;setArc('h-arc','h-tsec',rt,REV_SEC);
+  timerInt=setInterval(async()=>{if(paused)return;rt--;setArc('h-arc','h-tsec',rt,REV_SEC);await dbUpd('games/'+roomCode,{timer:rt});if(rt<=0){clearInterval(timerInt);nextQ();}},1000);
+}
+
+function showBars(ck,q,answers){
+  const counts={A:0,B:0,C:0,D:0};Object.values(answers).forEach(v=>{if(counts[v]!==undefined)counts[v]++;});
+  const total=Object.values(counts).reduce((a,b)=>a+b,0)||1;
+  const cols=['#FF4757','#1E90FF','#2ED573','#FFA502'];
+  document.getElementById('h-bars').style.display='block';
+  document.getElementById('h-bars-inner').innerHTML=KEYS.map((k,i)=>`
+    <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem;">
+      <div style="width:110px;font-size:.9rem;font-weight:600;flex-shrink:0;">${SHAPES[i]} ${q.opts[i].substring(0,13)}</div>
+      <div style="flex:1;height:34px;background:#ffffff11;border-radius:8px;overflow:hidden;">
+        <div class="bar-fill" style="width:${Math.round(counts[k]/total*100)}%;background:${cols[i]};color:#fff;">${counts[k]>0?counts[k]:''}</div>
+      </div>
+      <span style="font-size:.9rem;width:36px;text-align:right;color:#aaa;font-weight:600;">${Math.round(counts[k]/total*100)}%</span>
+      ${k===ck?'<span style="font-size:1.3rem;">✅</span>':'<span style="width:1.5rem;"></span>'}
+    </div>`).join('');
+}
+
+function updateLB(g){
+  const sorted=Object.values(g.players||{}).sort((a,b)=>b.score-a.score);
+  document.getElementById('h-pcount').textContent=sorted.length;
+  document.getElementById('h-lb').innerHTML=sorted.map((p,i)=>`
+    <div style="background:#ffffff08;border-radius:8px;padding:.45rem .8rem;margin-bottom:.4rem;display:flex;justify-content:space-between;font-size:.88rem;">
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:115px;">${i+1}. ${p.name}</span>
+      <span style="font-weight:700;color:${p.score<0?'#FF4757':'#FFD700'};flex-shrink:0;">${p.score}</span>
+    </div>`).join('');
+}
+
+function setArc(aId,nId,t,total){
+  const circ=264,pct=Math.max(0,t/total);
+  const arc=document.getElementById(aId),num=document.getElementById(nId);
+  if(arc){arc.style.strokeDashoffset=circ*(1-pct);arc.style.stroke=t<=10?'#FF4757':t<=20?'#FFA502':'#FFD700';}
+  if(num){num.textContent=t;num.style.color=t<=10?'#FF4757':t<=20?'#FFA502':'#FFD700';}
+}
+
+async function togglePause(){paused=!paused;document.getElementById('h-pause').textContent=paused?'▶ Resume':'⏸ Pause';document.getElementById('pause-ov').style.display=paused?'flex':'none';await dbUpd('games/'+roomCode,{paused});}
+
+async function endGame(){
+  clearInterval(timerInt);clearInterval(bidInt);if(unsubAns){unsubAns();unsubAns=null;}
+  await dbUpd('games/'+roomCode,{phase:'ended'});
+  await logSessionEnd();
+  const g=await dbGet('games/'+roomCode);showResults(g);
+}
+
+/* ══ RESULTS ══ */
+function showResults(g){
+  S('results');
+  // Sort descending by score
+  resultSorted=Object.values(g.players||{}).sort((a,b)=>b.score-a.score);
+  resultGroup=0;
+  // Build pages of 5, from last place up to first place
+  // e.g. 13 players → page0: rank13-9, page1: rank8-4, page2: rank3-1(top)
+  _resultPages=[];
+  const all=resultSorted;
+  for(let i=all.length-1;i>=0;i-=5){
+    _resultPages.push(all.slice(Math.max(0,i-4),i+1).slice().reverse());
+  }
+  document.getElementById('r-next').style.display='';
+  document.getElementById('r-next').textContent='Next Group ▶';
+  document.getElementById('r-next').onclick=nextResultGroup;
+  nextResultGroup();
+}
+let _resultPages=[];
+function nextResultGroup(){
+  const all=resultSorted;
+  const cur=_resultPages[resultGroup];
+  if(!cur||!cur.length){
+    document.getElementById('r-next').style.display='none';
+    return;
+  }
+  // Safe maxSc — guard against empty array spread
+  const scores=all.map(p=>Math.abs(parseInt(p.score)||0));
+  const maxSc=scores.length?Math.max(...scores,1):1;
+  const firstRank=all.indexOf(cur[cur.length-1])+1;
+  const lastRank=all.indexOf(cur[0])+1;
+  const isTopPage=resultGroup===_resultPages.length-1;
+  document.getElementById('r-subtitle').textContent=isTopPage?'🥇 Top Players!':`Positions ${firstRank} → ${lastRank}`;
+  document.getElementById('r-cards').innerHTML=cur.map(p=>{
+    const rank=all.indexOf(p)+1;
+    const sc=parseInt(p.score)||0;
+    const pct=maxSc>0?Math.max(0,Math.min(100,(sc/maxSc)*100)):0;
+    const medal=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'#'+rank;
+    const rc=rank===1?'#FFD700':rank===2?'#C0C0C0':rank===3?'#CD7F32':'#aaa';
+    return `<div class="card fade" style="display:flex;align-items:center;gap:1.2rem;">
+      <div style="font-size:2rem;font-weight:900;color:${rc};width:55px;text-align:center;">${medal}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:1.1rem;">${p.name}</div>
+        <div style="height:10px;background:#ffffff11;border-radius:5px;overflow:hidden;margin-top:.4rem;">
+          <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#7c3aed,#c026d3);border-radius:5px;transition:width 1s;"></div>
+        </div>
+      </div>
+      <div style="font-size:1.6rem;font-weight:900;color:${sc<0?'#FF4757':'#FFD700'};flex-shrink:0;">${sc}</div>
+    </div>`;
+  }).join('');
+  resultGroup++;
+  if(resultGroup>=_resultPages.length){
+    document.getElementById('r-next').textContent='🏠 Home';
+    document.getElementById('r-next').onclick=()=>S('auth-landing');
+  }
+}
+
+/* ══ PLAYER SIDE ══ */
+
+// Cache of current game players for name-check
+let _cachedGamePlayers={};
+
+async function checkNameExists(nameVal){
+  // When user types name, check if it already exists in the game
+  // If yes show PIN field, if no hide it
+  const code=document.getElementById('j-code').value.toUpperCase().trim();
+  const name=nameVal.trim();
+  if(!code||!name){document.getElementById('j-pin-wrap').style.display='none';return;}
+  const g=await dbGet('games/'+code);
+  if(!g){document.getElementById('j-pin-wrap').style.display='none';return;}
+  _cachedGamePlayers=g.players||{};
+  const existing=Object.values(_cachedGamePlayers).find(p=>p.name===name);
+  document.getElementById('j-pin-wrap').style.display=existing?'block':'none';
+}
+
+async function joinGame(){
+  // Immediately disable button to prevent double-tap / double-click
+  const jBtn=document.getElementById('j-btn');
+  if(jBtn.disabled)return; // already processing — ignore second press
+  jBtn.disabled=true;
+  jBtn.textContent='Joining…';
+
+  const code=document.getElementById('j-code').value.toUpperCase().trim();
+  const name=document.getElementById('j-name').value.trim();
+  document.getElementById('j-err').style.display='none';
+
+  // Helper to re-enable button on any error
+  function joinErr(msg){
+    showErr(msg);
+    jBtn.disabled=false;
+    jBtn.textContent='Join Game 🎮';
+  }
+
+  if(!code||!name){joinErr('Fill in both fields.');return;}
+  if(!window._firebaseReady){joinErr('Firebase not ready.');return;}
+  const g=await dbGet('games/'+code);
+  if(!g){joinErr(`Room "${code}" not found.`);return;}
+  if(g.phase==='ended'){joinErr('This game has already ended.');return;}
+
+  const existing=Object.values(g.players||{}).find(p=>p.name===name);
+
+  if(existing){
+    // Name already taken — verify PIN before allowing rejoin
+    const pinInput=document.getElementById('j-pin').value.trim();
+    if(!pinInput){
+      // Show PIN field and ask for it
+      document.getElementById('j-pin-wrap').style.display='block';
+      joinErr('This name is already in the game. Enter your 4-digit PIN to rejoin.');
+      return;
+    }
+    if(String(existing.pin)!==String(pinInput)){
+      joinErr('❌ Incorrect PIN. Only the original player can rejoin with this name.');
+      return;
+    }
+    // PIN correct — genuine reconnect
+    myId=existing.id;myName=name;roomCode=code;myRole='player';
+    mySlotNum=existing.slotNum||'?';
+    showPlayerBadge(name,mySlotNum,true);
+    // Clear PIN field for privacy
+    document.getElementById('j-pin').value='';
+    document.getElementById('j-pin-wrap').style.display='none';
+    S('player');startPlayerListener(code);return;
+  }
+
+  // Brand new player — generate random 4-digit PIN
+  if(Object.keys(g.players||{}).length>=(g.maxPlayers||100)){joinErr('Room is full.');return;}
+  myId='p_'+Math.random().toString(36).slice(2,9);
+  myName=name;roomCode=code;myRole='player';
+  const currentCount=Object.keys(g.players||{}).length;
+  mySlotNum=currentCount+1;
+  // Generate 4-digit PIN (1000–9999)
+  const myPin=Math.floor(1000+Math.random()*9000);
+  await dbSet('games/'+code+'/players/'+myId,{id:myId,name,score:0,slotNum:mySlotNum,pin:myPin});
+  showPlayerBadge(name,mySlotNum,false,myPin);
+  S('player');startPlayerListener(code);
+}
+
+function showPlayerBadge(name,slotNum,reconnect,pin){
+  document.getElementById('p-namebadge').textContent=name+(reconnect?' 🔄':'');
+  const existing=document.getElementById('p-slotnum');
+  if(existing)existing.remove();
+  const el=document.createElement('div');
+  el.id='p-slotnum';
+  // Show slot number always, show PIN only on first join (not reconnect)
+  el.innerHTML=`<div style="background:#ffffff11;border:1px solid #FFD70044;border-radius:10px;padding:.5rem 1rem;display:inline-block;font-size:.82rem;color:#FFD700;margin-top:.4rem;text-align:center;">
+    🔖 Login #<strong style="font-size:1rem;">${slotNum}</strong>
+    ${!reconnect&&pin?`&nbsp;·&nbsp; 🔒 PIN: <strong style="font-size:1rem;letter-spacing:.15rem;">${pin}</strong>`:''}
+    <div style="color:#aaa;font-size:.7rem;margin-top:.2rem;">Only you can see this — note your PIN for reconnecting</div>
+  </div>`;
+  const badge=document.getElementById('p-namebadge');
+  badge.parentNode.insertBefore(el,badge.nextSibling);
+}
+function showErr(msg){const e=document.getElementById('j-err');e.textContent=msg;e.style.display='block';}
+
+function startPlayerListener(code){
+  if(unsubGame)unsubGame();
+  unsubGame=dbOn('games/'+code,gs=>{
+    if(!gs)return;
+    if(lastBidPhase===true&&gs.bidPhase===false&&gs.phase==='question'){
+      lastBidPhase=false;
+      renderPC(`<div class="pop" style="text-align:center;padding:2rem;">
+        <div style="font-size:3rem;margin-bottom:.5rem;">🎯</div>
+        <div style="font-size:1.6rem;font-weight:900;color:#FFD700;margin-bottom:.3rem;">Question Revealed!</div>
+        <div style="color:#aaa;">Select your answer now!</div>
+      </div>`);
+      setTimeout(()=>{if(!playerAnswered)renderAnswerBtns(code);},1200);
+      return;
+    }
+    lastBidPhase=!!gs.bidPhase;
+    if(gs.currentQ!==lastPlayerQ){
+      lastPlayerQ=gs.currentQ;playerSelected=null;playerAnswered=false;
+      playerBidDone=false;playerBid=5;lastBidPhase=!!gs.bidPhase;
+    }
+    if(gs.answers&&gs.answers[myId]&&!playerAnswered){playerAnswered=true;playerSelected=gs.answers[myId];}
+    if(gs.bids&&gs.bids[myId]&&!playerBidDone){playerBidDone=true;playerBid=Math.max(5,parseInt(gs.bids[myId])||5);}
+    const me=gs.players?.[myId];if(!me)return;
+    document.getElementById('p-score').textContent=parseInt(me.score)||0;
+    const ph=getPhase(gs,gs.currentQ);
+    document.getElementById('p-phase').textContent=ph==='auction'?'⚡ Auction Mode':ph==='negative'?`⚠️ -${gs.negPts||5} pts Wrong`:'✅ Normal Mode';
+    const isBid=gs.bidPhase;
+    const total=isBid?BID_SEC:gs.phase==='reveal'?REV_SEC:Q_SEC;
+    setArc('p-arc','p-tsec',gs.timer||0,total);
+    document.getElementById('p-ring').style.display=(gs.phase==='question'||gs.phase==='reveal'||gs.phase==='locking'||isBid)?'':'none';
+
+    if(gs.phase==='waiting')renderPC(msgBox('⏳','Waiting...','Game will start soon'));
+    else if(gs.phase==='ended'){renderPC(msgBox('🏁','Game Over!','Check the main screen for results'));if(unsubGame){unsubGame();unsubGame=null;}}
+    else if(gs.phase==='locking'){
+      if(playerSelected&&!playerAnswered){playerAnswered=true;dbSet('games/'+code+'/answers/'+myId,playerSelected).catch(()=>{});}
+      const stored=gs.answers?.[myId];const dk=stored||playerSelected;
+      if(dk)renderPC(msgBox('🔒','Answer Submitted!',`Your choice: ${SHAPES[KEYS.indexOf(dk)]} ${LABELS[KEYS.indexOf(dk)]}`));
+      else renderPC(`<div style="text-align:center;padding:2rem;"><div style="font-size:3.5rem;margin-bottom:.5rem;">⚠️</div><div style="font-size:1.3rem;font-weight:700;color:#FF4757;">No Answer Selected!</div><div style="color:#aaa;margin-top:.4rem;font-size:.95rem;">You did not select any answer for this question.</div><div style="color:#aaa;font-size:.85rem;margin-top:.3rem;">No points will be awarded.</div></div>`);
+    }
+    else if(gs.phase==='question'){
+      if(isBid&&ph==='auction'&&!playerBidDone)renderBidPanel(me,code,gs);
+      else if(isBid&&ph==='auction'&&playerBidDone){const tb=Object.keys(gs.bids||{}).length;const tp=Object.keys(gs.players||{}).length;renderPC(msgBox('✅',`Bid Locked: ${playerBid}`,`Waiting for others… (${tb}/${tp} bids in)`));}
+      else if(!isBid&&!playerAnswered)renderAnswerBtns(code);
+      else if(!isBid&&playerAnswered)renderSelectedState(code);
+      else renderAnswerBtns(code);
+    }
+    else if(gs.phase==='reveal')renderReveal(gs,me);
+  });
+}
+
+function msgBox(icon,title,sub){return `<div style="text-align:center;padding:2rem;"><div style="font-size:3.5rem;margin-bottom:.5rem;">${icon}</div><div style="font-size:1.3rem;font-weight:700;color:#FFD700;">${title}</div><div style="color:#aaa;margin-top:.4rem;font-size:.95rem;">${sub}</div></div>`;}
+function renderPC(html){document.getElementById('p-content').innerHTML=html;}
+
+function renderBidPanel(me,code,gs){
+  const myScore=parseInt(me.score)||0;
+  // Bid rules: min=5, max=min(score,50) but never below 5
+  const maxBid=myScore>=5?Math.min(myScore,50):5;
+  const minBid=5;
+  // Default bid = maxBid (start slider at highest allowed)
+  if(playerBid<minBid||playerBid>maxBid)playerBid=maxBid;
+  const timeLeft=gs.timer||0;const tb=Object.keys(gs.bids||{}).length;const tp=Object.keys(gs.players||{}).length;
+  renderPC(`<div style="background:linear-gradient(135deg,#1a1500,#2a2000);border:2px solid #FFD700;border-radius:20px;padding:1.5rem;text-align:center;width:100%;">
+    <div style="font-size:1.3rem;font-weight:700;color:#FFD700;margin-bottom:.3rem;">⚡ AUCTION ROUND</div>
+    <div style="color:#ccc;font-size:1rem;font-weight:600;margin-bottom:.3rem;">🎯 Place your bid for the next question!</div>
+    <div style="color:#aaa;font-size:.85rem;margin-bottom:.5rem;">Question is hidden — bid wisely before it is revealed</div>
+    <div style="font-size:1.8rem;font-weight:900;color:#FF4757;margin-bottom:.3rem;">⏱ ${timeLeft}s</div>
+    <div style="color:#aaa;font-size:.8rem;margin-bottom:.8rem;">${tb} of ${tp} players have bid</div>
+    <div id="bid-disp" style="font-size:3.5rem;font-weight:900;color:#FFD700;margin-bottom:.3rem;">${playerBid}</div>
+    <input type="range" min="${minBid}" max="${maxBid}" value="${playerBid}" style="width:100%;accent-color:#FFD700;margin-bottom:.4rem;"
+      oninput="playerBid=parseInt(this.value);document.getElementById('bid-disp').textContent=this.value;">
+    <div style="display:flex;justify-content:space-between;color:#aaa;font-size:.8rem;margin-bottom:.3rem;">
+      <span>Min: ${minBid}</span><span style="color:#FFD700;font-weight:700;">Max: ${maxBid}</span>
+    </div>
+    <div style="color:#aaa;font-size:.75rem;margin-bottom:1rem;">
+      ${myScore>=50?'Score ≥ 50 — max bid capped at 50':myScore<5?'Score < 5 — min bid applies':'Max bid = your score ('+myScore+')'}
+    </div>
+    <button class="btn btn-g" style="width:100%;font-size:1.1rem;" onclick="confirmBid('${code}')">🔒 Lock My Bid: ${playerBid}</button>
+    <div style="color:#aaa;font-size:.8rem;margin-top:.8rem;">Question flashes on screen after bid window closes</div>
+  </div>`);
+}
+
+function renderAnswerBtns(code){
+  const cols=[['linear-gradient(135deg,#FF4757,#c0392b)','#FF475766'],['linear-gradient(135deg,#1E90FF,#0066cc)','#1E90FF66'],['linear-gradient(135deg,#2ED573,#1a9a4a)','#2ED57366'],['linear-gradient(135deg,#FFA502,#cc7a00)','#FFA50266']];
+  renderPC(`<div style="margin-bottom:.5rem;text-align:center;color:#aaa;font-size:.85rem;">Tap to select — you can change anytime before time runs out</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">`+KEYS.map((k,i)=>`<button class="pbtn ${playerSelected===k?'selected':''}" id="pbtn-${k}" onclick="selectAnswer('${k}','${code}')" style="background:${cols[i][0]};box-shadow:0 4px 20px ${cols[i][1]};"><span style="font-size:2.8rem;">${SHAPES[i]}</span><span style="font-size:1rem;">${LABELS[i]}</span></button>`).join('')+`</div>`);
+}
+
+function renderSelectedState(code){
+  const cols=[['linear-gradient(135deg,#FF4757,#c0392b)','#FF475766'],['linear-gradient(135deg,#1E90FF,#0066cc)','#1E90FF66'],['linear-gradient(135deg,#2ED573,#1a9a4a)','#2ED57366'],['linear-gradient(135deg,#FFA502,#cc7a00)','#FFA50266']];
+  renderPC(`<div style="text-align:center;margin-bottom:.6rem;"><span style="background:#2ED57322;border:1px solid #2ED573;color:#2ED573;border-radius:50px;padding:.3rem .9rem;font-size:.85rem;font-weight:700;">✅ Selected: ${SHAPES[KEYS.indexOf(playerSelected)]} ${LABELS[KEYS.indexOf(playerSelected)]}</span><div style="color:#aaa;font-size:.8rem;margin-top:.4rem;">You can still change your answer</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">`+KEYS.map((k,i)=>`<button class="pbtn ${playerSelected===k?'selected':''}" id="pbtn-${k}" onclick="selectAnswer('${k}','${code}')" style="background:${cols[i][0]};box-shadow:0 4px 20px ${cols[i][1]};opacity:${playerSelected===k?'1':'.55'};"><span style="font-size:2.8rem;">${SHAPES[i]}</span><span style="font-size:.9rem;">${LABELS[i]}</span></button>`).join('')+`</div>`);
+}
+
+async function selectAnswer(key,code){
+  playerSelected=key;playerAnswered=true;beep(440,.08);
+  try{await dbSet('games/'+code+'/answers/'+myId,key);}catch(e){console.error('Answer write failed:',e);}
+  renderSelectedState(code);
+}
+
+async function confirmBid(code){
+  playerBidDone=true;await dbSet('games/'+code+'/bids/'+myId,playerBid);
+  beep(550,.1);renderPC(msgBox('✅',`Bid Locked: ${playerBid}`,'Question appearing soon...'));
+}
+
+function renderReveal(gs,me){
+  const q=gs.questions[gs.currentQ];const ck=gs.correctKey;
+  const myAns=gs.answers?.[myId];const ok=myAns===ck;const noAns=!myAns;
+  const ph=getPhase(gs,gs.currentQ);const bid=Math.max(5,parseInt((gs.bids||{})[myId])||5);
+  let sc='';
+  if(noAns)sc='No answer — 0';
+  else if(ph==='auction')sc=ok?`+${bid}`:`-${bid}`;
+  else if(ph==='negative')sc=ok?'+10':`-${gs.negPts||5}`;
+  else sc=ok?'+10':'0';
+  if(!noAns){if(ok)playCorrect();else playWrong();}
+  renderPC(`<div style="text-align:center;padding:1rem;" class="pop">
+    <div style="font-size:4.5rem;margin-bottom:.3rem;">${noAns?'⏰':ok?'✅':'❌'}</div>
+    <div style="font-size:1.5rem;font-weight:700;margin-bottom:.3rem;color:${noAns?'#aaa':ok?'#2ED573':'#FF4757'};">${noAns?"Time's Up!":ok?'Correct!':'Wrong!'}</div>
+    <div style="font-size:1.1rem;font-weight:700;color:#FFD700;margin-bottom:.5rem;">${sc}</div>
+    <div style="color:#aaa;font-size:.95rem;margin-bottom:.5rem;">Correct answer: <strong style="color:#FFD700;">${q.answer}</strong></div>
+    <div style="font-size:2.5rem;font-weight:900;color:#FFD700;">${parseInt(me.score)||0}</div>
+    <div style="color:#aaa;font-size:.8rem;margin-top:.3rem;">Next in ${gs.timer||0}s</div>
+  </div>`);
+}
+
+/* ══ ADMIN DASHBOARD ══ */
+let _adminSessions=[],_adminHosts={};
+
+let _adminUnsubSessions=null; // live listener handle
+
+async function loadAdminDashboard(){
+  S('admin');
+  // Load host profiles once
+  const hostsRaw=await dbGet('hosts');
+  _adminHosts=hostsRaw||{};
+  const hostUids=Object.keys(_adminHosts);
+
+  // Set up LIVE listeners for each host's sessions
+  // This means when a host ends a game, admin sees it update instantly
+  if(_adminUnsubSessions){_adminUnsubSessions();_adminUnsubSessions=null;}
+  _adminSessions=[];
+
+  // Use onValue (live) instead of get (one-time) for sessions
+  let listenersReady=0;
+  const totalUids=hostUids.length;
+
+  if(totalUids===0){
+    // No hosts yet — just render empty state
+    renderAdminStats();renderSessionsTable();renderHostsTable();renderLiveTab();
+    return;
+  }
+
+  // Track all unsub functions
+  const unsubs=[];
+  hostUids.forEach(uid=>{
+    const unsub=dbOn('sessions/'+uid, uidSessions=>{
+      // Remove existing sessions for this uid and replace with fresh data
+      _adminSessions=_adminSessions.filter(s=>s.hostUid!==uid);
+      if(uidSessions&&typeof uidSessions==='object'){
+        Object.values(uidSessions).forEach(s=>{if(s)_adminSessions.push(s);});
+      }
+      // Re-render everything live
+      renderAdminStats();
+      autoKillStaleSessions();
+      renderSessionsTable();
+      renderHostsTable();
+      renderLiveTab();
+    });
+    unsubs.push(unsub);
+  });
+
+  // Combined unsub for all listeners
+  _adminUnsubSessions=()=>unsubs.forEach(u=>u());
+  // Stats will be rendered by the live listener once data arrives
+}
+
+function autoKillStaleSessions(){
+  // If a session has been live for more than 6 hours, assume host closed without ending
+  const SIX_HOURS=6*60*60*1000;
+  const now=Date.now();
+  _adminSessions.forEach(async s=>{
+    if(s.status==='live'&&s.startedAt){
+      const age=now-new Date(s.startedAt).getTime();
+      if(age>SIX_HOURS){
+        try{
+          await dbUpd('sessions/'+s.hostUid+'/'+s.key,
+            {status:'ended',endedAt:new Date().toISOString()});
+        }catch(e){}
+      }
+    }
+  });
+}
+
+function renderAdminStats(){
+  const totalHosts=Object.keys(_adminHosts).length;
+  const verified=Object.values(_adminHosts).filter(h=>h.verified).length;
+  const totalPlayers=_adminSessions.reduce((a,s)=>a+(s.peakPlayers||0),0);
+  const liveNow=_adminSessions.filter(s=>s.status==='live').length;
+  const rooms=new Set(_adminSessions.map(s=>s.roomCode)).size;
+  document.getElementById('as-hosts').textContent=totalHosts;
+  document.getElementById('as-verified').textContent=verified;
+  document.getElementById('as-sessions').textContent=_adminSessions.length;
+  document.getElementById('as-players').textContent=totalPlayers;
+  document.getElementById('as-live').textContent=liveNow;
+  document.getElementById('as-rooms').textContent=rooms;
+}
+
+function adminTab(name,btn){
+  ['sessions','hosts','live'].forEach(t=>document.getElementById('tab-'+t).style.display=t===name?'block':'none');
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(name==='live')renderLiveTab();
+}
+
+function renderSessionsTable(){
+  const search=(document.getElementById('f-search').value||'').toLowerCase();
+  const status=document.getElementById('f-status').value;
+  const sort=document.getElementById('f-sort').value;
+  let rows=[..._adminSessions];
+  if(search)rows=rows.filter(s=>(s.hostName||'').toLowerCase().includes(search)||(s.hostEmail||'').toLowerCase().includes(search)||(s.roomCode||'').toLowerCase().includes(search)||(s.theme||'').toLowerCase().includes(search));
+  if(status)rows=rows.filter(s=>s.status===status);
+  if(sort==='newest')rows.sort((a,b)=>new Date(b.startedAt)-new Date(a.startedAt));
+  else if(sort==='oldest')rows.sort((a,b)=>new Date(a.startedAt)-new Date(b.startedAt));
+  else if(sort==='players')rows.sort((a,b)=>(b.peakPlayers||0)-(a.peakPlayers||0));
+  const tbody=document.getElementById('admin-sessions-body');
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;color:#aaa;padding:2rem;">No sessions found.</td></tr>';return;}
+  tbody.innerHTML=rows.map((s,i)=>`<tr>
+    <td style="color:#aaa;">${i+1}</td>
+    <td style="font-weight:700;">${esc(s.hostName||'—')}</td>
+    <td style="color:#aaa;font-size:.8rem;">${esc(s.hostEmail||'—')}</td>
+    <td style="color:#aaa;font-size:.8rem;">${esc(s.hostMobile||'—')}</td>
+    <td style="color:#aaa;font-size:.8rem;">${esc(s.hostCity||'')}${s.hostCountry?', '+esc(s.hostCountry):''}</td>
+    <td><span style="font-weight:800;color:var(--gold);letter-spacing:.1rem;">${esc(s.roomCode)}</span></td>
+    <td style="font-size:.8rem;color:#aaa;">${esc(s.theme||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${fmtDate(s.startedAt)}</td>
+    <td style="color:var(--accent);font-weight:700;">${s.peakPlayers||0}</td>
+    <td>${s.questionCount||0}</td>
+    <td style="font-size:.8rem;">${esc(s.mode||'Normal')}</td>
+    <td><span class="badge ${s.status==='live'?'badge-live':'badge-end'}">${s.status==='live'?'🔴 Live':'✅ Ended'}</span></td>
+  </tr>`).join('');
+}
+
+function renderHostsTable(){
+  const hosts=Object.values(_adminHosts);
+  const sc={},pc={};
+  _adminSessions.forEach(s=>{sc[s.hostUid]=(sc[s.hostUid]||0)+1;pc[s.hostUid]=(pc[s.hostUid]||0)+(s.peakPlayers||0);});
+  const tbody=document.getElementById('admin-hosts-body');
+  if(!hosts.length){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;color:#aaa;padding:2rem;">No hosts registered yet.</td></tr>';return;}
+  hosts.sort((a,b)=>new Date(b.registeredAt||0)-new Date(a.registeredAt||0));
+  tbody.innerHTML=hosts.map((h,i)=>`<tr>
+    <td style="color:#aaa;">${i+1}</td>
+    <td style="font-weight:700;">${esc(h.name||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${esc(h.email||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${esc(h.mobile||'—')}</td>
+    <td style="font-size:.8rem;">${esc(h.city||'—')}</td>
+    <td style="font-size:.8rem;">${esc(h.country||'—')}</td>
+    <td style="font-size:.8rem;">${esc(h.pin||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${esc(h.org||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${fmtDate(h.registeredAt)}</td>
+    <td style="color:var(--accent);font-weight:700;">${sc[h.uid]||0}</td>
+    <td style="color:var(--c3);font-weight:700;">${pc[h.uid]||0}</td>
+    <td><span class="badge ${h.verified?'badge-live':'badge-no'}">${h.verified?'✅ Yes':'⚠️ No'}</span></td>
+  </tr>`).join('');
+}
+
+function renderLiveTab(){
+  const live=_adminSessions.filter(s=>s.status==='live');
+  const el=document.getElementById('admin-live-body');
+  if(!live.length){el.innerHTML='<div style="text-align:center;color:#aaa;padding:3rem;"><div style="font-size:3rem;margin-bottom:.5rem;">😴</div><div>No live games right now</div></div>';return;}
+  el.innerHTML=live.map(s=>`<div class="card" style="border:1px solid #2ED57344;max-width:700px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;">
+      <div>
+        <div style="font-size:1.2rem;font-weight:800;color:var(--gold);">${esc(s.roomCode)}</div>
+        <div style="color:#ccc;font-weight:600;">${esc(s.hostName||'—')}</div>
+        <div style="color:#aaa;font-size:.85rem;">${esc(s.hostEmail||'')} · ${esc(s.hostMobile||'')}</div>
+        <div style="color:#aaa;font-size:.8rem;">${esc(s.hostCity||'')}${s.hostCountry?', '+s.hostCountry:''}</div>
+      </div>
+      <div style="text-align:right;">
+        <span class="badge badge-live" style="font-size:.9rem;padding:.3rem .9rem;">🔴 LIVE</span>
+        <div style="margin-top:.5rem;color:var(--accent);font-size:1.4rem;font-weight:900;">${s.peakPlayers||0} players</div>
+        <div style="color:#aaa;font-size:.8rem;">${s.questionCount||0} questions · ${esc(s.theme||'—')}</div>
+        <div style="color:#aaa;font-size:.75rem;margin-top:.2rem;">Started ${fmtDate(s.startedAt)}</div>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+function exportMIS(){
+  const rows=[
+    ['#','Host Name','Email','Mobile','City','Country','PIN','Organisation','Room Code','Theme','Mode','Started','Peak Players','Questions','Status','Ended At'],
+    ..._adminSessions.map((s,i)=>[i+1,s.hostName||'',s.hostEmail||'',s.hostMobile||'',s.hostCity||'',s.hostCountry||'',(_adminHosts[s.hostUid]||{}).pin||'',(_adminHosts[s.hostUid]||{}).org||'',s.roomCode||'',s.theme||'',s.mode||'Normal',s.startedAt||'',s.peakPlayers||0,s.questionCount||0,s.status||'',s.endedAt||''])
+  ];
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='QuizArena_MIS_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+/* ══ UTILS ══ */
+function fmtDate(iso){if(!iso)return '—';try{const d=new Date(iso);return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}catch(e){return iso;}}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ══ AUTO LOGIN RESTORE ══ */
+document.addEventListener('firebaseReady',()=>{
+  window._onAuthStateChanged(window._auth,async user=>{
+    if(user&&user.emailVerified&&document.getElementById('auth-landing').classList.contains('active')){
+      const profile=await dbGet('hosts/'+user.uid);
+      if(profile){currentHostProfile=profile;myRole='host';showHostDashboard();}
+    }
+  });
+});
+</script>
+</body>
+</html>
