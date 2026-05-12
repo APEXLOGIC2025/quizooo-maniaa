@@ -759,7 +759,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
       <h2 class="gold" style="margin-bottom:1rem;font-size:1.3rem;">⚙️ Step 2 — Game Settings</h2>
       <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem;">
         <div style="flex:1;min-width:130px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Room Code</label>
-          <input id="s-code" class="inp" value="QUIZ01" maxlength="10" style="padding:.65rem .9rem;font-size:1.1rem;font-weight:700;" oninput="this.value=this.value.toUpperCase()"></div>
+          <input id="s-code" class="inp" value="" maxlength="10" style="padding:.65rem .9rem;font-size:1.1rem;font-weight:700;" oninput="this.value=this.value.toUpperCase()" placeholder="Auto-generated"></div>
         <div style="flex:1;min-width:130px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Quiz Theme / Title</label>
           <input id="s-theme" class="inp" placeholder="e.g. Science Quiz" style="padding:.65rem .9rem;"></div>
         <div style="flex:1;min-width:120px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Max Players</label>
@@ -909,6 +909,35 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 </div>
 
 <!-- PLAYER -->
+<!-- TRIAL EXPIRED SCREEN -->
+<div id="trial-expired" class="screen" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#1a0a0a,#0a0a1a);padding:2rem;">
+  <div style="max-width:460px;width:100%;text-align:center;">
+    <div style="font-size:4rem;margin-bottom:1rem;">⏰</div>
+    <h2 style="color:#FF4757;font-size:1.8rem;font-weight:900;margin-bottom:.8rem;">Trial Period Ended</h2>
+    <p style="color:#aaa;font-size:1rem;line-height:1.7;margin-bottom:1.5rem;">
+      Your 30-day free trial has expired. To continue hosting quizzes on QuizArena please subscribe to one of our plans.
+    </p>
+    <div style="background:#ffffff08;border:1px solid #ffffff22;border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;text-align:left;">
+      <div style="font-weight:700;color:var(--gold);margin-bottom:.8rem;font-size:1rem;">📋 Subscription Plans</div>
+      <div style="display:grid;gap:.6rem;font-size:.9rem;color:#ccc;">
+        <div>🔵 <strong style="color:#fff;">Basic</strong> — ₹499/month · Up to 50 players</div>
+        <div>🟡 <strong style="color:#FFD700;">Pro</strong> — ₹999/month · Up to 200 players</div>
+        <div>🟣 <strong style="color:#a78bfa;">Institute</strong> — ₹1999/month · Unlimited players</div>
+      </div>
+    </div>
+    <div style="background:#1E90FF11;border:1px solid #1E90FF44;border-radius:12px;padding:1rem;margin-bottom:1.5rem;">
+      <div style="color:#1E90FF;font-weight:700;margin-bottom:.4rem;">📞 Contact Admin to Subscribe</div>
+      <div style="color:#aaa;font-size:.9rem;">Email: <a href="mailto:apexlogic2025@gmail.com" style="color:var(--gold);">apexlogic2025@gmail.com</a></div>
+      <div style="color:#aaa;font-size:.85rem;margin-top:.3rem;">Mention your registered email and chosen plan.</div>
+    </div>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-p" onclick="S('host-dash')">← Back to Dashboard</button>
+      <button class="btn btn-k" onclick="doSignOut()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+
 <div id="player" class="screen" style="align-items:center;background:var(--dark);padding:1.5rem;gap:.5rem;">
   <div style="text-align:center;padding-top:.5rem;margin-bottom:.5rem;">
     <div id="p-namebadge" style="background:linear-gradient(135deg,#7c3aed,#c026d3);border-radius:50px;padding:.4rem 1.3rem;display:inline-block;font-weight:700;font-size:1rem;margin-bottom:.3rem;"></div>
@@ -1059,6 +1088,8 @@ async function afterLogin(user){
   const _subUntil=profile.subscribedUntil?new Date(profile.subscribedUntil):null;
   profile._isSubscribed=_subUntil&&_subUntil>new Date();
   profile._subUntil=_subUntil;
+  // If subscribed, trial is not expired
+  if(profile._isSubscribed) profile._trialExpired=false;
   currentHostProfile=profile;myRole='host';
   showHostDashboard();
 }
@@ -1198,7 +1229,20 @@ async function showHostDashboard(){
   }).join('');
 }
 
-function goToSetup(){document.getElementById('setup-host-badge').textContent='🎮 '+currentHostProfile.name;S('setup');}
+function goToSetup(){
+  const p=currentHostProfile;
+  if(p&&p._trialExpired&&!p._isSubscribed){
+    S('trial-expired');
+    return;
+  }
+  document.getElementById('setup-host-badge').textContent='🎮 '+currentHostProfile.name;
+  // Auto-generate a fresh unique room code each time setup opens
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code='';
+  for(let i=0;i<6;i++) code+=chars[Math.floor(Math.random()*chars.length)];
+  document.getElementById('s-code').value=code;
+  S('setup');
+}
 
 async function hostResumeGame(code){
   // Resume an active game — restore host state from Firebase
@@ -1419,7 +1463,32 @@ function loadXL(inp){
 async function hostStart(){
   if(!_questions.length){alert('Upload questions first!');return;}
   if(!window._firebaseReady){alert('Firebase not ready.');return;}
-  roomCode=document.getElementById('s-code').value.toUpperCase().trim()||'QUIZ01';
+  // Check trial/subscription status before allowing game start
+  const p=currentHostProfile;
+  if(p&&p._trialExpired&&!p._isSubscribed){
+    S('trial-expired');
+    return;
+  }
+  // Generate unique room code if not manually set
+  const manualCode=document.getElementById('s-code').value.toUpperCase().trim();
+  if(manualCode){
+    roomCode=manualCode;
+  }else{
+    // Auto-generate: prefix + timestamp-based unique suffix
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code='';
+    for(let i=0;i<6;i++) code+=chars[Math.floor(Math.random()*chars.length)];
+    roomCode=code;
+    document.getElementById('s-code').value=code;
+  }
+  // Check if room code already in use
+  const existingGame=await dbGet('games/'+roomCode);
+  if(existingGame&&existingGame.phase!=='ended'){
+    alert('Room code '+roomCode+' is already in use. Please use a different code or leave blank for auto-generate.');
+    document.getElementById('s-code').value='';
+    const b=document.getElementById('s-start');b.disabled=false;b.onclick=hostStart;
+    return;
+  }
   _lbRoomCode=null;
   // Save to localStorage so host can resume after refresh
   try{localStorage.setItem('qa_roomCode',roomCode);localStorage.setItem('qa_hostUid',currentHostProfile?.uid||'');localStorage.setItem('qa_startedAt',new Date().toISOString());}catch(e){}
@@ -2190,6 +2259,7 @@ async function adminGrantSub(uid,name){
   try{
     await dbUpd('hosts/'+uid,{subscribedUntil:newExp.toISOString(),subscribed:true});
     if(_adminHosts[uid]){_adminHosts[uid].subscribedUntil=newExp.toISOString();_adminHosts[uid].subscribed=true;}
+    alert('✅ Extension granted! Host must log out and log back in to apply.');
     alert('Subscribed '+name+' until '+newExp.toLocaleDateString('en-IN'));
     adminRenderSubscriptions();
   }catch(e){alert('Error: '+e.message);}
