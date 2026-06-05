@@ -25,16 +25,16 @@
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyDzxuqiIWYGl5hzrOZvEweUHNMq1xG7eKY",
-    authDomain: "quizomania-8f783.firebaseapp.com",
-    databaseURL: "https://quizomania-8f783-default-rtdb.firebaseio.com",
-    projectId: "quizomania-8f783",
-    storageBucket: "quizomania-8f783.firebasestorage.app",
+    apiKey:            "AIzaSyDzxuqiIWYGl5hzrOZvEweUHNMq1xG7eKY",
+    authDomain:        "quizomania-8f783.firebaseapp.com",
+    databaseURL:       "https://quizomania-8f783-default-rtdb.firebaseio.com",
+    projectId:         "quizomania-8f783",
+    storageBucket:     "quizomania-8f783.firebasestorage.app",
     messagingSenderId: "734661787918",
-    appId: "1:734661787918:web:2c3c74bbca9ccc6ffd575f"
+    appId:             "1:734661787918:web:2c3c74bbca9ccc6ffd575f"
   };
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+  const app  = initializeApp(firebaseConfig);
+  const db   = getDatabase(app);
   const auth = getAuth(app);
 
   window._db=db; window._ref=ref; window._set=set; window._get=get;
@@ -229,13 +229,14 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 .filter-row select option{background:#0f0f26;}
 
 /* ══════════════════════════════════════════
-   LANDING PAGE — REDESIGN MESH
+   LANDING PAGE — FULL REDESIGN
 ══════════════════════════════════════════ */
 .landing-bg{
   background:var(--dark);
   position:relative;
   overflow:hidden;
 }
+/* Animated mesh background */
 .landing-bg::before{
   content:'';position:absolute;inset:0;
   background:
@@ -244,6 +245,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
     radial-gradient(ellipse 70% 50% at 50% 50%,#1E90FF0a 0%,transparent 70%);
   pointer-events:none;
 }
+/* Floating orbs */
 .orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;animation:floatY 6s ease-in-out infinite;}
 .orb-1{width:300px;height:300px;background:#7c3aed22;top:-80px;left:-80px;animation-delay:0s;}
 .orb-2{width:200px;height:200px;background:#FF475718;top:40%;right:-60px;animation-delay:2s;}
@@ -252,6 +254,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 .landing-inner{position:relative;z-index:1;display:flex;flex-direction:column;
   align-items:center;min-height:100vh;padding:3rem 1.5rem 2rem;}
 
+/* Hero section */
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:.5rem;
   background:linear-gradient(135deg,#7c3aed22,#c026d322);
@@ -276,6 +279,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   max-width:480px;line-height:1.7;margin-bottom:2.5rem;
   animation:fadeUp .7s ease forwards;
 }
+/* CTA buttons */
 .cta-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem;
   animation:fadeUp .8s ease forwards;}
 .btn-cta-primary{
@@ -297,6 +301,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 }
 .btn-cta-secondary:hover{transform:translateY(-3px);background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);}
 
+/* Stats strip */
 .stats-strip{
   display:flex;gap:2.5rem;flex-wrap:wrap;justify-content:center;
   margin-bottom:3rem;animation:fadeUp .9s ease forwards;
@@ -309,6 +314,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 }
 .stat-item .lbl{font-size:.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;margin-top:.1rem;}
 
+/* Feature cards */
 .features-grid{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:1rem;width:100%;max-width:900px;margin-bottom:2.5rem;
@@ -331,6 +337,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   color:#fff;margin-bottom:.4rem;}
 .feat-desc{font-size:.83rem;color:#777;line-height:1.6;}
 
+/* How to play */
 .how-card{
   background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(192,38,211,.08));
   border:1px solid #7c3aed33;border-radius:22px;padding:1.8rem;
@@ -348,16 +355,19 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 .step-text{color:#bbb;font-size:.9rem;line-height:1.6;}
 .step-text strong{color:#fff;}
 
+/* Admin link */
 .admin-link{color:#444;font-size:.75rem;cursor:pointer;transition:color .2s;
   text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:1rem;}
 .admin-link:hover{color:#7c3aed;}
 
+/* Footer */
 .landing-footer{
   margin-top:auto;padding-top:2rem;display:flex;flex-direction:column;
   align-items:center;gap:.8rem;width:100%;
 }
 .footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;justify-content:center;}
-.footer-links a{color:#444;font-size:.78rem;text-decoration:none;transition:color .2s;font-weight:600;}
+.footer-links a{color:#444;font-size:.78rem;text-decoration:none;transition:color .2s;
+  font-weight:600;}
 .footer-links a:hover{color:#c084fc;}
 .footer-copy{color:#2a2a4a;font-size:.75rem;}
 
@@ -421,6 +431,99 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
     </div>
 
     <div class="admin-link" onclick="switchScreen('scr-admin-login')">Access Admin MIS Panel</div>
+
+    <div class="how-card fade" style="margin-top:3rem;">
+      <div class="how-title">How to get started</div>
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Click <strong>Host a Quiz</strong>, log in or sign up, then drag and drop your question set via an Excel file (.xlsx format).</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <div class="step-text">Share the automatically generated 6-digit session PIN room code with your audience or students.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Players press <strong>Join Game</strong> on their mobile device or desktop browser, type the PIN, and pick a nickname to enter.</div>
+      </div>
+    </div>
+
+    <footer class="landing-footer">
+      <div class="footer-links">
+        <span style="color:#444;cursor:pointer;font-size:.78rem;font-weight:600;" onclick="switchScreen('scr-terms')">Terms of Service</span>
+        <span style="color:#444;cursor:pointer;font-size:.78rem;font-weight:600;" onclick="switchScreen('scr-privacy')">Privacy Policy</span>
+        <span style="color:#444;cursor:pointer;font-size:.78rem;font-weight:600;" onclick="switchScreen('scr-contact')">Contact Support</span>
+      </div>
+      <div class="footer-copy">© 2026 QuizArena Show Networks. All rights reserved.</div>
+    </footer>
+  </div>
+</div>
+
+<div id="scr-terms" class="screen" style="background:#050510;">
+  <div class="page-hdr">
+    <button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">← Back</button>
+    <div class="page-hdr-brand">Terms of Service</div>
+  </div>
+  <div class="page-wrap fade">
+    <h1>Terms of Service</h1>
+    <p class="muted">Last updated: June 2026</p>
+    <h2>1. Acceptance of Terms</h2>
+    <p>By registering or using QuizArena, you acknowledge compliance with our usage frameworks. If you do not accept these parameters, do not construct game rooms.</p>
+    <h2>2. Host Account Rules</h2>
+    <p>Hosts are completely liable for files uploaded (.xlsx templates). Distribution of offensive, copyright-infringing, or malicious material will trigger instant block protocols on the system console tier.</p>
+    <h2>3. Service Availability</h2>
+    <p>We supply this real-time gaming tool on an "as-is" allocation. Room tokens, temporary leaderboards, and scoring sessions may clear automatically without liability during cloud updates.</p>
+  </div>
+</div>
+
+<div id="scr-privacy" class="screen" style="background:#050510;">
+  <div class="page-hdr">
+    <button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">← Back</button>
+    <div class="page-hdr-brand">Privacy Policy</div>
+  </div>
+  <div class="page-wrap fade">
+    <h1>Privacy Policy</h1>
+    <p class="muted">Last updated: June 2026</p>
+    <h2>1. User Indicators Tracked</h2>
+    <p>We preserve host emails for access profiles. Player nicknames are stored as temporary memory fields inside Firebase Realtime clusters linked solely to dynamic quiz rooms.</p>
+    <h2>2. Data Preservation Limits</h2>
+    <p>Active rooms write parameters to the cloud configuration tree. Completed game records may be archived or swept dynamically to minimize database footprint and maintain performance profiles.</p>
+    <h2>3. Advertising Partners</h2>
+    <p>Google AdSense modules utilize basic user identifiers to supply personalized display banners across the platform layout screens.</p>
+  </div>
+</div>
+
+<div id="scr-contact" class="screen" style="background:#050510;">
+  <div class="page-hdr">
+    <button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">← Back</button>
+    <div class="page-hdr-brand">Contact Support</div>
+  </div>
+  <div class="page-wrap fade">
+    <h1>Get in Touch</h1>
+    <p>Need custom configuration deployment assistance or have feature suggestions? Contact our dedicated management teams directly:</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0;">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">✉️</div>
+        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">General Support</div>
+        <div style="color:#aaa;font-size:.85rem;">hello@quizarena.app</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">🔒</div>
+        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">Privacy Division</div>
+        <div style="color:#aaa;font-size:.85rem;">privacy@quizarena.app</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">📢</div>
+        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">Media Partners</div>
+        <div style="color:#aaa;font-size:.85rem;">ads@quizarena.app</div>
+      </div>
+    </div>
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6461655458619662"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
   </div>
 </div>
 
@@ -464,6 +567,95 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   </div>
 </div>
 
+<div id="scr-host-dashboard" class="screen">
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:.6rem;">
+      <span style="font-family:var(--font-display);font-weight:900;font-size:1.3rem;">QuizArena <span class="gold">Studio</span></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:.8rem;">
+      <span id="user-display-name" style="font-weight:600;font-size:.9rem;color:#aaa;">Host Workspace</span>
+      <button class="btn btn-k btn-sm" onclick="handleSignOut()">Logout</button>
+    </div>
+  </div>
+
+  <div class="hbody">
+    <div style="width:100%;max-width:320px;display:flex;flex-direction:column;gap:1rem;">
+      <div class="card">
+        <h4 style="margin-bottom:.8rem;font-family:var(--font-display);font-size:1.05rem;">Quiz Framework Setup</h4>
+        
+        <div class="toggle-row">
+          <div><div style="font-size:.85rem;font-weight:700;">Show Correct Answer</div><div class="muted">After time expiration</div></div>
+          <label class="toggle"><input type="checkbox" id="cfg-show-ans" checked><span class="toggle-slider"></span></label>
+        </div>
+
+        <div class="toggle-row">
+          <div><div style="font-size:.85rem;font-weight:700;">Negative Marking</div><div class="muted">-25% fraction charge</div></div>
+          <label class="toggle"><input type="checkbox" id="cfg-negative-marking"><span class="toggle-slider"></span></label>
+        </div>
+
+        <div class="toggle-row">
+          <div><div style="font-size:.85rem;font-weight:700;">Auction Dynamic</div><div class="muted">Points decline loop</div></div>
+          <label class="toggle"><input type="checkbox" id="cfg-auction-mode" onchange="toggleAuctionMusicRow()"><span class="toggle-slider"></span></label>
+        </div>
+
+        <div class="inp-wrap" style="margin-top:.6rem;">
+          <label class="inp-label">Timer Allocation (Sec)</label>
+          <input type="number" id="cfg-timer-duration" class="inp" value="30" min="5" style="padding:.5rem .8rem;font-size:.9rem;">
+        </div>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-bottom:.3rem;font-family:var(--font-display);font-size:1.05rem;">Audio Integration</h4>
+        <p class="muted" style="margin-bottom:.8rem;">Atmosphere background scores</p>
+        
+        <div>
+          <div class="inp-label">Lobby Background</div>
+          <div class="music-grid">
+            <button class="music-btn active" id="m-lob-1" onclick="selectMusicTrack('lobby','1')">Synth Wave</button>
+            <button class="music-btn" id="m-lob-2" onclick="selectMusicTrack('lobby','2')">Retro Arcade</button>
+          </div>
+        </div>
+
+        <div id="auction-music-wrapper" style="margin-top:.8rem;display:none;">
+          <div class="inp-label">Auction Score Theme</div>
+          <div class="music-grid">
+            <button class="music-btn active" id="m-auc-1" onclick="selectMusicTrack('auction','1')">Tension Loop</button>
+            <button class="music-btn" id="m-auc-2" onclick="selectMusicTrack('auction','2')">Clock Ticking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;gap:1rem;min-width:300px;">
+      <div class="card">
+        <h3 style="margin-bottom:.4rem;font-family:var(--font-display);font-weight:800;">Deploy Question Spreadsheet</h3>
+        <p class="muted" style="margin-bottom:1.2rem;">Load database configurations using a primary format Excel worksheet matrix.</p>
+        
+        <div class="upload-box" id="drop-zone" onclick="document.getElementById('file-input').click()">
+          <div style="font-size:2.5rem;margin-bottom:.4rem;">📊</div>
+          <div style="font-weight:700;font-size:1rem;color:#c084fc;">Drag and drop file here or click to browse</div>
+          <div class="muted" style="margin-top:.3rem;">Supports .xlsx spreadsheets exclusively</div>
+          <input type="file" id="file-input" accept=".xlsx" style="display:none;" onchange="handleFileSelection(event)">
+        </div>
+
+        <div id="upload-status-bar" style="display:none;align-items:center;gap:.6rem;background:rgba(255,255,255,.03);padding:.7rem 1rem;border-radius:10px;border:1px solid var(--border);">
+          <span style="font-size:1.2rem;">✅</span>
+          <div style="flex:1;"><div id="upload-status-name" style="font-size:.85rem;font-weight:700;">template.xlsx</div><div id="upload-status-rows" class="muted">0 records parsed</div></div>
+          <button class="btn btn-d btn-sm" style="padding:.3rem .8rem;font-size:.7rem;" onclick="clearLoadedExcel()">Remove</button>
+        </div>
+      </div>
+
+      <div class="card" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2.5rem;">
+        <div style="max-width:340px;">
+          <h3 style="font-family:var(--font-display);font-weight:800;margin-bottom:.5rem;">Construct Show Token</h3>
+          <p class="muted" style="margin-bottom:1.5rem;">Initialize synchronization tracks across all active remote target nodes cleanly.</p>
+          <button class="btn btn-p" id="btn-generate-room" disabled onclick="generateLiveRoomSession()">Initialize Live Room</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="scr-join" class="screen" style="align-items:center;justify-content:center;padding:1.5rem;background:var(--dark);">
   <div class="auth-card fade" style="max-width:400px;">
     <div class="auth-title">Join Live Show</div>
@@ -478,6 +670,144 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
     </div>
     <button class="btn btn-g" style="width:100%;" onclick="handlePlayerJoin()">Enter Arena</button>
     <button class="btn btn-k btn-sm" style="width:100%;margin-top:.7rem;" onclick="switchScreen('scr-landing')">Back</button>
+  </div>
+</div>
+
+<div id="scr-broadcast" class="screen">
+  <div class="hdr" style="background:#0a0a1f;">
+    <span style="font-family:var(--font-display);font-weight:900;"><span class="gold">STAGE</span> MODULE</span>
+    <button class="btn btn-d btn-sm" onclick="terminateShowSession()">Close Room</button>
+  </div>
+  <div class="hbody" style="padding:1.5rem;gap:1.5rem;">
+    <div style="flex:1;display:flex;flex-direction:column;gap:1.2rem;min-width:320px;">
+      <div class="card" style="text-align:center;position:relative;background:linear-gradient(135deg,#0d0d26,rgba(124,58,237,.05));">
+        <div class="muted" style="text-transform:uppercase;letter-spacing:1px;font-weight:700;font-size:.75rem;">Lobby Registration Token</div>
+        <div id="broadcast-pin" style="font-family:var(--font-display);font-size:4.5rem;font-weight:900;color:var(--gold);line-height:1.1;margin:.3rem 0;">000 000</div>
+        <div id="broadcast-url" class="muted" style="font-size:.83rem;background:rgba(255,255,255,.03);padding:.4rem;border-radius:6px;display:inline-block;">quizarena.netlify.app</div>
+      </div>
+      
+      <div class="card" style="flex:1;display:flex;flex-direction:column;">
+        <div style="display:flex;justify-content:between;align-items:center;margin-bottom:1rem;border-bottom:1px solid var(--border);padding-bottom:.5rem;">
+          <h4 style="font-family:var(--font-display);font-size:1.1rem;">Roster Base (<span id="count-roster">0</span>)</h4>
+        </div>
+        <div id="lobby-roster-list" style="flex:1;overflow-y:auto;display:flex;flex-wrap:wrap;gap:.5rem;align-content:flex-start;">
+          <div class="muted" id="roster-empty-state" style="margin:auto;text-align:center;padding:2rem;">Waiting for connections...</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:100%;max-width:340px;display:flex;flex-direction:column;gap:1rem;justify-content:center;align-items:center;" id="broadcast-qrcode-box">
+      <div class="card" style="text-align:center;background:#fff;padding:1.5rem;border-radius:20px;width:100%;max-width:260px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(0,0,0,.4);">
+        <div id="qrcode-target"></div>
+      </div>
+      <button class="btn btn-p" style="width:100%;max-width:260px;" onclick="initiateQuizLoopStart()">Begin Show Engine</button>
+    </div>
+  </div>
+</div>
+
+<div id="scr-engine" class="screen" style="background:#04040f;">
+  <div class="hdr" style="border:none;background:transparent;padding:1.5rem 2rem 0;">
+    <div><span class="muted">Question TRACK</span> <span id="engine-progress" style="font-weight:800;color:#fff;">0/0</span></div>
+    <div id="engine-clock" style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--c4);background:rgba(255,165,2,.1);width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--c4);">00</div>
+  </div>
+
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:1rem 2rem 3rem;max-width:1000px;margin:0 auto;width:100%;gap:2rem;">
+    <div style="text-align:center;">
+      <h1 id="engine-question" style="font-family:var(--font-display);font-size:clamp(1.8rem,4vw,3.2rem);font-weight:900;line-height:1.15;letter-spacing:-.5px;margin-bottom:1.5rem;">Question Statement Node Text Prompt?</h1>
+    </div>
+
+    <div id="engine-chart-panel" style="display:none;height:140px;background:rgba(255,255,255,.02);border-radius:16px;border:1px solid var(--border);padding:1.2rem 2rem;flex-direction:column;gap:.5rem;justify-content:center;">
+      <div style="display:flex;align-items:center;gap:1rem;"><div style="width:18px;font-weight:800;color:var(--c1);">A</div><div style="flex:1;background:#ffffff08;height:12px;border-radius:6px;overflow:hidden;"><div class="bar-fill" id="bar-A" style="width:0%;background:var(--c1);"></div></div></div>
+      <div style="display:flex;align-items:center;gap:1rem;"><div style="width:18px;font-weight:800;color:var(--c2);">B</div><div style="flex:1;background:#ffffff08;height:12px;border-radius:6px;overflow:hidden;"><div class="bar-fill" id="bar-B" style="width:0%;background:var(--c2);"></div></div></div>
+      <div style="display:flex;align-items:center;gap:1rem;"><div style="width:18px;font-weight:800;color:var(--c3);">C</div><div style="flex:1;background:#ffffff08;height:12px;border-radius:6px;overflow:hidden;"><div class="bar-fill" id="bar-C" style="width:0%;background:var(--c3);"></div></div></div>
+      <div style="display:flex;align-items:center;gap:1rem;"><div style="width:18px;font-weight:800;color:var(--c4);">D</div><div style="flex:1;background:#ffffff08;height:12px;border-radius:6px;overflow:hidden;"><div class="bar-fill" id="bar-D" style="width:0%;background:var(--c4);"></div></div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1rem;" id="engine-options-grid">
+      <div class="opt-box opt-A" id="e-opt-A"><span style="opacity:.4;margin-right:.4rem;">▲</span> <span id="lbl-A">Option block A</span></div>
+      <div class="opt-box opt-B" id="e-opt-B"><span style="opacity:.4;margin-right:.4rem;">◼</span> <span id="lbl-B">Option block B</span></div>
+      <div class="opt-box opt-C" id="e-opt-C"><span style="opacity:.4;margin-right:.4rem;">✖</span> <span id="lbl-C">Option block C</span></div>
+      <div class="opt-box opt-D" id="e-opt-D"><span style="opacity:.4;margin-right:.4rem;">●</span> <span id="lbl-D">Option block D</span></div>
+    </div>
+
+    <div style="display:flex;justify-content:center;margin-top:1rem;" id="engine-host-controls">
+      <button class="btn btn-g" id="btn-engine-action" onclick="handleEngineActionStep()">Evaluate Selection</button>
+    </div>
+  </div>
+</div>
+
+<div id="scr-bid" class="screen bid-screen fade" style="background:#03030a;justify-content:center;align-items:center;">
+  <div style="max-width:600px;width:100%;">
+    <h2 style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:#c084fc;margin-bottom:1rem;text-transform:uppercase;letter-spacing:2px;">Auction Round Countdown</h2>
+    <div class="bid-countdown pop" id="bid-countdown-value">1000</div>
+    <p class="muted" style="font-size:1.1rem;margin-top:1.5rem;">Points decreasing over time window. Answer quickly to claim maximum reward multipliers!</p>
+  </div>
+</div>
+
+<div id="scr-scoreboard" class="screen" style="background:#050515;">
+  <div class="hdr" style="border:none;background:transparent;padding:2rem 2rem 0;">
+    <h2 style="font-family:var(--font-display);font-size:1.8rem;font-weight:900;"><span class="gold">Lobby</span> Standings</h2>
+    <div id="scoreboard-controls">
+      <button class="btn btn-p btn-sm" onclick="advanceToNextQuestionTrack()">Next Segment ➔</button>
+    </div>
+  </div>
+  
+  <div style="flex:1;max-width:640px;width:100%;margin:0 auto;padding:2rem 1rem 4rem;display:flex;flex-direction:column;justify-content:center;">
+    <div style="display:flex;align-items:flex-end;justify-content:center;gap:.6rem;height:180px;margin-bottom:2rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);">
+      <div style="display:flex;flex-direction:column;align-items:center;width:100px;" id="podium-2-block">
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:.3rem;text-align:center;" id="pod-2-name">--</div>
+        <div style="background:linear-gradient(to top,#1e293b,rgba(255,255,255,.05));border:1px solid var(--border);border-bottom:none;width:100%;height:70px;border-radius:12px 12px 0 0;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+          <span style="font-size:1.5rem;font-weight:900;color:#94a3b8;">2</span>
+          <span class="muted" style="font-size:.7rem;" id="pod-2-score">0 pts</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;width:110px;" id="podium-1-block">
+        <div style="font-weight:800;font-size:1rem;color:var(--gold);margin-bottom:.3rem;text-align:center;" id="pod-1-name">--</div>
+        <div style="background:linear-gradient(to top,#7c3aed33,rgba(255,215,0,.1));border:1px solid rgba(255,215,0,.3);border-bottom:none;width:100%;height:110px;border-radius:14px 14px 0 0;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 0 30px rgba(124,58,237,.2);">
+          <span style="font-size:2rem;margin-top:-.5rem;">👑</span>
+          <span style="font-size:1.6rem;font-weight:900;color:var(--gold);line-height:1;">1</span>
+          <span style="font-size:.75rem;color:var(--gold);font-weight:700;margin-top:.2rem;" id="pod-1-score">0 pts</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;width:100px;" id="podium-3-block">
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:.3rem;text-align:center;" id="pod-3-name">--</div>
+        <div style="background:linear-gradient(to top,#1e293b,rgba(255,255,255,.02));border:1px solid var(--border);border-bottom:none;width:100%;height:45px;border-radius:10px 10px 0 0;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+          <span style="font-size:1.3rem;font-weight:900;color:#cd7f32;">3</span>
+          <span class="muted" style="font-size:.7rem;" id="pod-3-score">0 pts</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem;" id="scoreboard-rows-container">
+      </div>
+  </div>
+</div>
+
+<div id="scr-client" class="screen" style="background:#060612;">
+  <div class="hdr" style="background:rgba(0,0,0,.2);border:none;">
+    <div style="display:flex;align-items:center;gap:.5rem;"><div style="width:8px;height:8px;background:var(--c3);border-radius:50%;" class="pulse"></div><span id="client-bar-nick" style="font-weight:700;">Player Terminal</span></div>
+    <div style="font-weight:800;color:var(--gold);font-size:1.1rem;" id="client-bar-score">0 Pts</div>
+  </div>
+  
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:1.5rem;max-width:440px;margin:0 auto;width:100%;" id="client-core-frame">
+    <div id="client-state-waiting" style="text-align:center;display:flex;flex-direction:column;gap:1rem;" class="fade">
+      <div style="font-size:3.5rem;" class="pulse">📡</div>
+      <h2 style="font-family:var(--font-display);font-weight:800;">Synchronized tracking connected</h2>
+      <p class="muted">Keep your focus locked on host room presentation monitors. Interaction options materialize automatically below on dispatch intervals.</p>
+    </div>
+
+    <div id="client-state-respond" style="display:none;flex-direction:column;gap:.8rem;width:100%;" class="fade">
+      <button class="pbtn opt-A" style="background:var(--c1);" onclick="submitPlayerSelection('A')">▲ Option A</button>
+      <button class="pbtn opt-B" style="background:var(--c2);" onclick="submitPlayerSelection('B')">◼ Option B</button>
+      <button class="pbtn opt-C" style="background:var(--c3);" onclick="submitPlayerSelection('C')">✖ Option C</button>
+      <button class="pbtn opt-D" style="background:var(--c4);" onclick="submitPlayerSelection('D')">● Option D</button>
+    </div>
+
+    <div id="client-state-feedback" style="display:none;text-align:center;" class="fade">
+      <div id="feedback-icon" style="font-size:4rem;margin-bottom:1rem;">⚡</div>
+      <h2 id="feedback-headline" style="font-family:var(--font-display);font-weight:900;font-size:2rem;margin-bottom:.4rem;">Response Logged</h2>
+      <p id="feedback-subtitle" class="muted">Standby for global scoring computations</p>
+    </div>
   </div>
 </div>
 
@@ -539,8 +869,27 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 </div>
 
 <script>
-let authMode = 'login';
+/* ═══════════════════════════════════════════
+   QUIZARENA — PLATFORM RUNTIME ENGINE
+   ═══════════════════════════════════════════ */
+let currentUserProfile = null;
+let structuredQuizData = null;
+let contextRoomToken = null;
+let isHostContext = false;
+let globalQuizActiveIndex = 0;
 
+let countdownReferenceInterval = null;
+let currentRemainingClockUnits = 0;
+let stageRunningState = 'question';
+
+let auctionPointsReferenceInterval = null;
+let currentAuctionPointsPool = 1000;
+
+let activeRosterCache = {};
+let activeAnswersAggregation = { A:0, B:0, C:0, D:0 };
+let processedUserSelection = null;
+
+// Routing control setup mapping layouts smoothly
 function switchScreen(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(screenId);
@@ -552,30 +901,59 @@ function switchScreen(screenId) {
   }
 }
 
+// Global Core Auth State Observers
+document.addEventListener('firebaseReady', () => {
+  window._onAuthStateChanged(window._auth, (user) => {
+    if(user) {
+      currentUserProfile = user;
+      document.getElementById('user-display-name').innerText = user.displayName || user.email;
+      if(document.getElementById('scr-auth').classList.contains('active')) {
+        switchScreen('scr-host-dashboard');
+      }
+    } else {
+      currentUserProfile = null;
+      if(document.getElementById('scr-host-dashboard').classList.contains('active') || document.getElementById('scr-broadcast').classList.contains('active')) {
+        switchScreen('scr-landing');
+      }
+    }
+  });
+
+  // Fetch dynamic system state counters
+  window._onValue(window._ref(window._db, 'metrics'), (snap) => {
+    if(snap.exists()){
+      const m = snap.val();
+      if(m.players) document.getElementById('land-count-live').innerText = m.players;
+      if(m.games) document.getElementById('land-count-games').innerText = m.games;
+    }
+  });
+});
+
+// Authentication logic switches profiles clean
+let interfaceModeState = 'login';
 function toggleAuthMode() {
-  const rowName = document.getElementById('row-name');
+  const nameRow = document.getElementById('row-name');
   const title = document.getElementById('auth-title');
   const sub = document.getElementById('auth-sub');
   const btn = document.getElementById('btn-auth');
-  const txt = document.getElementById('auth-switch-text');
-  const lnk = document.getElementById('auth-switch-link');
+  const switchTxt = document.getElementById('auth-switch-text');
+  const switchLnk = document.getElementById('auth-switch-link');
   
-  if(authMode === 'login') {
-    authMode = 'signup';
-    rowName.style.display = 'flex';
-    title.innerText = 'Create Host';
-    sub.innerText = 'Sign up to build and deploy live quizzes';
-    btn.innerText = 'Register Account';
-    txt.innerText = 'Already have an account?';
-    lnk.innerText = 'Sign In';
+  if(interfaceModeState === 'login') {
+    interfaceModeState = 'signup';
+    nameRow.style.display = 'flex';
+    title.innerText = 'Create Account';
+    sub.innerText = 'Register to host customizable quiz game shows';
+    btn.innerText = 'Register';
+    switchTxt.innerText = 'Already possess a profile?';
+    switchLnk.innerText = 'Sign In';
   } else {
-    authMode = 'login';
-    rowName.style.display = 'none';
+    interfaceModeState = 'login';
+    nameRow.style.display = 'none';
     title.innerText = 'Host Account';
     sub.innerText = 'Sign in to manage and launch your game rooms';
     btn.innerText = 'Sign In';
-    txt.innerText = "Don't have an account?";
-    lnk.innerText = 'Create Account';
+    switchTxt.innerText = "Don't have an account?";
+    switchLnk.innerText = 'Create Account';
   }
 }
 
@@ -589,15 +967,13 @@ function handleAuthSubmit() {
   okBox.style.display = 'none';
   
   if(!email || !pass) {
-    errBox.innerText = 'Please complete all input boxes.';
+    errBox.innerText = 'Please complete all parameter boxes.';
     errBox.style.display = 'block';
     return;
   }
   
-  if(authMode === 'login') {
-    window._signIn(window._auth, email, pass).then((cred) => {
-      alert("Successfully Signed In as Host!");
-    }).catch(e => {
+  if(interfaceModeState === 'login') {
+    window._signIn(window._auth, email, pass).catch(e => {
       errBox.innerText = e.message;
       errBox.style.display = 'block';
     });
@@ -605,13 +981,13 @@ function handleAuthSubmit() {
     const fn = document.getElementById('auth-fname').value.trim();
     const ln = document.getElementById('auth-lname').value.trim();
     if(!fn || !ln) {
-      errBox.innerText = 'Please enter your full name.';
+      errBox.innerText = 'First name and surname parameters required.';
       errBox.style.display = 'block';
       return;
     }
     window._createUser(window._auth, email, pass).then((cred) => {
       window._updateProfile(cred.user, { displayName: `${fn} ${ln}` }).then(() => {
-        okBox.innerText = 'Account established successfully!';
+        okBox.innerText = 'Profile initialization completed securely.';
         okBox.style.display = 'block';
       });
     }).catch(e => {
@@ -621,14 +997,540 @@ function handleAuthSubmit() {
   }
 }
 
+function handleSignOut() {
+  window._signOut(window._auth);
+}
+
+// Audio configuration visual indicators toggled
+function toggleAuctionMusicRow() {
+  const wrapper = document.getElementById('auction-music-wrapper');
+  wrapper.style.display = document.getElementById('cfg-auction-mode').checked ? 'block' : 'none';
+}
+
+function selectMusicTrack(category, index) {
+  const prefix = category === 'lobby' ? 'm-lob-' : 'm-auc-';
+  document.getElementById(prefix + '1').classList.remove('active');
+  document.getElementById(prefix + '2').classList.remove('active');
+  document.getElementById(prefix + index).classList.add('active');
+}
+
+// File system uploads parser tracking structures securely
+function handleFileSelection(ev) {
+  const file = ev.target.files[0];
+  if(!file) return;
+  parseExcelFileMatrix(file);
+}
+
+function parseExcelFileMatrix(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const items = XLSX.utils.sheet_to_json(worksheet);
+      
+      if(items.length === 0) {
+        alert("The designated sheet layout parameters appear empty.");
+        return;
+      }
+      
+      structuredQuizData = items;
+      document.getElementById('upload-status-name').innerText = file.name;
+      document.getElementById('upload-status-rows').innerText = `${items.length} matrix elements parsed successfully`;
+      document.getElementById('upload-status-bar').style.display = 'flex';
+      document.getElementById('drop-zone').style.display = 'none';
+      document.getElementById('btn-generate-room').disabled = false;
+    } catch(err) {
+      alert("Error parsing matrix rows: verify structure formats.");
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function clearLoadedExcel() {
+  structuredQuizData = null;
+  document.getElementById('file-input').value = '';
+  document.getElementById('upload-status-bar').style.display = 'none';
+  document.getElementById('drop-zone').style.display = 'block';
+  document.getElementById('btn-generate-room').disabled = true;
+}
+
+// Room generator links setup configurations securely to backend trees
+function generateLiveRoomSession() {
+  if(!structuredQuizData || !window._firebaseReady) return;
+  
+  const token = String(Math.floor(100000 + Math.random() * 900000));
+  contextRoomToken = token;
+  isHostContext = true;
+  globalQuizActiveIndex = 0;
+  
+  const sessionPayload = {
+    hostUid: currentUserProfile.uid,
+    hostName: currentUserProfile.displayName || currentUserProfile.email,
+    status: 'lobby',
+    currentQuestionIndex: 0,
+    timestamp: Date.now(),
+    questions: structuredQuizData,
+    config: {
+      showAnswer: document.getElementById('cfg-show-ans').checked,
+      negativeCharge: document.getElementById('cfg-negative-marking').checked,
+      auctionActive: document.getElementById('cfg-auction-mode').checked,
+      duration: parseInt(document.getElementById('cfg-timer-duration').value) || 30
+    }
+  };
+  
+  window._set(window._ref(window._db, 'quizzes/' + token), sessionPayload).then(() => {
+    document.getElementById('broadcast-pin').innerText = `${token.substring(0,3)} ${token.substring(3,6)}`;
+    
+    // QR compilation setup rendering clean blocks
+    const qrBox = document.getElementById('qrcode-target');
+    qrBox.innerHTML = '';
+    new QRCode(qrBox, {
+      text: `https://quizarena.netlify.app/?pin=${token}`,
+      width: 200,
+      height: 200,
+      colorDark : "#0f0f26",
+      colorLight : "#ffffff"
+    });
+    
+    switchScreen('scr-broadcast');
+    establishLobbyDataListeners(token);
+  });
+}
+
+// Roster synchronization listeners loop tracking changes live
 function handlePlayerJoin() {
   const pin = document.getElementById('join-pin').value.trim();
   const nick = document.getElementById('join-nick').value.trim();
-  if(!pin || !nick) {
-    alert("Please provide valid lobby pins and player names.");
+  
+  if(pin.length !== 6 || !nick) {
+    alert("Provide a functional room token and handle matching usernames.");
     return;
   }
-  alert(`Connecting to active lobby pin sequence: ${pin}`);
+  
+  contextRoomToken = pin;
+  isHostContext = false;
+  
+  // Handshake loop checking room authorization structures
+  window._get(window._ref(window._db, `quizzes/${pin}`)).then((snap) => {
+    if(!snap.exists()) {
+      alert("Designated live room sequence not found.");
+      return;
+    }
+    
+    const session = snap.val();
+    if(session.status === 'ended') {
+      alert("The session requested has already reached its final lifecycle point.");
+      return;
+    }
+    
+    // Setup participant access leaf nodes cleanly
+    const playerIdentifierUID = 'p_uid_' + Math.random().toString(36).substring(2,12);
+    currentUserProfile = { uid: playerIdentifierUID, nickname: nick };
+    
+    window._set(window._ref(window._db, `quizzes/${pin}/participants/${playerIdentifierUID}`), {
+      nickname: nick,
+      score: 0,
+      timestamp: Date.now()
+    }).then(() => {
+      document.getElementById('client-bar-nick').innerText = nick;
+      document.getElementById('client-bar-score').innerText = '0 Pts';
+      switchScreen('scr-client');
+      establishPlayerSyncTracks(pin, playerIdentifierUID);
+    });
+  });
+}
+
+function establishLobbyDataListeners(token) {
+  // Sync roster listings tracking connection records cleanly
+  window._onValue(window._ref(window._db, `quizzes/${token}/participants`), (snap) => {
+    const listContainer = document.getElementById('lobby-roster-list');
+    const emptyState = document.getElementById('roster-empty-state');
+    const badgeCounter = document.getElementById('count-roster');
+    
+    if(!snap.exists()) {
+      listContainer.innerHTML = '';
+      listContainer.appendChild(emptyState);
+      badgeCounter.innerText = '0';
+      activeRosterCache = {};
+      return;
+    }
+    
+    const roster = snap.val();
+    activeRosterCache = roster;
+    listContainer.innerHTML = '';
+    
+    let totalPlayers = 0;
+    Object.keys(roster).forEach(uid => {
+      totalPlayers++;
+      const p = roster[uid];
+      const pTag = document.createElement('div');
+      pTag.style.cssText = 'background:rgba(255,255,255,.06);padding:.4rem 1rem;border-radius:50px;font-size:.9rem;font-weight:600;border:1px solid var(--border);color:var(--gold);animation:popIn .25s ease;';
+      pTag.innerText = p.nickname;
+      listContainer.appendChild(pTag);
+    });
+    badgeCounter.innerText = totalPlayers;
+  });
+
+  // Track player choices live during quiz loop to update response metrics chart layout rows
+  window._onValue(window._ref(window._db, `quizzes/${token}/responses`), (snap) => {
+    activeAnswersAggregation = { A:0, B:0, C:0, D:0 };
+    if(snap.exists()) {
+      const resp = snap.val();
+      Object.keys(resp).forEach(uid => {
+        const choice = resp[uid].answer;
+        if(activeAnswersAggregation[choice] !== undefined) activeAnswersAggregation[choice]++;
+      });
+    }
+    updateResponseChartBarsVisuals();
+  });
+}
+
+function updateResponseChartBarsVisuals() {
+  const total = activeAnswersAggregation.A + activeAnswersAggregation.B + activeAnswersAggregation.C + activeAnswersAggregation.D || 1;
+  document.getElementById('bar-A').style.width = ((activeAnswersAggregation.A / total) * 100) + '%';
+  document.getElementById('bar-B').style.width = ((activeAnswersAggregation.B / total) * 100) + '%';
+  document.getElementById('bar-C').style.width = ((activeAnswersAggregation.C / total) * 100) + '%';
+  document.getElementById('bar-D').style.width = ((activeAnswersAggregation.D / total) * 100) + '%';
+  
+  document.getElementById('bar-A').innerText = activeAnswersAggregation.A > 0 ? `${activeAnswersAggregation.A} choices` : '';
+  document.getElementById('bar-B').innerText = activeAnswersAggregation.B > 0 ? `${activeAnswersAggregation.B} choices` : '';
+  document.getElementById('bar-C').innerText = activeAnswersAggregation.C > 0 ? `${activeAnswersAggregation.C} choices` : '';
+  document.getElementById('bar-D').innerText = activeAnswersAggregation.D > 0 ? `${activeAnswersAggregation.D} choices` : '';
+}
+
+// Client monitoring streams synchronization maps interface dynamically
+function establishPlayerSyncTracks(pin, pUid) {
+  window._onValue(window._ref(window._db, `quizzes/${pin}`), (snap) => {
+    if(!snap.exists()) {
+      switchScreen('scr-landing');
+      return;
+    }
+    
+    const session = snap.val();
+    if(session.status === 'ended') {
+      alert("Host terminated session loop paths.");
+      switchScreen('scr-landing');
+      return;
+    }
+    
+    // Sync score labels directly from core leaf nodes cleanly
+    if(session.participants && session.participants[pUid]) {
+      document.getElementById('client-bar-score').innerText = `${session.participants[pUid].score} Pts`;
+    }
+
+    const currentIdx = session.currentQuestionIndex;
+    const questions = session.questions;
+    
+    // Dynamic interface transformations matching engine states perfectly
+    if(session.status === 'bid' && session.config.auctionActive) {
+      document.getElementById('client-state-waiting').style.display = 'none';
+      document.getElementById('client-state-respond').style.display = 'none';
+      document.getElementById('client-state-feedback').style.display = 'none';
+      
+      const bidScr = document.getElementById('scr-bid');
+      if(!bidScr.classList.contains('active')) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        bidScr.classList.add('active');
+      }
+      
+      // Mirror auction decrements inside client screen tracking spaces live
+      if(session.auctionCurrentPoints !== undefined) {
+        document.getElementById('bid-countdown-value').innerText = session.auctionCurrentPoints;
+      }
+      return;
+    }
+
+    if(session.status === 'question') {
+      // Re-route player layout to processing choices panel safely
+      const bidScr = document.getElementById('scr-bid');
+      if(bidScr.classList.contains('active')) bidScr.classList.remove('active');
+      
+      const clientScr = document.getElementById('scr-client');
+      if(!clientScr.classList.contains('active')) clientScr.classList.add('active');
+
+      if(processedUserSelection && processedUserSelection.index === currentIdx) {
+        // Player choice already written for this question index branch block
+        document.getElementById('client-state-waiting').style.display = 'none';
+        document.getElementById('client-state-respond').style.display = 'none';
+        document.getElementById('client-state-feedback').style.display = 'block';
+        document.getElementById('feedback-headline').innerText = "Response Logged";
+        document.getElementById('feedback-subtitle').innerText = "Standby for host evaluation loop step updates.";
+        document.getElementById('feedback-icon').innerText = "⏳";
+      } else {
+        // Expose selection blocks to collect feedback lines cleanly
+        document.getElementById('client-state-waiting').style.display = 'none';
+        document.getElementById('client-state-respond').style.display = 'flex';
+        document.getElementById('client-state-feedback').style.display = 'none';
+      }
+      return;
+    }
+
+    if(session.status === 'chart' || session.status === 'scoreboard') {
+      const bidScr = document.getElementById('scr-bid');
+      if(bidScr.classList.contains('active')) bidScr.classList.remove('active');
+      
+      const clientScr = document.getElementById('scr-client');
+      if(!clientScr.classList.contains('active')) clientScr.classList.add('active');
+
+      document.getElementById('client-state-waiting').style.display = 'flex';
+      document.getElementById('client-state-respond').style.display = 'none';
+      document.getElementById('client-state-feedback').style.display = 'none';
+      
+      if(session.status === 'scoreboard') {
+        processedUserSelection = null; // Clean target context tracking flags securely
+      }
+    }
+  });
+}
+
+function submitPlayerSelection(choice) {
+  if(!contextRoomToken || !currentUserProfile) return;
+  
+  window._get(window._ref(window._db, `quizzes/${contextRoomToken}`)).then((snap) => {
+    if(!snap.exists()) return;
+    const session = snap.val();
+    const idx = session.currentQuestionIndex;
+    
+    processedUserSelection = { index: idx, answer: choice };
+    
+    // Write answer payload node tracking auction modifications perfectly
+    const scoreWeightValue = session.config.auctionActive ? (session.auctionCurrentPoints || 1000) : 1000;
+    
+    window._set(window._ref(window._db, `quizzes/${contextRoomToken}/responses/${currentUserProfile.uid}`), {
+      nickname: currentUserProfile.nickname,
+      answer: choice,
+      weight: scoreWeightValue,
+      timestamp: Date.now()
+    }).then(() => {
+      document.getElementById('client-state-respond').style.display = 'none';
+      document.getElementById('client-state-feedback').style.display = 'block';
+      document.getElementById('feedback-headline').innerText = "Selection Sent";
+      document.getElementById('feedback-icon').innerText = "🚀";
+    });
+  });
+}
+
+// Host Quiz Main Engine Loops Processing Routines
+function initiateQuizLoopStart() {
+  if(!contextRoomToken) return;
+  globalQuizActiveIndex = 0;
+  loadQuestionIntoEngineView(contextRoomToken, globalQuizActiveIndex);
+}
+
+function loadQuestionIntoEngineView(token, idx) {
+  window._get(window._ref(window._db, `quizzes/${token}`)).then((snap) => {
+    if(!snap.exists()) return;
+    const session = snap.val();
+    const config = session.config;
+    const questions = session.questions;
+    
+    if(idx >= questions.length) {
+      terminateShowSession();
+      return;
+    }
+    
+    // Clear answer selections blocks styles configurations completely
+    resetEngineOptionBoxesVisualStyles();
+    document.getElementById('engine-chart-panel').style.display = 'none';
+    
+    const activeItem = questions[idx];
+    document.getElementById('engine-progress').innerText = `${idx + 1}/${questions.length}`;
+    document.getElementById('engine-question').innerText = activeItem.Question || activeItem.question || "Live Segment Question Text Prompt Error";
+    
+    document.getElementById('lbl-A').innerText = activeItem.A || activeItem.a || "Option Parameter Block A";
+    document.getElementById('lbl-B').innerText = activeItem.B || activeItem.b || "Option Parameter Block B";
+    document.getElementById('lbl-C').innerText = activeItem.C || activeItem.c || "Option Parameter Block C";
+    document.getElementById('lbl-D').innerText = activeItem.D || activeItem.d || "Option Parameter Block D";
+    
+    // Route workflow matching auction constraints setups perfectly
+    if(config.auctionActive) {
+      stageRunningState = 'bid';
+      currentAuctionPointsPool = 1000;
+      
+      window._update(window._ref(window._db, `quizzes/${token}`), {
+        status: 'bid',
+        currentQuestionIndex: idx,
+        auctionCurrentPoints: 1000,
+        responses: null // Clear previous responses structural keys tracking layers
+      }).then(() => {
+        switchScreen('scr-bid');
+        launchAuctionIntervalTracker(token, config.duration);
+      });
+    } else {
+      stageRunningState = 'question';
+      window._update(window._ref(window._db, `quizzes/${token}`), {
+        status: 'question',
+        currentQuestionIndex: idx,
+        responses: null
+      }).then(() => {
+        switchScreen('scr-engine');
+        launchClockCountdownTracker(token, config.duration);
+      });
+    }
+  });
+}
+
+function launchAuctionIntervalTracker(token, totalSeconds) {
+  clearInterval(auctionPointsReferenceInterval);
+  document.getElementById('bid-countdown-value').innerText = '1000';
+  
+  // Transition into question loop context after set window
+  let auctionTimerDelay = setTimeout(() => {
+    clearInterval(auctionPointsReferenceInterval);
+    stageRunningState = 'question';
+    window._update(window._ref(window._db, `quizzes/${token}`), { status: 'question' }).then(() => {
+      switchScreen('scr-engine');
+      launchClockCountdownTracker(token, totalSeconds);
+    });
+  }, 4000);
+
+  // Decrement potential points dynamically to establish auction game logic
+  auctionPointsReferenceInterval = setInterval(() => {
+    currentAuctionPointsPool -= 75;
+    if(currentAuctionPointsPool < 250) currentAuctionPointsPool = 250;
+    document.getElementById('bid-countdown-value').innerText = currentAuctionPointsPool;
+    window._update(window._ref(window._db, `quizzes/${token}`), { auctionCurrentPoints: currentAuctionPointsPool });
+  }, 250);
+}
+
+function launchClockCountdownTracker(token, duration) {
+  clearInterval(countdownReferenceInterval);
+  currentRemainingClockUnits = duration;
+  document.getElementById('engine-clock').innerText = currentRemainingClockUnits;
+  document.getElementById('btn-engine-action').innerText = "Evaluate Selection";
+  
+  countdownReferenceInterval = setInterval(() => {
+    currentRemainingClockUnits--;
+    if(currentRemainingClockUnits <= 0) {
+      currentRemainingClockUnits = 0;
+      document.getElementById('engine-clock').innerText = '00';
+      clearInterval(countdownReferenceInterval);
+      evaluateResponsesPipelineTrack();
+    } else {
+      document.getElementById('engine-clock').innerText = currentRemainingClockUnits < 10 ? '0' + currentRemainingClockUnits : currentRemainingClockUnits;
+    }
+  }, 1000);
+}
+
+function handleEngineActionStep() {
+  if(stageRunningState === 'question') {
+    clearInterval(countdownReferenceInterval);
+    evaluateResponsesPipelineTrack();
+  } else if(stageRunningState === 'chart') {
+    renderScoreboardStandingsView();
+  }
+}
+
+function evaluateResponsesPipelineTrack() {
+  stageRunningState = 'chart';
+  document.getElementById('btn-engine-action').innerText = "Reveal Standings";
+  
+  window._get(window._ref(window._db, `quizzes/${contextRoomToken}`)).then((snap) => {
+    if(!snap.exists()) return;
+    const session = snap.val();
+    const activeQuestion = session.questions[session.currentQuestionIndex];
+    const rawCorrectAnswer = String(activeQuestion.Answer || activeQuestion.answer || "A").trim().toUpperCase();
+    
+    // Highlight correct response visual blocks natively
+    if(session.config.showAnswer) {
+      const matchBox = document.getElementById(`e-opt-${rawCorrectAnswer}`);
+      if(matchBox) matchBox.classList.add('opt-correct');
+    }
+    
+    // Expose metrics bars calculation maps seamlessly
+    document.getElementById('engine-chart-panel').style.display = 'flex';
+    window._update(window._ref(window._db, `quizzes/${contextRoomToken}`), { status: 'chart' });
+    
+    // Handle processing algorithms charges mapping rules records securely
+    if(session.responses && session.participants) {
+      const responses = session.responses;
+      const participants = session.participants;
+      const updates = {};
+      
+      Object.keys(participants).forEach(uid => {
+        let currentScore = participants[uid].score || 0;
+        if(responses[uid]) {
+          if(responses[uid].answer === rawCorrectAnswer) {
+            currentScore += (responses[uid].weight || 1000);
+          } else {
+            if(session.config.negativeCharge) currentScore -= 250; // charge reduction deduction safely
+          }
+        }
+        updates[`quizzes/${contextRoomToken}/participants/${uid}/score`] = currentScore;
+      });
+      
+      window._update(window._ref(window._ref(window._db), '/'), updates);
+    }
+  });
+}
+
+function renderScoreboardStandingsView() {
+  stageRunningState = 'scoreboard';
+  window._update(window._ref(window._db, `quizzes/${contextRoomToken}`), { status: 'scoreboard' }).then(() => {
+    switchScreen('scr-scoreboard');
+    
+    window._get(window._ref(window._db, `quizzes/${contextRoomToken}/participants`)).then((snap) => {
+      const container = document.getElementById('scoreboard-rows-container');
+      container.innerHTML = '';
+      
+      // Clear podium structural tags placeholders completely
+      document.getElementById('pod-1-name').innerText = '--'; document.getElementById('pod-1-score').innerText = '0 pts';
+      document.getElementById('pod-2-name').innerText = '--'; document.getElementById('pod-2-score').innerText = '0 pts';
+      document.getElementById('pod-3-name').innerText = '--'; document.getElementById('pod-3-score').innerText = '0 pts';
+
+      if(!snap.exists()) return;
+      
+      const roster = snap.val();
+      const sortedArray = Object.keys(roster).map(k => ({ uid: k, ...roster[k] })).sort((a,b) => b.score - a.score);
+      
+      // Inject top records directly into podium layers cleanly
+      if(sortedArray[0]) { document.getElementById('pod-1-name').innerText = sortedArray[0].nickname; document.getElementById('pod-1-score').innerText = `${sortedArray[0].score} pts`; }
+      if(sortedArray[1]) { document.getElementById('pod-2-name').innerText = sortedArray[1].nickname; document.getElementById('pod-2-score').innerText = `${sortedArray[1].score} pts`; }
+      if(sortedArray[2]) { document.getElementById('pod-3-name').innerText = sortedArray[2].nickname; document.getElementById('pod-3-score').innerText = `${sortedArray[2].score} pts`; }
+      
+      // Construct table visual layout dynamically tracking roster elements
+      sortedArray.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.style.cssText = 'background:var(--card);padding:.8rem 1.2rem;border-radius:12px;display:flex;align-items:center;justify-content:between;border:1px solid var(--border);animation:fadeUp .3s ease;';
+        row.innerHTML = `
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <span style="font-family:var(--font-display);font-weight:900;color:${index===0?'var(--gold)':index===1?'#94a3b8':index===2?'#cd7f32':'#444'};width:24px;">#${index+1}</span>
+            <span style="font-weight:700;">${item.nickname}</span>
+          </div>
+          <span style="font-family:var(--font-display);font-weight:800;color:var(--c2);">${item.score} pts</span>
+        `;
+        container.appendChild(row);
+      });
+    });
+  });
+}
+
+function advanceToNextQuestionTrack() {
+  globalQuizActiveIndex++;
+  loadQuestionIntoEngineView(contextRoomToken, globalQuizActiveIndex);
+}
+
+function resetEngineOptionBoxesVisualStyles() {
+  document.getElementById('e-opt-A').className = 'opt-box opt-A';
+  document.getElementById('e-opt-B').className = 'opt-box opt-B';
+  document.getElementById('e-opt-C').className = 'opt-box opt-C';
+  document.getElementById('e-opt-D').className = 'opt-box opt-D';
+}
+
+function terminateShowSession() {
+  clearInterval(countdownReferenceInterval);
+  clearInterval(auctionPointsReferenceInterval);
+  if(contextRoomToken && isHostContext) {
+    window._update(window._ref(window._db, `quizzes/${contextRoomToken}`), { status: 'ended' }).then(() => {
+      contextRoomToken = null;
+      switchScreen('scr-host-dashboard');
+    });
+  } else {
+    switchScreen('scr-landing');
+  }
 }
 
 function processAdminLogin() {
@@ -645,6 +1547,9 @@ function processAdminLogin() {
   switchScreen('scr-admin-dashboard');
 }
 
+/* ═══════════════════════════════════════════
+   FIXED ADMINISTRATIVE DATA ENGINE PIPELINE
+   ═══════════════════════════════════════════ */
 function initializeAdminDataPipeline() {
   if (!window._firebaseReady) return;
   
@@ -679,6 +1584,8 @@ function initializeAdminDataPipeline() {
         if (currentSessionNode && typeof currentSessionNode === 'object') {
           if (currentSessionNode.title || currentSessionNode.quizTitle) {
             targetTitle = currentSessionNode.title || currentSessionNode.quizTitle;
+          } else if (currentSessionNode.hostName) {
+            targetTitle = "Shared Room Run: " + currentSessionNode.hostName;
           }
           if (currentSessionNode.status) {
             statusMarker = String(currentSessionNode.status).toUpperCase();
@@ -690,7 +1597,7 @@ function initializeAdminDataPipeline() {
         tableRow.innerHTML = `
           <td style="font-weight:600;color:#fff;">PIN: ${rootKey}</td>
           <td style="color:#aaa;">${targetTitle}</td>
-          <td><span class="badge ${statusMarker === 'LIVE' || statusMarker === 'ACTIVE' ? 'badge-live' : 'badge-end'}">${statusMarker}</span></td>
+          <td><span class="badge ${statusMarker === 'LIVE' || statusMarker === 'LOBBY' || statusMarker === 'QUESTION' ? 'badge-live' : 'badge-end'}">${statusMarker}</span></td>
           <td><button class="btn btn-k btn-sm" style="font-size:10px;padding:3px 8px;" onclick="alert('Auditing Key Session: ${rootKey}')">Audit Session</button></td>
         `;
         tbody.appendChild(tableRow);
