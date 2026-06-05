@@ -25,16 +25,16 @@
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
-    apiKey:            "AIzaSyDzxuqiIWYGl5hzrOZvEweUHNMq1xG7eKY",
-    authDomain:        "quizomania-8f783.firebaseapp.com",
-    databaseURL:       "https://quizomania-8f783-default-rtdb.firebaseio.com",
-    projectId:         "quizomania-8f783",
-    storageBucket:     "quizomania-8f783.firebasestorage.app",
+    apiKey: "AIzaSyDzxuqiIWYGl5hzrOZvEweUHNMq1xG7eKY",
+    authDomain: "quizomania-8f783.firebaseapp.com",
+    databaseURL: "https://quizomania-8f783-default-rtdb.firebaseio.com",
+    projectId: "quizomania-8f783",
+    storageBucket: "quizomania-8f783.firebasestorage.app",
     messagingSenderId: "734661787918",
-    appId:             "1:734661787918:web:2c3c74bbca9ccc6ffd575f"
+    appId: "1:734661787918:web:2c3c74bbca9ccc6ffd575f"
   };
-  const app  = initializeApp(firebaseConfig);
-  const db   = getDatabase(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
   const auth = getAuth(app);
 
   window._db=db; window._ref=ref; window._set=set; window._get=get;
@@ -181,7 +181,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   box-shadow:0 24px 80px #00000066,0 0 0 1px rgba(255,255,255,.04);}
 .auth-title{font-family:var(--font-display);font-size:1.7rem;font-weight:900;
   color:var(--gold);margin-bottom:.3rem;text-align:center;}
-.auth-sub{color:#888;font-size:.9rem;text-align:center;margin-bottom:1.5rem;}
+.auth-sub{color:#888;font-size:.9rem;text-align:center;margin-bottom:15rem;}
 .auth-err{color:var(--c1);font-size:.85rem;padding:.6rem 1rem;background:#FF475711;
   border-radius:10px;margin-bottom:.8rem;display:none;border:1px solid #FF475722;}
 .auth-ok{color:var(--c3);font-size:.85rem;padding:.6rem 1rem;background:#2ED57311;
@@ -229,14 +229,13 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 .filter-row select option{background:#0f0f26;}
 
 /* ══════════════════════════════════════════
-   LANDING PAGE — FULL REDESIGN
+   LANDING PAGE — REDESIGN MESH
 ══════════════════════════════════════════ */
 .landing-bg{
   background:var(--dark);
   position:relative;
   overflow:hidden;
 }
-/* Animated mesh background */
 .landing-bg::before{
   content:'';position:absolute;inset:0;
   background:
@@ -245,7 +244,6 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
     radial-gradient(ellipse 70% 50% at 50% 50%,#1E90FF0a 0%,transparent 70%);
   pointer-events:none;
 }
-/* Floating orbs */
 .orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;animation:floatY 6s ease-in-out infinite;}
 .orb-1{width:300px;height:300px;background:#7c3aed22;top:-80px;left:-80px;animation-delay:0s;}
 .orb-2{width:200px;height:200px;background:#FF475718;top:40%;right:-60px;animation-delay:2s;}
@@ -254,7 +252,6 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 .landing-inner{position:relative;z-index:1;display:flex;flex-direction:column;
   align-items:center;min-height:100vh;padding:3rem 1.5rem 2rem;}
 
-/* Hero section */
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:.5rem;
   background:linear-gradient(135deg,#7c3aed22,#c026d322);
@@ -279,7 +276,6 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   max-width:480px;line-height:1.7;margin-bottom:2.5rem;
   animation:fadeUp .7s ease forwards;
 }
-/* CTA buttons */
 .cta-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem;
   animation:fadeUp .8s ease forwards;}
 .btn-cta-primary{
@@ -301,7 +297,6 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 }
 .btn-cta-secondary:hover{transform:translateY(-3px);background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);}
 
-/* Stats strip */
 .stats-strip{
   display:flex;gap:2.5rem;flex-wrap:wrap;justify-content:center;
   margin-bottom:3rem;animation:fadeUp .9s ease forwards;
@@ -314,7 +309,6 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 }
 .stat-item .lbl{font-size:.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;margin-top:.1rem;}
 
-/* Feature cards */
 .features-grid{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:1rem;width:100%;max-width:900px;margin-bottom:2.5rem;
@@ -337,7 +331,6 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   color:#fff;margin-bottom:.4rem;}
 .feat-desc{font-size:.83rem;color:#777;line-height:1.6;}
 
-/* How to play */
 .how-card{
   background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(192,38,211,.08));
   border:1px solid #7c3aed33;border-radius:22px;padding:1.8rem;
@@ -355,19 +348,16 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 .step-text{color:#bbb;font-size:.9rem;line-height:1.6;}
 .step-text strong{color:#fff;}
 
-/* Admin link */
 .admin-link{color:#444;font-size:.75rem;cursor:pointer;transition:color .2s;
-  text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+  text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:1rem;}
 .admin-link:hover{color:#7c3aed;}
 
-/* Footer */
 .landing-footer{
   margin-top:auto;padding-top:2rem;display:flex;flex-direction:column;
   align-items:center;gap:.8rem;width:100%;
 }
 .footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;justify-content:center;}
-.footer-links a{color:#444;font-size:.78rem;text-decoration:none;transition:color .2s;
-  font-weight:600;}
+.footer-links a{color:#444;font-size:.78rem;text-decoration:none;transition:color .2s;font-weight:600;}
 .footer-links a:hover{color:#c084fc;}
 .footer-copy{color:#2a2a4a;font-size:.75rem;}
 
@@ -402,11 +392,11 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
     
     <div class="cta-row">
       <button class="btn-cta-primary" onclick="switchScreen('scr-auth')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 3l14 9-14 9V3z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:.4rem;"><path d="M5 3l14 9-14 9V3z"/></svg>
         Host a Quiz
       </button>
       <button class="btn-cta-secondary" onclick="switchScreen('scr-join')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:.4rem;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
         Join Game
       </button>
     </div>
@@ -431,6 +421,63 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
     </div>
 
     <div class="admin-link" onclick="switchScreen('scr-admin-login')">Access Admin MIS Panel</div>
+  </div>
+</div>
+
+<div id="scr-auth" class="screen" style="align-items:center;justify-content:center;padding:1.5rem;background:var(--dark);">
+  <div class="auth-card fade">
+    <div class="auth-title" id="auth-title">Host Account</div>
+    <div class="auth-sub" id="auth-sub">Sign in to manage and launch your game rooms</div>
+    
+    <div id="auth-err" class="auth-err"></div>
+    <div id="auth-ok" class="auth-ok"></div>
+
+    <div class="form-row" id="row-name" style="display:none;">
+      <div class="inp-wrap">
+        <label class="inp-label">First Name</label>
+        <input type="text" id="auth-fname" class="inp" placeholder="John">
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">Last Name</label>
+        <input type="text" id="auth-lname" class="inp" placeholder="Doe">
+      </div>
+    </div>
+
+    <div class="inp-wrap">
+      <label class="inp-label">Email Address</label>
+      <input type="email" id="auth-email" class="inp" placeholder="name@domain.com">
+    </div>
+
+    <div class="inp-wrap">
+      <label class="inp-label">Password</label>
+      <input type="password" id="auth-pass" class="inp" placeholder="••••••••">
+    </div>
+
+    <button class="btn btn-p" style="width:100%;margin-top:.5rem;" id="btn-auth" onclick="handleAuthSubmit()">Sign In</button>
+
+    <div style="text-align:center;margin-top:1.2rem;font-size:.85rem;color:#888;">
+      <span id="auth-switch-text">Don't have an account?</span>
+      <span id="auth-switch-link" style="color:var(--accent2);cursor:pointer;font-weight:700;margin-left:.3rem;" onclick="toggleAuthMode()">Create Account</span>
+    </div>
+
+    <button class="btn btn-k btn-sm" style="width:100%;margin-top:1rem;" onclick="switchScreen('scr-landing')">Back to Home</button>
+  </div>
+</div>
+
+<div id="scr-join" class="screen" style="align-items:center;justify-content:center;padding:1.5rem;background:var(--dark);">
+  <div class="auth-card fade" style="max-width:400px;">
+    <div class="auth-title">Join Live Show</div>
+    <div class="auth-sub">Enter the PIN code displayed on host screen</div>
+    <div class="inp-wrap">
+      <label class="inp-label">Game PIN</label>
+      <input type="text" id="join-pin" class="inp" placeholder="000000" style="text-align:center;font-size:1.8rem;font-family:var(--font-display);font-weight:800;letter-spacing:4px;" maxlength="6">
+    </div>
+    <div class="inp-wrap" style="margin-bottom:1.5rem;">
+      <label class="inp-label">Your Nickname</label>
+      <input type="text" id="join-nick" class="inp" placeholder="SpeedRunner" maxlength="14">
+    </div>
+    <button class="btn btn-g" style="width:100%;" onclick="handlePlayerJoin()">Enter Arena</button>
+    <button class="btn btn-k btn-sm" style="width:100%;margin-top:.7rem;" onclick="switchScreen('scr-landing')">Back</button>
   </div>
 </div>
 
@@ -491,10 +538,9 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   </div>
 </div>
 
-<div id="scr-auth" class="screen" style="align-items:center;justify-content:center;"><div class="auth-card"><h3>Host Portal Active</h3><br><button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">Home</button></div></div>
-<div id="scr-join" class="screen" style="align-items:center;justify-content:center;"><div class="auth-card"><h3>Player Lobby Active</h3><br><button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">Home</button></div></div>
-
 <script>
+let authMode = 'login';
+
 function switchScreen(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(screenId);
@@ -504,6 +550,85 @@ function switchScreen(screenId) {
       initializeAdminDataPipeline();
     }
   }
+}
+
+function toggleAuthMode() {
+  const rowName = document.getElementById('row-name');
+  const title = document.getElementById('auth-title');
+  const sub = document.getElementById('auth-sub');
+  const btn = document.getElementById('btn-auth');
+  const txt = document.getElementById('auth-switch-text');
+  const lnk = document.getElementById('auth-switch-link');
+  
+  if(authMode === 'login') {
+    authMode = 'signup';
+    rowName.style.display = 'flex';
+    title.innerText = 'Create Host';
+    sub.innerText = 'Sign up to build and deploy live quizzes';
+    btn.innerText = 'Register Account';
+    txt.innerText = 'Already have an account?';
+    lnk.innerText = 'Sign In';
+  } else {
+    authMode = 'login';
+    rowName.style.display = 'none';
+    title.innerText = 'Host Account';
+    sub.innerText = 'Sign in to manage and launch your game rooms';
+    btn.innerText = 'Sign In';
+    txt.innerText = "Don't have an account?";
+    lnk.innerText = 'Create Account';
+  }
+}
+
+function handleAuthSubmit() {
+  const email = document.getElementById('auth-email').value.trim();
+  const pass = document.getElementById('auth-pass').value.trim();
+  const errBox = document.getElementById('auth-err');
+  const okBox = document.getElementById('auth-ok');
+  
+  errBox.style.display = 'none';
+  okBox.style.display = 'none';
+  
+  if(!email || !pass) {
+    errBox.innerText = 'Please complete all input boxes.';
+    errBox.style.display = 'block';
+    return;
+  }
+  
+  if(authMode === 'login') {
+    window._signIn(window._auth, email, pass).then((cred) => {
+      alert("Successfully Signed In as Host!");
+    }).catch(e => {
+      errBox.innerText = e.message;
+      errBox.style.display = 'block';
+    });
+  } else {
+    const fn = document.getElementById('auth-fname').value.trim();
+    const ln = document.getElementById('auth-lname').value.trim();
+    if(!fn || !ln) {
+      errBox.innerText = 'Please enter your full name.';
+      errBox.style.display = 'block';
+      return;
+    }
+    window._createUser(window._auth, email, pass).then((cred) => {
+      window._updateProfile(cred.user, { displayName: `${fn} ${ln}` }).then(() => {
+        okBox.innerText = 'Account established successfully!';
+        okBox.style.display = 'block';
+      });
+    }).catch(e => {
+      errBox.innerText = e.message;
+      errBox.style.display = 'block';
+    });
+  }
+}
+
+function handlePlayerJoin() {
+  const pin = document.getElementById('join-pin').value.trim();
+  const nick = document.getElementById('join-nick').value.trim();
+  if(!pin || !nick) {
+    alert("Please provide valid lobby pins and player names.");
+    return;
+  }
+  alert(`Connecting to active lobby pin sequence: ${pin}`);
 }
 
 function processAdminLogin() {
@@ -521,9 +646,7 @@ function processAdminLogin() {
 }
 
 function initializeAdminDataPipeline() {
-  if (!window._firebaseReady && typeof window._ref !== 'function') {
-    return;
-  }
+  if (!window._firebaseReady) return;
   
   try {
     const db = window._db;
@@ -583,10 +706,6 @@ function initializeAdminDataPipeline() {
     console.error("Pipeline breakdown tracking: ", e);
   }
 }
-
-document.addEventListener('firebaseReady', () => {
-  console.log("QuizArena system ready.");
-});
 </script>
 </body>
 </html>
