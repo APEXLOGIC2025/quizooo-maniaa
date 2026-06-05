@@ -14,6 +14,7 @@
 <meta property="og:description" content="Host or join live quiz games with real-time leaderboards, auction rounds, and more.">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://quizarena.netlify.app/">
+<!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6461655458619662" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -181,7 +182,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   box-shadow:0 24px 80px #00000066,0 0 0 1px rgba(255,255,255,.04);}
 .auth-title{font-family:var(--font-display);font-size:1.7rem;font-weight:900;
   color:var(--gold);margin-bottom:.3rem;text-align:center;}
-.auth-sub{color:#888;font-size:.9rem;text-align:center;margin-bottom:15rem;}
+.auth-sub{color:#888;font-size:.9rem;text-align:center;margin-bottom:1.5rem;}
 .auth-err{color:var(--c1);font-size:.85rem;padding:.6rem 1rem;background:#FF475711;
   border-radius:10px;margin-bottom:.8rem;display:none;border:1px solid #FF475722;}
 .auth-ok{color:var(--c3);font-size:.85rem;padding:.6rem 1rem;background:#2ED57311;
@@ -357,7 +358,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 
 /* Admin link */
 .admin-link{color:#444;font-size:.75rem;cursor:pointer;transition:color .2s;
-  text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:1rem;}
+  text-transform:uppercase;letter-spacing:1px;font-weight:600;}
 .admin-link:hover{color:#7c3aed;}
 
 /* Footer */
@@ -387,1232 +388,2373 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
 .page-hdr-brand{font-family:var(--font-display);font-weight:900;font-size:1.1rem;
   background:linear-gradient(135deg,var(--gold),var(--c1));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.page-sub{color:#666;font-size:.85rem;margin-bottom:1.8rem;
+  padding-bottom:1.2rem;border-bottom:1px solid var(--border);}
+
+/* ── MISC ── */
+.ad-slot{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.1);
+  border-radius:12px;min-height:90px;display:flex;align-items:center;
+  justify-content:center;color:#444;font-size:.8rem;margin:1.5rem 0;}
 </style>
 </head>
 <body>
 
-<div id="scr-landing" class="screen active landing-bg">
+<!-- LANDING -->
+<div id="auth-landing" class="screen landing-bg active">
+  <!-- Floating orbs for atmosphere -->
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
+
   <div class="landing-inner">
-    <div class="hero-eyebrow">🚀 The Ultimate Live Quiz Experience</div>
+
+    <!-- Eyebrow tag -->
+    <div class="hero-eyebrow">&#9889; Live Quiz Game Show Platform</div>
+
+    <!-- Hero title -->
     <h1 class="hero-title">QuizArena</h1>
-    <p class="hero-sub">Host interactive quiz games with live leaderboards, real-time response charts, negative marking, and fast excel operations.</p>
-    
+    <p class="hero-sub">Run electrifying live quizzes with real-time leaderboards, auction bidding, and music — straight from your browser. No app needed.</p>
+
+    <!-- CTA Buttons -->
     <div class="cta-row">
-      <button class="btn-cta-primary" onclick="switchScreen('scr-auth')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:.4rem;"><path d="M5 3l14 9-14 9V3z"/></svg>
-        Host a Quiz
+      <button class="btn-cta-primary" onclick="S('host-login')">
+        &#127918; Host a Quiz
       </button>
-      <button class="btn-cta-secondary" onclick="switchScreen('scr-join')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:.4rem;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
-        Join Game
+      <button class="btn-cta-secondary" onclick="S('join')">
+        &#128241; Join as Player
       </button>
     </div>
 
+    <!-- Product highlights strip -->
     <div class="stats-strip">
-      <div class="stat-item"><div class="num" id="land-count-live">0</div><div class="lbl">Live Players</div></div>
-      <div class="stat-item"><div class="num" id="land-count-games">0</div><div class="lbl">Games Hosted</div></div>
-      <div class="stat-item"><div class="num">0ms</div><div class="lbl">Sync Latency</div></div>
+      <div class="stat-item">
+        <div class="num">100</div>
+        <div class="lbl">Questions per Session</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">3</div>
+        <div class="lbl">Scoring Modes</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">0</div>
+        <div class="lbl">App Downloads Needed</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">Free</div>
+        <div class="lbl">To Get Started</div>
+      </div>
     </div>
 
+    <!-- Feature cards -->
     <div class="features-grid">
       <div class="feat-card">
-        <span class="feat-icon">⚡</span>
-        <div class="feat-title">Realtime Engines</div>
-        <div class="feat-desc">Immediate question dispatch synchronization preventing jumping patterns or sudden score skipping.</div>
+        <span class="feat-icon">&#127941;</span>
+        <div class="feat-title">Live Leaderboard</div>
+        <div class="feat-desc">Scores update in real-time after every question. Players see exactly where they stand.</div>
       </div>
       <div class="feat-card">
-        <span class="feat-icon">📊</span>
-        <div class="feat-title">Centralized MIS logs</div>
-        <div class="feat-desc">Perpetual Admin dashboard records active game sessions globally across all connected host nodes.</div>
+        <span class="feat-icon">&#9889;</span>
+        <div class="feat-title">Auction Rounds</div>
+        <div class="feat-desc">Players bid their points before seeing the question — blind bidding adds massive tension.</div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#128202;</span>
+        <div class="feat-title">Excel Upload</div>
+        <div class="feat-desc">Upload your own questions from any Excel file. Up to 100 questions per session.</div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#128247;</span>
+        <div class="feat-title">QR Join</div>
+        <div class="feat-desc">Players scan a QR code to join instantly. No accounts, no downloads, no friction.</div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#127925;</span>
+        <div class="feat-title">Game Music</div>
+        <div class="feat-desc">Built-in tension, fanfare and countdown music keeps the energy high throughout.</div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#9888;&#65039;</span>
+        <div class="feat-title">Negative Marking</div>
+        <div class="feat-desc">Enable negative scoring for competitive exams and high-stakes quiz formats.</div>
       </div>
     </div>
 
-    <div class="admin-link" onclick="switchScreen('scr-admin-login')">Access Admin MIS Panel</div>
-
-    <div class="how-card fade" style="margin-top:3rem;">
-      <div class="how-title">How to get started</div>
+    <!-- How to play -->
+    <div class="how-card">
+      <div class="how-title">How It Works</div>
       <div class="how-step">
         <div class="step-num">1</div>
-        <div class="step-text">Click <strong>Host a Quiz</strong>, log in or sign up, then drag and drop your question set via an Excel file (.xlsx format).</div>
+        <div class="step-text"><strong>Host registers</strong> and logs in to set up the game with their Excel question file.</div>
       </div>
       <div class="how-step">
         <div class="step-num">2</div>
-        <div class="step-text">Share the automatically generated 6-digit session PIN room code with your audience or students.</div>
+        <div class="step-text"><strong>Players open this page</strong> on any phone or device — no app install needed.</div>
       </div>
       <div class="how-step">
         <div class="step-num">3</div>
-        <div class="step-text">Players press <strong>Join Game</strong> on their mobile device or desktop browser, type the PIN, and pick a nickname to enter.</div>
+        <div class="step-text"><strong>Enter the room code</strong> shown on the host screen or scan the QR code.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Tap to answer</strong> using coloured shapes — compete, score, and win!</div>
       </div>
     </div>
 
-    <footer class="landing-footer">
+    <!-- AdSense -->
+    <div style="width:100%;max-width:728px;margin-bottom:1.5rem;">
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-6461655458619662"
+        data-ad-slot="auto"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Admin link -->
+    <div class="admin-link" onclick="promptAdmin()">&#128274; Admin Panel</div>
+
+    <!-- Footer -->
+    <div class="landing-footer">
       <div class="footer-links">
-        <span style="color:#444;cursor:pointer;font-size:.78rem;font-weight:600;" onclick="switchScreen('scr-terms')">Terms of Service</span>
-        <span style="color:#444;cursor:pointer;font-size:.78rem;font-weight:600;" onclick="switchScreen('scr-privacy')">Privacy Policy</span>
-        <span style="color:#444;cursor:pointer;font-size:.78rem;font-weight:600;" onclick="switchScreen('scr-contact')">Contact Support</span>
+        <a onclick="S('about')" href="#">About</a>
+        <a onclick="S('privacy')" href="#">Privacy Policy</a>
+        <a onclick="S('terms')" href="#">Terms of Service</a>
+        <a onclick="S('contact')" href="#">Contact Us</a>
       </div>
-      <div class="footer-copy">© 2026 QuizArena Show Networks. All rights reserved.</div>
-    </footer>
+      <div class="footer-copy">&copy; 2025 QuizArena &mdash; Part of ApexLogic</div>
+    </div>
+
   </div>
 </div>
 
-<div id="scr-terms" class="screen" style="background:#050510;">
-  <div class="page-hdr">
-    <button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">← Back</button>
-    <div class="page-hdr-brand">Terms of Service</div>
-  </div>
-  <div class="page-wrap fade">
-    <h1>Terms of Service</h1>
-    <p class="muted">Last updated: June 2026</p>
-    <h2>1. Acceptance of Terms</h2>
-    <p>By registering or using QuizArena, you acknowledge compliance with our usage frameworks. If you do not accept these parameters, do not construct game rooms.</p>
-    <h2>2. Host Account Rules</h2>
-    <p>Hosts are completely liable for files uploaded (.xlsx templates). Distribution of offensive, copyright-infringing, or malicious material will trigger instant block protocols on the system console tier.</p>
-    <h2>3. Service Availability</h2>
-    <p>We supply this real-time gaming tool on an "as-is" allocation. Room tokens, temporary leaderboards, and scoring sessions may clear automatically without liability during cloud updates.</p>
-  </div>
-</div>
-
-<div id="scr-privacy" class="screen" style="background:#050510;">
-  <div class="page-hdr">
-    <button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">← Back</button>
-    <div class="page-hdr-brand">Privacy Policy</div>
-  </div>
-  <div class="page-wrap fade">
-    <h1>Privacy Policy</h1>
-    <p class="muted">Last updated: June 2026</p>
-    <h2>1. User Indicators Tracked</h2>
-    <p>We preserve host emails for access profiles. Player nicknames are stored as temporary memory fields inside Firebase Realtime clusters linked solely to dynamic quiz rooms.</p>
-    <h2>2. Data Preservation Limits</h2>
-    <p>Active rooms write parameters to the cloud configuration tree. Completed game records may be archived or swept dynamically to minimize database footprint and maintain performance profiles.</p>
-    <h2>3. Advertising Partners</h2>
-    <p>Google AdSense modules utilize basic user identifiers to supply personalized display banners across the platform layout screens.</p>
+<!-- HOST LOGIN -->
+<div id="host-login" class="screen" style="align-items:center;justify-content:center;background:var(--dark);padding:2rem;">
+  <div class="auth-card">
+    <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem;">🎮</div>
+    <div class="auth-title">Host Login</div>
+    <div class="auth-sub">Sign in to your host account</div>
+    <div class="auth-err" id="login-err"></div>
+    <div class="auth-ok"  id="login-ok"></div>
+    <div class="inp-wrap">
+      <label class="inp-label">Email Address</label>
+      <input class="inp" id="login-email" type="email" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <div class="inp-wrap">
+      <label class="inp-label">Password</label>
+      <input class="inp" id="login-pwd" type="password" placeholder="Your password"
+        onkeydown="if(event.key==='Enter')hostLogin()">
+    </div>
+    <button class="btn btn-p" style="width:100%;margin-bottom:.8rem;" onclick="hostLogin()">Sign In →</button>
+    <div style="text-align:center;color:#aaa;font-size:.9rem;margin-bottom:.8rem;">
+      Don't have an account?
+      <span style="color:#c084fc;cursor:pointer;font-weight:600;" onclick="S('host-register')"> Register here</span>
+    </div>
+    <button class="btn btn-k btn-sm" style="width:100%;" onclick="S('auth-landing')">← Back</button>
   </div>
 </div>
 
-<div id="scr-contact" class="screen" style="background:#050510;">
-  <div class="page-hdr">
-    <button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">← Back</button>
-    <div class="page-hdr-brand">Contact Support</div>
+<!-- HOST REGISTER -->
+<div id="host-register" class="screen" style="background:var(--dark);">
+  <div style="flex:1;overflow-y:auto;display:flex;justify-content:center;padding:2rem;">
+    <div class="auth-card" style="max-width:520px;height:fit-content;">
+      <div style="text-align:center;font-size:2rem;margin-bottom:.4rem;">📋</div>
+      <div class="auth-title">Create Host Account</div>
+      <div class="auth-sub">Fill in your details to register as a quiz host</div>
+      <div class="auth-err" id="reg-err"></div>
+      <div class="auth-ok"  id="reg-ok"></div>
+      <div class="form-row">
+        <div class="inp-wrap"><label class="inp-label">Full Name *</label><input class="inp" id="reg-name" placeholder="Your full name"></div>
+        <div class="inp-wrap"><label class="inp-label">Mobile Number *</label><input class="inp" id="reg-mobile" type="tel" placeholder="+91 9876543210"></div>
+      </div>
+      <div class="form-row">
+        <div class="inp-wrap"><label class="inp-label">City / Place *</label><input class="inp" id="reg-city" placeholder="Mumbai"></div>
+        <div class="inp-wrap"><label class="inp-label">Country *</label><input class="inp" id="reg-country" placeholder="India"></div>
+      </div>
+      <div class="form-row">
+        <div class="inp-wrap"><label class="inp-label">PIN / ZIP Code *</label><input class="inp" id="reg-pin" placeholder="400001" maxlength="10"></div>
+        <div class="inp-wrap"><label class="inp-label">Organisation (optional)</label><input class="inp" id="reg-org" placeholder="Company / School"></div>
+      </div>
+      <div class="inp-wrap"><label class="inp-label">Email Address *</label><input class="inp" id="reg-email" type="email" placeholder="your@email.com"></div>
+      <div class="form-row">
+        <div class="inp-wrap"><label class="inp-label">Password *</label><input class="inp" id="reg-pwd" type="password" placeholder="Min 6 characters"></div>
+        <div class="inp-wrap"><label class="inp-label">Confirm Password *</label><input class="inp" id="reg-pwd2" type="password" placeholder="Repeat password"></div>
+      </div>
+      <div style="background:#FFD70011;border:1px solid #FFD70033;border-radius:10px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.85rem;color:#FFD700;">
+        📧 A verification link will be sent to your email. You must verify before hosting.
+      </div>
+      <button class="btn btn-p" style="width:100%;margin-bottom:.8rem;" onclick="hostRegister()">Create Account &amp; Send Verification</button>
+      <button class="btn btn-k btn-sm" style="width:100%;" onclick="S('host-login')">← Back to Login</button>
+    </div>
   </div>
-  <div class="page-wrap fade">
-    <h1>Get in Touch</h1>
-    <p>Need custom configuration deployment assistance or have feature suggestions? Contact our dedicated management teams directly:</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0;">
-      <div class="card" style="text-align:center;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✉️</div>
-        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">General Support</div>
-        <div style="color:#aaa;font-size:.85rem;">hello@quizarena.app</div>
-      </div>
-      <div class="card" style="text-align:center;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">🔒</div>
-        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">Privacy Division</div>
-        <div style="color:#aaa;font-size:.85rem;">privacy@quizarena.app</div>
-      </div>
-      <div class="card" style="text-align:center;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">📢</div>
-        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">Media Partners</div>
-        <div style="color:#aaa;font-size:.85rem;">ads@quizarena.app</div>
+</div>
+
+<!-- EMAIL VERIFY -->
+<div id="host-verify" class="screen" style="align-items:center;justify-content:center;background:var(--dark);padding:2rem;">
+  <div class="auth-card" style="text-align:center;">
+    <div style="font-size:4rem;margin-bottom:1rem;">📧</div>
+    <div class="auth-title">Verify Your Email</div>
+    <div style="color:#aaa;font-size:.95rem;margin-bottom:1.2rem;line-height:1.7;" id="verify-msg">
+      A verification link has been sent to your email.<br>
+      Click the link in the email, then press <strong style="color:#FFD700;">Check Verification</strong> below.
+    </div>
+    <div class="auth-err" id="verify-err"></div>
+    <div class="auth-ok"  id="verify-ok"></div>
+    <button class="btn btn-g" style="width:100%;margin-bottom:.8rem;" onclick="checkVerification()">✅ Check Verification</button>
+    <button class="btn btn-k btn-sm" style="width:100%;margin-bottom:.6rem;" onclick="resendVerification()">🔄 Resend Email</button>
+    <button class="btn btn-k btn-sm" style="width:100%;" onclick="doSignOut()">← Sign Out</button>
+  </div>
+</div>
+
+<!-- HOST DASHBOARD -->
+<div id="host-dash" class="screen" style="background:var(--dark);">
+  <div class="hdr">
+    <div>
+      <div style="font-family:var(--font-display);font-weight:900;font-size:1.3rem;background:linear-gradient(135deg,var(--gold),var(--c4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">⚡ QuizArena</div>
+      <div class="muted" id="hd-welcome">Welcome back</div>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;">
+      <div style="background:#2ED57322;color:#2ED573;border:1px solid #2ED57344;border-radius:50px;padding:.3rem .9rem;font-size:.8rem;font-weight:700;">✅ Verified Host</div>
+      <div id="hd-sub-badge" style="display:none;"></div>
+      <button class="btn btn-p btn-sm" onclick="goToSetup()">🎮 New Game</button>
+      <button class="btn btn-k btn-sm" onclick="doSignOut()">Sign Out</button>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:1.5rem;">
+    <div style="max-width:900px;margin:auto;">
+      <div id="hd-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.5rem;"></div>
+      <h2 style="color:var(--gold);margin-bottom:1rem;font-size:1.1rem;">📋 Your Session History</h2>
+      <div class="mis-wrap">
+        <table class="mis-table" style="min-width:580px;">
+          <thead><tr><th>Room Code</th><th>Theme</th><th>Date &amp; Time</th><th>Players</th><th>Questions</th><th>Mode</th><th>Status</th></tr></thead>
+          <tbody id="hd-sessions"><tr><td colspan="7" style="text-align:center;color:#aaa;padding:2rem;">No sessions yet. Start your first game!</td></tr></tbody>
+        </table>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="admin" class="screen" style="background:var(--dark);">
+  <div class="admin-hdr">
+    <div>
+      <div style="font-family:var(--font-display);font-weight:900;font-size:1.3rem;color:var(--gold);">🛡️ QuizArena — Admin MIS</div>
+      <div class="muted">Management Information System</div>
+    </div>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+      <button class="btn btn-g btn-sm" onclick="loadAdminDashboard()">🔄 Refresh</button>
+      <button class="btn btn-k btn-sm" onclick="exportMIS()">📥 Export CSV</button>
+      <button class="btn btn-d btn-sm" onclick="S('auth-landing')">✕ Close</button>
+    </div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-num" id="as-hosts">–</div><div class="stat-lbl">Total Hosts</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-verified">–</div><div class="stat-lbl">Verified Hosts</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-sessions">–</div><div class="stat-lbl">Total Sessions</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-players">–</div><div class="stat-lbl">Total Players Served</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-live">–</div><div class="stat-lbl">Live Right Now</div></div>
+    <div class="stat-card"><div class="stat-num" id="as-rooms">–</div><div class="stat-lbl">Unique Room Codes</div></div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab active" onclick="adminTab('sessions',this)">📋 All Sessions</button>
+    <button class="tab" onclick="adminTab('hosts',this)">👤 All Hosts</button>
+    <button class="tab" onclick="adminTab('live',this)">🔴 Live Games</button>
+    <button class="tab" onclick="adminTab('leaderboard',this)">🏆 Leaderboards</button>
+    <button class="tab" onclick="adminTab('subscriptions',this)">⭐ Subscriptions</button>
+  </div>
+  <!-- Sessions -->
+  <div class="mis-section" id="tab-sessions">
+    <div class="filter-row">
+      <input id="f-search" placeholder="🔍 Search name, email, room, theme…" style="flex:1;min-width:200px;" oninput="renderSessionsTable()">
+      <select id="f-status" onchange="renderSessionsTable()"><option value="">All Status</option><option value="live">Live</option><option value="ended">Ended</option></select>
+      <select id="f-sort" onchange="renderSessionsTable()"><option value="newest">Newest First</option><option value="oldest">Oldest First</option><option value="players">Most Players</option></select>
+    </div>
+    <div class="mis-wrap">
+      <table class="mis-table" style="min-width:960px;">
+        <thead><tr><th>#</th><th>Host Name</th><th>Email</th><th>Mobile</th><th>Location</th><th>Room Code</th><th>Theme</th><th>Started</th><th>Players</th><th>Questions</th><th>Mode</th><th>Status</th></tr></thead>
+        <tbody id="admin-sessions-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Hosts -->
+  <div class="mis-section" id="tab-hosts" style="display:none;">
+    <div class="mis-wrap">
+      <table class="mis-table" style="min-width:900px;">
+        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Mobile</th><th>City</th><th>Country</th><th>PIN</th><th>Organisation</th><th>Registered</th><th>Sessions</th><th>Total Players</th><th>Verified</th><th>Subscription</th></tr></thead>
+        <tbody id="admin-hosts-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Live -->
+  <div class="mis-section" id="tab-live" style="display:none;">
+    <div id="admin-live-body" style="display:grid;gap:1rem;max-width:900px;"></div>
+  </div>
+  <!-- Leaderboard -->
+  <div class="mis-section" id="tab-leaderboard" style="display:none;">
+    <div class="filter-row">
+      <select id="lb-room-select" style="background:#ffffff0d;border:1px solid #ffffff22;border-radius:8px;padding:.5rem .9rem;color:#fff;font-size:.9rem;outline:none;flex:1;min-width:220px;">
+        <option value="">— Select a Room Code to view leaderboard —</option>
+      </select>
+      <button class="btn btn-b btn-sm" onclick="adminLoadLeaderboard()">🔍 Load</button>
+    </div>
+    <div id="admin-lb-content" style="max-width:620px;margin-top:.5rem;">
+      <div style="text-align:center;color:#aaa;padding:3rem 1rem;">Select a room code above to view its leaderboard.</div>
+    </div>
+  </div>
+  <!-- Subscriptions -->
+  <div class="mis-section" id="tab-subscriptions" style="display:none;">
+    <div style="max-width:820px;">
+      <div style="background:#FFD70011;border:1px solid #FFD70033;border-radius:12px;padding:.9rem 1.2rem;margin-bottom:1.2rem;font-size:.88rem;color:#FFD700;">
+        ⭐ Grant or revoke extended access for specific hosts beyond the standard 30-day trial.
+      </div>
+      <div id="admin-subs-list" style="display:grid;gap:.7rem;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN (players) -->
+<div id="join" class="screen" style="align-items:center;justify-content:center;background:var(--dark);padding:2rem;">
+  <div class="card" style="width:100%;max-width:400px;text-align:center;margin:auto;">
+    <div style="font-size:4rem;margin-bottom:.5rem;">⚡</div>
+    <h2 class="gold" style="font-size:2rem;margin-bottom:.4rem;">Join Game</h2>
+    <div class="muted" style="margin-bottom:1.5rem;">Enter the code shown on the host screen</div>
+    <input id="j-code" class="inp" placeholder="ROOM CODE" maxlength="10"
+      style="text-align:center;font-size:1.6rem;letter-spacing:.3rem;font-weight:700;margin-bottom:.8rem;"
+      oninput="this.value=this.value.toUpperCase()">
+    <input id="j-name" class="inp" placeholder="Your Name" maxlength="20"
+      style="text-align:center;font-size:1.2rem;margin-bottom:.8rem;"
+      oninput="checkNameExists(this.value)">
+    <!-- PIN field — hidden until name matches existing player -->
+    <div id="j-pin-wrap" style="display:none;margin-bottom:.8rem;">
+      <div style="background:#FFD70011;border:1px solid #FFD70033;border-radius:10px;padding:.6rem 1rem;margin-bottom:.6rem;font-size:.85rem;color:#FFD700;text-align:center;">
+        🔒 This name is already in the game.<br>Enter your 4-digit PIN to rejoin.
+      </div>
+      <input id="j-pin" class="inp" placeholder="Your 4-digit PIN" maxlength="4" type="number"
+        style="text-align:center;font-size:1.6rem;letter-spacing:.5rem;font-weight:700;"
+        onkeydown="if(event.key==='Enter')joinGame()">
+    </div>
+    <div id="j-err" style="color:var(--c1);font-size:.9rem;margin-bottom:.8rem;display:none;padding:.6rem;background:#FF475711;border-radius:8px;"></div>
+    <button class="btn btn-p" id="j-btn" style="width:100%;margin-bottom:.8rem;font-size:1.1rem;padding:1rem;" onclick="joinGame()">Join Game 🎮</button>
+    <button class="btn btn-k btn-sm" onclick="S('auth-landing')">← Back</button>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setup" class="screen" style="background:var(--dark);">
+  <div class="hdr">
+    <button class="btn btn-k btn-sm" onclick="S('host-dash')">← Dashboard</button>
+    <span style="font-weight:700;color:var(--gold);font-size:1.1rem;">Game Setup</span>
+    <span id="setup-host-badge" style="color:#aaa;font-size:.85rem;"></span>
+  </div>
+  <div style="flex:1;display:flex;justify-content:center;padding:2rem;overflow-y:auto;">
+    <div class="card" style="width:100%;max-width:700px;">
+      <h2 class="gold" style="margin-bottom:1.5rem;">📋 Step 1 — Upload Questions</h2>
+      <label class="upload-box">
+        <input type="file" id="xlfile" accept=".xlsx,.xls" style="display:none;" onchange="loadXL(this)">
+        <div style="font-size:3rem;">📊</div>
+        <div style="font-weight:700;margin-bottom:.3rem;font-size:1.1rem;" id="ul-label">Click to upload Excel file</div>
+        <div class="muted">Columns: Question | Option1 | Option2 | Option3 | Option4 | Answer</div>
+      </label>
+      <div id="q-preview" style="margin-bottom:1.2rem;"></div>
+      <h2 class="gold" style="margin-bottom:1rem;font-size:1.3rem;">⚙️ Step 2 — Game Settings</h2>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem;">
+        <div style="flex:1;min-width:130px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Room Code</label>
+          <input id="s-code" class="inp" value="QUIZ01" maxlength="10" style="padding:.65rem .9rem;font-size:1.1rem;font-weight:700;" oninput="this.value=this.value.toUpperCase()"></div>
+        <div style="flex:1;min-width:130px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Quiz Theme / Title</label>
+          <input id="s-theme" class="inp" placeholder="e.g. Science Quiz" style="padding:.65rem .9rem;"></div>
+        <div style="flex:1;min-width:120px;"><label class="muted" style="display:block;margin-bottom:.3rem;">Max Players</label>
+          <input id="s-maxp" class="inp" type="number" value="100" min="1" max="100" style="padding:.65rem .9rem;"></div>
+      </div>
+      <h2 class="gold" style="margin-bottom:1rem;font-size:1.3rem;">🎯 Step 3 — Scoring Rules</h2>
+      <div class="toggle-row">
+        <div><div style="font-size:1rem;font-weight:600;">⚠️ Negative Marking</div><div class="muted">Wrong answer deducts points</div></div>
+        <label class="toggle"><input type="checkbox" id="t-neg" onchange="toggleNeg()"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="neg-opts" style="display:none;background:#ffffff06;border-radius:12px;padding:1rem;margin-bottom:.8rem;">
+        <label class="muted" style="display:block;margin-bottom:.4rem;">Start from Question #</label>
+        <input id="s-neg" class="inp" type="number" value="1" min="1" max="100" style="padding:.65rem .9rem;margin-bottom:.6rem;">
+        <label class="muted" style="display:block;margin-bottom:.4rem;">Points deducted per wrong answer</label>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <button class="music-btn active" id="neg-5" onclick="setNegPts(5)">-5 pts</button>
+          <button class="music-btn" id="neg-10" onclick="setNegPts(10)">-10 pts</button>
+          <button class="music-btn" id="neg-15" onclick="setNegPts(15)">-15 pts</button>
+          <button class="music-btn" id="neg-20" onclick="setNegPts(20)">-20 pts</button>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <div><div style="font-size:1rem;font-weight:600;">⚡ Auction / Bidding Round</div><div class="muted">Players bid their score — blind bidding</div></div>
+        <label class="toggle"><input type="checkbox" id="t-auc" onchange="toggleAuc()"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="auc-opts" style="display:none;background:#ffffff06;border-radius:12px;padding:1rem;margin-bottom:.8rem;">
+        <label class="muted" style="display:block;margin-bottom:.4rem;">Start auction from Question #</label>
+        <input id="s-auc" class="inp" type="number" value="1" min="1" max="100" style="padding:.65rem .9rem;">
+      </div>
+      <h2 class="gold" style="margin-bottom:1rem;font-size:1.3rem;">🎵 Step 4 — Music</h2>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;"><div class="muted" style="margin-bottom:.4rem;">Question Music</div>
+          <div class="music-grid" id="q-music-grid">
+            <button class="music-btn active" onclick="setMusic('q','none',this)">🔇 None</button>
+            <button class="music-btn" onclick="setMusic('q','tension',this)">🥁 Tension</button>
+            <button class="music-btn" onclick="setMusic('q','upbeat',this)">🎵 Upbeat</button>
+            <button class="music-btn" onclick="setMusic('q','countdown',this)">⏱️ Countdown</button>
+          </div></div>
+        <div style="flex:1;min-width:200px;"><div class="muted" style="margin-bottom:.4rem;">Answer Reveal Music</div>
+          <div class="music-grid" id="r-music-grid">
+            <button class="music-btn active" onclick="setMusic('r','none',this)">🔇 None</button>
+            <button class="music-btn" onclick="setMusic('r','fanfare',this)">🎺 Fanfare</button>
+            <button class="music-btn" onclick="setMusic('r','dramatic',this)">🎭 Dramatic</button>
+            <button class="music-btn" onclick="setMusic('r','cheerful',this)">🎉 Cheerful</button>
+          </div></div>
+      </div>
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button id="s-start" class="btn btn-p" disabled style="font-size:1.1rem;padding:1rem 3rem;">🚀 Start Game</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WAITING ROOM -->
+<div id="waiting" class="screen" style="align-items:center;justify-content:center;background:var(--dark);gap:1.5rem;padding:2rem;">
+  <div style="font-size:2rem;font-weight:900;color:var(--gold);">Waiting for Players...</div>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;">
+    <div class="card" style="text-align:center;min-width:200px;">
+      <div class="muted">ROOM CODE</div>
+      <div id="w-code" style="font-size:3.5rem;font-weight:900;color:var(--gold);letter-spacing:.4rem;"></div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div class="muted">SCAN TO JOIN</div>
+      <div id="w-qr"></div>
+      <div id="w-url-wrap" style="display:none;margin-top:.6rem;flex-direction:column;gap:.4rem;align-items:center;">
+        <div style="font-size:.75rem;color:#FFD700;">Set your Netlify URL so players can scan:</div>
+        <div style="display:flex;gap:.4rem;width:100%;">
+          <input id="w-custom-url" class="inp" placeholder="https://yourapp.netlify.app" style="font-size:.78rem;padding:.4rem .7rem;">
+          <button class="btn btn-g btn-sm" onclick="applyCustomQrUrl()">Set</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="text-align:center;min-width:140px;">
+      <div id="w-count" style="font-size:3.5rem;font-weight:900;color:var(--accent);">0</div>
+      <div class="muted">Players Joined</div>
+    </div>
+  </div>
+  <div id="w-chips" style="display:flex;flex-wrap:wrap;gap:.6rem;max-width:800px;justify-content:center;min-height:40px;"></div>
+  <button class="btn btn-p" style="font-size:1.1rem;padding:1rem 3rem;" onclick="beginQuiz()">▶ Begin Quiz</button>
+</div>
+
+<!-- HOST GAME -->
+<div id="hostgame" class="screen" style="background:var(--dark);">
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:.8rem;">
+      <span style="font-family:var(--font-display);font-weight:900;font-size:1.3rem;background:linear-gradient(135deg,var(--gold),var(--c4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">⚡ QuizArena</span>
+      <span id="h-badge" style="background:#2ED57322;color:#2ED573;border:1px solid #2ED573;border-radius:50px;padding:.3rem 1rem;font-size:.8rem;font-weight:700;">Normal</span>
+    </div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
+      <span class="muted">Q<span id="h-qn">1</span>/<span id="h-qt">0</span></span>
+      <button class="btn btn-k btn-sm" id="h-pause" onclick="togglePause()">⏸ Pause</button>
+      <button class="btn btn-sm btn-d" onclick="endGame()">🏁 End</button>
+    </div>
+  </div>
+  <div class="hbody">
+    <div style="display:flex;flex-direction:column;gap:.7rem;flex:0 0 200px;">
+      <div class="card" style="text-align:center;">
+        <div class="muted">ROOM</div>
+        <div id="h-room" style="font-size:2rem;font-weight:900;color:var(--gold);letter-spacing:.2rem;"></div>
+        <div id="h-qr" style="margin:.4rem 0;"></div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div id="h-pcount" style="font-size:2.2rem;font-weight:900;color:var(--accent);">0</div>
+        <div class="muted">PLAYERS</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div id="h-aans" style="font-size:2.2rem;font-weight:900;color:var(--c3);">0</div>
+        <div class="muted">ANSWERED</div>
+      </div>
+      <button class="btn btn-g btn-sm" onclick="revealNow()">👁 Show Answer</button>
+      <button class="btn btn-p btn-sm" onclick="nextQ()">Next ▶</button>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:1rem;min-width:0;">
+      <div class="card" id="h-question-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem;">
+          <div id="h-qlbl" style="color:var(--accent);font-size:.9rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;">Question 1</div>
+          <div style="position:relative;width:80px;height:80px;flex-shrink:0;">
+            <svg width="80" height="80" viewBox="0 0 100 100" style="transform:rotate(-90deg);">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#ffffff11" stroke-width="10"/>
+              <circle id="h-arc" cx="50" cy="50" r="42" fill="none" stroke="var(--gold)" stroke-width="10"
+                stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset .5s,stroke .5s;"/>
+            </svg>
+            <div id="h-tsec" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900;font-size:1.5rem;color:var(--gold);">45</div>
+          </div>
+        </div>
+        <div id="h-qtxt" style="font-size:clamp(1.4rem,3vw,2rem);font-weight:700;margin-bottom:1.2rem;line-height:1.5;min-height:3rem;"></div>
+        <div id="h-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;"></div>
+      </div>
+      <div id="h-bars" class="card fade" style="display:none;">
+        <div class="muted" style="margin-bottom:.8rem;">📊 Response Distribution</div>
+        <div id="h-bars-inner"></div>
+      </div>
+    </div>
+    <div class="card" style="flex:0 0 210px;overflow-y:auto;">
+      <div class="muted" style="margin-bottom:.8rem;text-transform:uppercase;letter-spacing:1px;">🏆 Leaderboard</div>
+      <div id="h-lb"></div>
+    </div>
+  </div>
+  <div id="pause-ov" style="display:none;position:fixed;inset:0;background:#000000cc;z-index:50;align-items:center;justify-content:center;">
+    <div class="card" style="text-align:center;padding:3rem;max-width:400px;">
+      <div style="font-size:4rem;margin-bottom:1rem;">⏸</div>
+      <div style="font-size:1.8rem;font-weight:700;color:var(--gold);margin-bottom:.5rem;">Game Paused</div>
+      <div class="muted" style="margin-bottom:1.5rem;">Explain the rules, then resume</div>
+      <button class="btn btn-p" style="font-size:1.1rem;" onclick="togglePause()">▶ Resume</button>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYER -->
+
+<!-- TRIAL EXPIRED -->
+<div id="trial-expired" class="screen" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#1a0a0a,#0a0a1a);padding:2rem;">
+  <div style="max-width:460px;width:100%;text-align:center;">
+    <div style="font-size:4rem;margin-bottom:1rem;">&#9200;</div>
+    <h2 style="color:#FF4757;font-size:1.8rem;font-weight:900;margin-bottom:.8rem;">Trial Period Ended</h2>
+    <p style="color:#aaa;font-size:1rem;line-height:1.7;margin-bottom:1.5rem;">Your 30-day free trial has expired. To continue hosting quizzes on QuizArena please subscribe.</p>
+    <div style="background:#ffffff08;border:1px solid #ffffff22;border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;text-align:left;">
+      <div style="font-weight:700;color:var(--gold);margin-bottom:.8rem;">&#128203; Subscription Plans</div>
+      <div style="display:grid;gap:.6rem;font-size:.9rem;color:#ccc;">
+        <div>&#128309; <strong style="color:#fff;">Basic</strong> &mdash; Rs.499/month &middot; Up to 50 players</div>
+        <div>&#128257; <strong style="color:#FFD700;">Pro</strong> &mdash; Rs.999/month &middot; Up to 200 players</div>
+        <div>&#11088; <strong style="color:#a78bfa;">Institute</strong> &mdash; Rs.1999/month &middot; Unlimited players</div>
+      </div>
+    </div>
+    <div style="background:#1E90FF11;border:1px solid #1E90FF44;border-radius:12px;padding:1rem;margin-bottom:1.5rem;">
+      <div style="color:#1E90FF;font-weight:700;margin-bottom:.4rem;">&#128222; Contact Admin</div>
+      <div style="color:#aaa;font-size:.9rem;">Email: <a href="mailto:apexlogic2025@gmail.com" style="color:var(--gold);">apexlogic2025@gmail.com</a></div>
+      <div style="color:#aaa;font-size:.85rem;margin-top:.3rem;">Mention your registered email and chosen plan.</div>
+    </div>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-p" onclick="S('host-dash')">&#8592; Dashboard</button>
+      <button class="btn btn-k" onclick="doSignOut()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="player" class="screen" style="align-items:center;background:var(--dark);padding:1.5rem;gap:.5rem;">
+  <div style="text-align:center;padding-top:.5rem;margin-bottom:.5rem;">
+    <div id="p-namebadge" style="background:linear-gradient(135deg,#7c3aed,#c026d3);border-radius:50px;padding:.4rem 1.3rem;display:inline-block;font-weight:700;font-size:1rem;margin-bottom:.3rem;"></div>
+    <div id="p-score" style="font-size:3.2rem;font-weight:900;color:var(--gold);">0</div>
+    <div id="p-phase" style="color:#aaa;font-size:.9rem;">✅ Normal Mode</div>
+  </div>
+  <div id="p-ring" style="position:relative;width:90px;height:90px;margin-bottom:.5rem;">
+    <svg width="90" height="90" viewBox="0 0 100 100" style="transform:rotate(-90deg);">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="#ffffff11" stroke-width="10"/>
+      <circle id="p-arc" cx="50" cy="50" r="42" fill="none" stroke="var(--gold)" stroke-width="10"
+        stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset .5s,stroke .5s;"/>
+    </svg>
+    <div id="p-tsec" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900;font-size:1.6rem;color:var(--gold);">45</div>
+  </div>
+  <div id="p-content" style="width:100%;max-width:420px;padding:0 .5rem;"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen" style="align-items:center;background:var(--dark);padding:2rem;gap:1rem;">
+  <div style="font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;color:var(--gold);text-align:center;" class="pulse">🏆 Final Results</div>
+  <div id="r-subtitle" style="color:#aaa;text-align:center;font-size:1rem;"></div>
+  <div id="r-cards" style="width:100%;max-width:650px;display:flex;flex-direction:column;gap:.9rem;"></div>
+  <div class="row" style="margin-top:1rem;">
+    <button id="r-next" class="btn btn-p" onclick="nextResultGroup()">Next Group ▶</button>
+    <button class="btn btn-k btn-sm" onclick="S('auth-landing')">🏠 Home</button>
+  </div>
+</div>
+
+
+<!-- ADMIN LOGIN -->
+<div id="admin-login" class="screen" style="align-items:center;justify-content:center;background:var(--dark);padding:2rem;">
+  <div class="auth-card" style="max-width:400px;">
+    <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem;">🛡️</div>
+    <div class="auth-title">Admin Access</div>
+    <div class="auth-sub">Sign in with your admin account</div>
+    <div class="auth-err" id="adm-err"></div>
+    <div class="inp-wrap">
+      <label class="inp-label">Admin Email</label>
+      <input class="inp" id="adm-email" type="email" placeholder="admin@yourdomain.com" autocomplete="off">
+    </div>
+    <div class="inp-wrap">
+      <label class="inp-label">Password</label>
+      <input class="inp" id="adm-pwd" type="password" placeholder="Admin password"
+        onkeydown="if(event.key==='Enter')adminLogin()">
+    </div>
+    <div style="background:#FF475711;border:1px solid #FF475733;border-radius:10px;padding:.7rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#FF4757;">
+      🔒 This page is not visible in the HTML source code to regular users.<br>
+      Admin credentials are verified against Firebase — no password is stored in the app code.
+    </div>
+    <button class="btn btn-d" style="width:100%;margin-bottom:.8rem;" onclick="adminLogin()">🛡️ Sign In as Admin</button>
+    <button class="btn btn-k btn-sm" style="width:100%;" onclick="S('auth-landing')">← Back</button>
+  </div>
+</div>
+
+<script>
+/* ══ FIREBASE HELPERS ══ */
+const dbR=p=>window._ref(window._db,p);
+const dbSet=(p,v)=>window._set(dbR(p),v);
+const dbGet=async p=>{const s=await window._get(dbR(p));return s.exists()?s.val():null;};
+const dbUpd=(p,v)=>window._update(dbR(p),v);
+const dbOn=(p,cb)=>window._onValue(dbR(p),s=>cb(s.exists()?s.val():null));
+
+/* ══ AUDIO ══ */
+const AC=new(window.AudioContext||window.webkitAudioContext)();
+function beep(f,d,t='sine',v=.3){try{const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.start();o.stop(AC.currentTime+d);}catch(e){}}
+function playMusic(type){if(AC.state==='suspended')AC.resume();const P={tension:[[220,.15],[220,.15],[220,.15],[180,.4]],upbeat:[[440,.1],[550,.1],[660,.2],[550,.1],[660,.3]],countdown:[[330,.08],[330,.08],[330,.08],[330,.08],[330,.08],[660,.4]],fanfare:[[523,.1],[659,.1],[784,.1],[1047,.4],[784,.1],[1047,.5]],dramatic:[[150,.3],[180,.3],[200,.5],[150,.8]],cheerful:[[523,.08],[659,.08],[784,.08],[1047,.08],[784,.08],[1047,.08],[1319,.3]]};const p=P[type];if(!p)return;p.forEach(([f,d],i)=>setTimeout(()=>beep(f,d,'sine',.25),i*150));}
+function playTick(t){if(t<=10&&t>0)beep(t<=5?880:660,.08,'square',.15);}
+function playCorrect(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.2,'sine',.2),i*80));}
+function playWrong(){[300,250,200].forEach((f,i)=>setTimeout(()=>beep(f,.15,'sawtooth',.15),i*100));}
+
+/* ══ CONSTANTS ══ */
+const SHAPES=['🔴','🔵','🟢','🟡'],LABELS=['Red','Blue','Green','Yellow'],KEYS=['A','B','C','D'];
+const Q_SEC=45,REV_SEC=15,BID_SEC=10;
+// No admin password stored in code. Admin uses Firebase Auth login + isAdmin flag in DB.
+
+/* ══ GLOBALS ══ */
+let roomCode=null,myId=null,myName=null,myRole=null;
+let timerInt=null,bidInt=null,unsubAns=null,unsubGame=null;
+let paused=false,negPts=5,qMusic='none',rMusic='none';
+let useNeg=false,useAuc=false;
+let playerSelected=null,playerAnswered=false,playerBidDone=false,playerBid=5;
+let mySlotNum=0;
+let lastPlayerQ=-1,lastBidPhase=false;
+let resultGroup=0,resultSorted=[];
+let _questions=[],_allAnsweredTimer=null;
+let currentHostProfile=null,_sessionLogKey=null;
+
+function S(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+/* ══ AUTH — REGISTER ══ */
+async function hostRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const mobile=document.getElementById('reg-mobile').value.trim();
+  const city=document.getElementById('reg-city').value.trim();
+  const country=document.getElementById('reg-country').value.trim();
+  const pin=document.getElementById('reg-pin').value.trim();
+  const org=document.getElementById('reg-org').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const pwd=document.getElementById('reg-pwd').value;
+  const pwd2=document.getElementById('reg-pwd2').value;
+  const err=document.getElementById('reg-err');
+  const ok=document.getElementById('reg-ok');
+  err.style.display='none';ok.style.display='none';
+  if(!name||!mobile||!city||!country||!pin||!email||!pwd){err.textContent='Please fill all required fields (*).';err.style.display='block';return;}
+  if(pwd!==pwd2){err.textContent='Passwords do not match.';err.style.display='block';return;}
+  if(pwd.length<6){err.textContent='Password must be at least 6 characters.';err.style.display='block';return;}
+  if(!/\S+@\S+\.\S+/.test(email)){err.textContent='Please enter a valid email address.';err.style.display='block';return;}
+  try{
+    const cred=await window._createUser(window._auth,email,pwd);
+    await window._updateProfile(cred.user,{displayName:name});
+    const profile={name,mobile,city,country,pin,org,email,uid:cred.user.uid,
+      registeredAt:new Date().toISOString(),verified:false};
+    await dbSet('hosts/'+cred.user.uid,profile);
+    await window._sendVerification(cred.user);
+    currentHostProfile=profile;
+    ok.textContent='Account created! A verification email has been sent. Please check your inbox.';
+    ok.style.display='block';
+    setTimeout(()=>S('host-verify'),1800);
+  }catch(e){err.textContent=authErr(e.code);err.style.display='block';}
+}
+
+/* ══ AUTH — LOGIN ══ */
+async function hostLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const pwd=document.getElementById('login-pwd').value;
+  const err=document.getElementById('login-err');
+  const ok=document.getElementById('login-ok');
+  err.style.display='none';ok.style.display='none';
+  if(!email||!pwd){err.textContent='Please enter email and password.';err.style.display='block';return;}
+  try{
+    const cred=await window._signIn(window._auth,email,pwd);
+    if(!cred.user.emailVerified){
+      currentHostProfile=await dbGet('hosts/'+cred.user.uid)||{email};
+      S('host-verify');return;
+    }
+    await afterLogin(cred.user);
+  }catch(e){err.textContent=authErr(e.code);err.style.display='block';}
+}
+
+async function afterLogin(user){
+  let profile=await dbGet('hosts/'+user.uid);
+  if(!profile){profile={name:user.displayName||user.email,email:user.email,uid:user.uid,mobile:'',city:'',country:'',pin:'',org:'',registeredAt:new Date().toISOString(),verified:true};await dbSet('hosts/'+user.uid,profile);}
+  if(!profile.verified){await dbUpd('hosts/'+user.uid,{verified:true});profile.verified=true;}
+  // Compute trial/subscription status
+  const _regDate=profile.registeredAt?new Date(profile.registeredAt):null;
+  const _trialMs=30*24*60*60*1000;
+  // Check admin_grants fallback path
+  try{
+    const adminGrant=await dbGet('admin_grants/'+user.uid);
+    if(adminGrant){
+      if(adminGrant.subscribedUntil!==undefined) profile.subscribedUntil=adminGrant.subscribedUntil;
+      if(adminGrant.subscribed!==undefined) profile.subscribed=adminGrant.subscribed;
+      if(adminGrant.perpetual!==undefined) profile.perpetual=adminGrant.perpetual;
+      // Sync to hosts path now that user is authenticated
+      try{
+        await dbUpd('hosts/'+user.uid,{
+          subscribedUntil:profile.subscribedUntil||null,
+          subscribed:profile.subscribed||false,
+          perpetual:profile.perpetual||false
+        });
+        await dbSet('admin_grants/'+user.uid,null); // clean up
+      }catch(e){}
+    }
+  }catch(e){}
+  profile._trialExpired=_regDate&&(Date.now()-_regDate.getTime()>_trialMs);
+  const _subUntil=profile.subscribedUntil?new Date(profile.subscribedUntil):null;
+  profile._isSubscribed=(_subUntil&&_subUntil>new Date())||profile.perpetual===true;
+  profile._subUntil=_subUntil;
+  // Perpetual and subscribed override trial expiry
+  if(profile._isSubscribed) profile._trialExpired=false;
+  currentHostProfile=profile;myRole='host';
+  showHostDashboard();
+}
+
+async function checkVerification(){
+  const err=document.getElementById('verify-err');
+  const ok=document.getElementById('verify-ok');
+  err.style.display='none';ok.style.display='none';
+  const user=window._auth.currentUser;
+  if(!user){err.textContent='No session. Please log in again.';err.style.display='block';return;}
+  await user.reload();
+  if(user.emailVerified){ok.textContent='✅ Verified! Redirecting to dashboard…';ok.style.display='block';await afterLogin(user);}
+  else{err.textContent='Email not yet verified. Please click the link in your email first.';err.style.display='block';}
+}
+
+async function resendVerification(){
+  const user=window._auth.currentUser;if(!user)return;
+  const ok=document.getElementById('verify-ok');const err=document.getElementById('verify-err');
+  try{await window._sendVerification(user);ok.textContent='Verification email resent! Check your inbox.';ok.style.display='block';}
+  catch(e){err.textContent='Could not resend: '+e.message;err.style.display='block';}
+}
+
+async function doSignOut(){
+  try{await window._signOut(window._auth);}catch(e){}
+  // Clean up admin live listeners if any
+  if(_adminUnsubSessions){_adminUnsubSessions();_adminUnsubSessions=null;}
+  currentHostProfile=null;myRole=null;roomCode=null;_sessionLogKey=null;
+  S('auth-landing');
+}
+
+function authErr(code){
+  const m={'auth/email-already-in-use':'This email is already registered. Please log in.',
+    'auth/invalid-email':'Invalid email address.','auth/weak-password':'Password too weak (min 6 chars).',
+    'auth/user-not-found':'No account with this email.','auth/wrong-password':'Incorrect password.',
+    'auth/invalid-credential':'Incorrect email or password.','auth/too-many-requests':'Too many attempts. Please wait.',
+    'auth/network-request-failed':'Network error. Check your connection.'};
+  return m[code]||'Error: '+code;
+}
+
+/* ══ ADMIN LOGIN ══ */
+function promptAdmin(){S('admin-login');}
+
+async function adminLogin(){
+  const email=document.getElementById('adm-email').value.trim();
+  const pwd=document.getElementById('adm-pwd').value;
+  const err=document.getElementById('adm-err');
+  err.style.display='none';
+  if(!email||!pwd){err.textContent='Enter email and password.';err.style.display='block';return;}
+  try{
+    const cred=await window._signIn(window._auth,email,pwd);
+    const adminFlag=await dbGet('admin_flags/'+cred.user.uid+'/isAdmin');
+    if(adminFlag!==true){
+      await window._signOut(window._auth);
+      err.textContent='Access denied. This account does not have admin privileges.';
+      err.style.display='block';return;
+    }
+    await loadAdminDashboard();
+  }catch(e){err.textContent=authErr(e.code);err.style.display='block';}
+}
+
+/* ══ HOST DASHBOARD ══ */
+async function showHostDashboard(){
+  S('host-dash');
+  const p=currentHostProfile;
+  document.getElementById('hd-welcome').textContent='Welcome, '+p.name+' · '+p.email;
+  // Subscription badge
+  var _sb=document.getElementById('hd-sub-badge');
+  if(_sb){
+    if(p._isSubscribed&&p._subUntil){
+      var _dL=Math.ceil((p._subUntil-new Date())/(86400000));
+      _sb.innerHTML='<span style="background:#FFD70022;color:#FFD700;border:1px solid #FFD70044;border-radius:50px;padding:.3rem .9rem;font-size:.8rem;font-weight:700;">&#11088; Subscribed &middot; '+_dL+'d left</span>';
+      _sb.style.display='';
+    } else if(p._trialExpired){
+      _sb.innerHTML='<span style="background:#FF475722;color:#FF4757;border:1px solid #FF475744;border-radius:50px;padding:.3rem .9rem;font-size:.8rem;font-weight:700;">&#9888;&#65039; Trial Expired &mdash; Contact Admin</span>';
+      _sb.style.display='';
+    } else if(p.registeredAt){
+      var _rd=new Date(p.registeredAt);
+      var _te=new Date(_rd.getTime()+30*86400000);
+      var _dl2=Math.max(0,Math.ceil((_te-new Date())/86400000));
+      _sb.innerHTML='<span style="background:#1E90FF22;color:#1E90FF;border:1px solid #1E90FF44;border-radius:50px;padding:.3rem .9rem;font-size:.8rem;font-weight:700;">&#128336; Trial &middot; '+_dl2+'d left</span>';
+      _sb.style.display='';
+    }
+  }
+
+  // Check localStorage for a saved active game
+  try{
+    const savedCode=localStorage.getItem('qa_roomCode');
+    const savedUid=localStorage.getItem('qa_hostUid');
+    if(savedCode&&savedUid===p.uid){
+      const savedGame=await dbGet('games/'+savedCode);
+      const _savedStart=localStorage.getItem('qa_startedAt');
+      const _ageMs=_savedStart?(Date.now()-new Date(_savedStart).getTime()):Infinity;
+      const _TWO_HOURS=2*60*60*1000;
+      if(savedGame&&savedGame.phase!=='ended'&&_ageMs<=_TWO_HOURS){
+        const _minsLeft=Math.max(0,Math.round((_TWO_HOURS-_ageMs)/60000));
+        // Show resume banner
+        const resumeBanner=document.getElementById('qa-resume-banner')||document.createElement('div');
+        resumeBanner.id='qa-resume-banner';
+        resumeBanner.style.cssText='background:linear-gradient(135deg,#16a34a22,#15803d22);border:1px solid #2ED573;border-radius:12px;padding:.8rem 1.2rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;';
+        resumeBanner.innerHTML='<div><span style="color:#2ED573;font-weight:700;">🔴 Active game found:</span> <span style="color:var(--gold);font-weight:800;">'+savedCode+'</span> <span style="color:#aaa;font-size:.85rem;">'+savedGame.phase+' &middot; '+Object.keys(savedGame.players||{}).length+' players &middot; resume expires in '+_minsLeft+' min</span></div><button class="btn btn-g btn-sm" onclick="hostResumeGame(&quot;'+savedCode+'&quot;)">&#9654; Resume Game</button>';
+        const statsEl=document.getElementById('hd-stats');
+        if(statsEl&&statsEl.parentNode&&!document.getElementById('qa-resume-banner')){
+          statsEl.parentNode.insertBefore(resumeBanner,statsEl);
+        }
+      }else{
+        try{localStorage.removeItem('qa_roomCode');localStorage.removeItem('qa_startedAt');}catch(e){}
+        const old=document.getElementById('qa-resume-banner');if(old)old.remove();
+      }
+    }
+  }catch(e){}
+
+  const mySessionsRaw=await dbGet('sessions/'+p.uid);
+  const mine=mySessionsRaw?Object.values(mySessionsRaw):[];
+  mine.sort((a,b)=>new Date(b.startedAt)-new Date(a.startedAt));
+  const totalPl=mine.reduce((a,s)=>a+(s.peakPlayers||0),0);
+  document.getElementById('hd-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-num">${mine.length}</div><div class="stat-lbl">Sessions Hosted</div></div>
+    <div class="stat-card"><div class="stat-num">${totalPl}</div><div class="stat-lbl">Total Players</div></div>
+    <div class="stat-card"><div class="stat-num">${mine.filter(s=>s.status==='live').length}</div><div class="stat-lbl">Live Now</div></div>`;
+  const tbody=document.getElementById('hd-sessions');
+  if(!mine.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#aaa;padding:2rem;">No sessions yet. Start your first game!</td></tr>';return;}
+  tbody.innerHTML=mine.map(s=>{
+    const isLive=s.status==='live';
+    return `<tr>
+      <td><span style="font-weight:800;color:var(--gold);">${esc(s.roomCode)}</span></td>
+      <td style="color:#aaa;font-size:.85rem;">${esc(s.theme||'—')}</td>
+      <td style="font-size:.8rem;color:#aaa;">${fmtDate(s.startedAt)}</td>
+      <td style="color:var(--accent);font-weight:700;">${s.peakPlayers||0}</td>
+      <td>${s.questionCount||0}</td>
+      <td style="font-size:.8rem;">${esc(s.mode||'Normal')}</td>
+      <td>
+        <span class="badge ${isLive?'badge-live':'badge-end'}">${isLive?'🔴 Live':'✅ Ended'}</span>
+        ${isLive?`<button class="btn btn-g btn-sm" style="margin-left:.4rem;" onclick="hostResumeGame('${esc(s.roomCode)}')">▶ Resume</button>`:''}
+        <button class="btn btn-b btn-sm" style="margin-left:.4rem;" onclick="hostViewResults('${esc(s.roomCode)}')">🏆</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function goToSetup(){
+  const p=currentHostProfile;
+  if(p&&p._trialExpired&&!p._isSubscribed){S('trial-expired');return;}
+  document.getElementById('setup-host-badge').textContent='🎮 '+currentHostProfile.name;
+  const _ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let _c='';for(let _i=0;_i<6;_i++) _c+=_ch[Math.floor(Math.random()*_ch.length)];
+  document.getElementById('s-code').value=_c;
+  S('setup');
+}
+
+async function hostResumeGame(code){
+  // Resume an active game — restore host state from Firebase
+  const g=await dbGet('games/'+code);
+  if(!g){alert('Game not found or already ended.');return;}
+  if(g.phase==='ended'){alert('This game has already ended.');showHostDashboard();return;}
+  roomCode=code;
+  myRole='host';
+  _lbRoomCode=null;
+  // Save to localStorage again
+  try{
+    localStorage.setItem('qa_roomCode',code);
+    localStorage.setItem('qa_hostUid',currentHostProfile?.uid||'');
+    if(!localStorage.getItem('qa_startedAt'))localStorage.setItem('qa_startedAt',g.startedAt||new Date().toISOString());
+  }catch(e){}
+
+  // Go to correct screen
+  S('hostgame');
+  requestWakeLock();
+
+  // Populate header info
+  document.getElementById('h-room').textContent=code;
+  document.getElementById('h-qt').textContent=(g.questions||[]).length;
+
+  // Rebuild QR code
+  const qrEl=document.getElementById('h-qr');qrEl.innerHTML='';
+  const _rqrUrl=window._customQrUrl||window.location.href;
+  if(!_rqrUrl.startsWith('file://')){try{new QRCode(qrEl,{text:_rqrUrl,width:180,height:180,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}}
+  else{qrEl.innerHTML='<div style="font-size:.7rem;color:#FFD700;text-align:center;padding:.3rem;">Set URL in waiting room</div>';}
+
+  // Restore the current question display based on phase
+  const qIdx=g.currentQ>=0?g.currentQ:0;
+  const ph=getPhase(g,qIdx);
+  setBadge(ph);
+  document.getElementById('h-qn').textContent=qIdx+1;
+  document.getElementById('h-qlbl').textContent='Question '+(qIdx+1)+' of '+(g.questions||[]).length;
+
+  if(g.phase==='waiting'){
+    // Still in waiting room — go back to waiting screen
+    S('waiting');
+    document.getElementById('w-code').textContent=code;
+    if(unsubGame)unsubGame();
+    unsubGame=dbOn('games/'+code+'/players',players=>{
+      const arr=Object.values(players||{});
+      document.getElementById('w-count').textContent=arr.length;
+      document.getElementById('w-chips').innerHTML=arr.map(p=>'<div style="background:linear-gradient(135deg,#7c3aed,#c026d3);border-radius:50px;padding:.35rem 1rem;font-size:.9rem;font-weight:600;">'+p.name+'</div>').join('');
+    });
+  } else if(g.phase==='question'||g.phase==='reveal'||g.phase==='locking'||g.phase==='auction'){
+    // Mid-game — restore current question and restart timers
+    const q=g.questions[qIdx];
+    showHostQuestion(q);
+    updateLB(g,code);
+    document.getElementById('h-aans').textContent=Object.keys(g.answers||{}).length;
+    document.getElementById('h-bars').style.display='none';
+
+    if(g.phase==='reveal'){
+      // Show the answer highlight and bars
+      const ci=q.opts.findIndex(o=>o===q.answer);
+      const ck=KEYS[ci];
+      KEYS.forEach(k=>{const el=document.getElementById('hopt-'+k);if(el&&k===ck)el.classList.add('opt-correct');});
+      showBars(ck,q,g.answers||{});
+      // Restart reveal countdown from remaining timer
+      let rt=g.timer||REV_SEC;setArc('h-arc','h-tsec',rt,REV_SEC);
+      clearInterval(timerInt);
+      timerInt=setInterval(async()=>{if(paused)return;rt--;setArc('h-arc','h-tsec',Math.max(0,rt),REV_SEC);await dbUpd('games/'+code,{timer:Math.max(0,rt)});if(rt<=0){clearInterval(timerInt);nextQ();}},1000);
+    } else {
+      // Restart question timer from remaining time
+      let t=g.timer||Q_SEC;setArc('h-arc','h-tsec',t,Q_SEC);
+      clearInterval(timerInt);
+      timerInt=setInterval(async()=>{if(paused)return;t--;setArc('h-arc','h-tsec',Math.max(0,t),Q_SEC);playTick(t);await dbUpd('games/'+code,{timer:Math.max(0,t)});if(t<=0){clearInterval(timerInt);doReveal();}},1000);
+      // Re-attach answer count listener
+      if(unsubAns)unsubAns();
+      unsubAns=dbOn('games/'+code+'/answers',ans=>{document.getElementById('h-aans').textContent=Object.keys(ans||{}).length;});
+    }
+  }
+
+  // Show resume notification
+  const notif=document.createElement('div');
+  notif.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#2ED573;color:#000;padding:.6rem 1.5rem;border-radius:50px;font-weight:700;z-index:9999;';
+  notif.textContent='✅ Game resumed successfully!';
+  document.body.appendChild(notif);
+  setTimeout(()=>notif.remove(),3000);
+}
+
+async function hostViewResults(code){
+  // View leaderboard/results for any game (live or ended)
+  const g=await dbGet('games/'+code);
+  if(!g){alert('Game data not found.');return;}
+  const players=Object.values(g.players||{}).sort((a,b)=>b.score-a.score);
+  if(!players.length){alert('No players in this game yet.');return;}
+
+  // Build results popup
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#000a;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;';
+  overlay.onclick=e=>{if(e.target===overlay)overlay.remove();};
+
+  const maxSc=Math.max(...players.map(p=>Math.abs(p.score||0)),1);
+  overlay.innerHTML=`
+    <div style="background:#1a1a2e;border-radius:20px;padding:1.5rem;width:100%;max-width:500px;max-height:80vh;overflow-y:auto;border:1px solid #ffffff22;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;">
+        <div>
+          <div style="font-weight:900;font-size:1.1rem;color:#FFD700;">🏆 Results — ${code}</div>
+          <div style="font-size:.78rem;color:#aaa;">${players.length} players · ${g.phase==='ended'?'Ended':'Live'}</div>
+        </div>
+        <button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;color:#aaa;cursor:pointer;font-size:1.5rem;">✕</button>
+      </div>
+      <div style="display:grid;gap:.6rem;">
+        ${players.map((pl,i)=>{
+          const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
+          const sc=pl.score||0;
+          const pct=Math.max(0,Math.min(100,(sc/maxSc)*100));
+          const col=i===0?'#FFD700':i===1?'#C0C0C0':i===2?'#CD7F32':'#aaa';
+          return `<div style="display:flex;align-items:center;gap:.8rem;padding:.6rem .8rem;background:#ffffff08;border-radius:10px;">
+            <div style="font-size:${i<3?'1.3rem':'.9rem'};width:32px;text-align:center;font-weight:900;color:${col};">${medal}</div>
+            <div style="flex:1;">
+              <div style="font-weight:600;">${pl.name||'—'}</div>
+              <div style="height:6px;background:#ffffff11;border-radius:3px;margin-top:.3rem;overflow:hidden;">
+                <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#7c3aed,#c026d3);border-radius:3px;"></div>
+              </div>
+            </div>
+            <div style="font-size:1.2rem;font-weight:900;color:${sc<0?'#FF4757':'#FFD700'};">${sc}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+/* ══ SESSION LOGGING ══ */
+async function logSessionStart(code,theme,questionCount,mode){
+  const p=currentHostProfile;if(!p){console.warn('logSessionStart: no host profile');return;}
+  const key='sess_'+code+'_'+Date.now();
+  _sessionLogKey='sessions/'+p.uid+'/'+key;
+  try{
+    await dbSet(_sessionLogKey,{key,roomCode:code,theme:theme||'Untitled',questionCount,mode,
+      hostUid:p.uid,hostName:p.name,hostEmail:p.email,hostMobile:p.mobile,
+      hostCity:p.city,hostCountry:p.country,
+      startedAt:new Date().toISOString(),status:'live',peakPlayers:0,endedAt:null});
+    console.log('Session logged at:',_sessionLogKey);
+  }catch(e){
+    console.error('Session log FAILED:',e.message,'path:',_sessionLogKey);
+    // Rules may be blocking — try without auth requirement path as fallback
+    _sessionLogKey=null;
+  }
+}
+async function logSessionUpdate(upd){
+  if(!_sessionLogKey)return;
+  try{await dbUpd(_sessionLogKey,upd);}
+  catch(e){console.error('Session update failed:',e.message);}
+}
+async function logSessionEnd(){await logSessionUpdate({status:'ended',endedAt:new Date().toISOString()});}
+function trackPeakPlayers(code){
+  dbOn('games/'+code+'/players',players=>{
+    const count=Object.keys(players||{}).length;
+    logSessionUpdate({peakPlayers:count});
+  });
+}
+
+/* ══ SETUP ══ */
+function toggleNeg(){useNeg=document.getElementById('t-neg').checked;document.getElementById('neg-opts').style.display=useNeg?'block':'none';}
+function toggleAuc(){useAuc=document.getElementById('t-auc').checked;document.getElementById('auc-opts').style.display=useAuc?'block':'none';}
+function setNegPts(n){negPts=n;['5','10','15','20'].forEach(v=>document.getElementById('neg-'+v).classList.remove('active'));document.getElementById('neg-'+n).classList.add('active');}
+function setMusic(type,val,btn){if(type==='q')qMusic=val;else rMusic=val;const grid=document.getElementById(type==='q'?'q-music-grid':'r-music-grid');grid.querySelectorAll('.music-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(val!=='none')playMusic(val);}
+
+/* ══ EXCEL ══ */
+function loadXL(inp){
+  const file=inp.files[0];if(!file)return;
+  document.getElementById('ul-label').textContent='Loading...';
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const wb=XLSX.read(e.target.result,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+    _questions=rows.slice(1).filter(r=>r[0]).slice(0,100).map(r=>{
+      const q=String(r[0]).trim();
+      const answer=String(r[5]||'').trim();
+      const origOpts=[r[1],r[2],r[3],r[4]].map(x=>String(x||'').trim());
+      // Detect "collective" options that must always stay at the end
+      // Matches phrases like: all of the above, both a and b, neither a nor b,
+      // any of the above, none of the above, all the above, both of the above etc.
+      // Case-insensitive, partial match is enough
+      const TAIL_PATTERNS=[
+        /all\s+of\s+the\s+above/i,
+        /all\s+the\s+above/i,
+        /any\s+of\s+the\s+above/i,
+        /none\s+of\s+the\s+above/i,
+        /both\s+a\s+and\s+b/i,
+        /both\s+of\s+the\s+above/i,
+        /neither\s+a\s+nor\s+b/i,
+        /neither\s+of\s+the\s+above/i,
+        /all\s+of\s+above/i,
+        /any\s+of\s+above/i,
+        /none\s+of\s+above/i,
+      ];
+      function isTailOption(txt){return TAIL_PATTERNS.some(p=>p.test(txt));}
+
+      // Split into normal options and tail options
+      const normalOpts=origOpts.filter(o=>!isTailOption(o));
+      const tailOpts=origOpts.filter(o=>isTailOption(o));
+
+      // Shuffle only the normal options
+      for(let i=normalOpts.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [normalOpts[i],normalOpts[j]]=[normalOpts[j],normalOpts[i]];
+      }
+      // Tail options keep their relative order, appended after normal options
+      const shuffled=[...normalOpts,...tailOpts];
+      return {q,opts:shuffled,answer};
+    });
+    document.getElementById('ul-label').textContent=`✅ ${_questions.length} questions loaded`;
+    document.getElementById('q-preview').innerHTML=_questions.slice(0,4).map((q,i)=>`<div style="background:#ffffff08;border-radius:8px;padding:.5rem .9rem;margin-bottom:.4rem;font-size:.85rem;"><strong style="color:var(--gold);">Q${i+1}:</strong> ${q.q.substring(0,65)} <span class="muted">✓ ${q.answer}</span></div>`).join('')+(_questions.length>4?`<div class="muted" style="text-align:center;margin-top:.3rem;">...and ${_questions.length-4} more</div>`:'');
+    const b=document.getElementById('s-start');b.disabled=false;b.onclick=hostStart;
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+/* ══ HOST START ══ */
+async function hostStart(){
+  if(!_questions.length){alert('Upload questions first!');return;}
+  if(!window._firebaseReady){alert('Firebase not ready.');return;}
+  const _hp=currentHostProfile;
+  if(_hp&&_hp._trialExpired&&!_hp._isSubscribed){S('trial-expired');return;}
+  const _manualCode=document.getElementById('s-code').value.toUpperCase().trim();
+  if(_manualCode){
+    roomCode=_manualCode;
+  }else{
+    const _chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let _rc='';for(let _i=0;_i<6;_i++) _rc+=_chars[Math.floor(Math.random()*_chars.length)];
+    roomCode=_rc;document.getElementById('s-code').value=_rc;
+  }
+  const _existGame=await dbGet('games/'+roomCode);
+  if(_existGame&&_existGame.phase!=='ended'){
+    alert('Room code '+roomCode+' is already active. Please enter a different code or clear the field for auto-generate.');
+    const _sb=document.getElementById('s-start');_sb.disabled=false;_sb.onclick=hostStart;return;
+  }
+  _lbRoomCode=null;
+  // Save to localStorage so host can resume after refresh
+  try{localStorage.setItem('qa_roomCode',roomCode);localStorage.setItem('qa_hostUid',currentHostProfile?.uid||'');localStorage.setItem('qa_startedAt',new Date().toISOString());}catch(e){}
+  const theme=document.getElementById('s-theme').value.trim()||'General Quiz';
+  myRole='host';
+  const negStart=useNeg?parseInt(document.getElementById('s-neg').value)||1:99999;
+  const aucStart=useAuc?parseInt(document.getElementById('s-auc').value)||1:99999;
+  const mode=useAuc?'Auction':useNeg?'Negative':'Normal';
+  try{
+    await dbSet('games/'+roomCode,{roomCode,questions:_questions,players:{},
+      currentQ:-1,phase:'waiting',timer:Q_SEC,paused:false,negStart,aucStart,negPts,
+      maxPlayers:parseInt(document.getElementById('s-maxp').value)||100,
+      qMusic,rMusic,useNeg,useAuc,answers:{},bids:{},correctKey:null,bidPhase:false,
+      hostName:currentHostProfile?.name||'Host',theme});
+    await logSessionStart(roomCode,theme,_questions.length,mode);
+    trackPeakPlayers(roomCode);
+    showWaiting();
+  }catch(e){alert('Firebase Error: '+e.message);}
+}
+
+/* ══ WAITING ══ */
+function showWaiting(){
+  S('waiting');
+  document.getElementById('w-code').textContent=roomCode;
+  const qrEl=document.getElementById('w-qr');qrEl.innerHTML='';
+  const _qrUrl=window._customQrUrl||window.location.href;
+  if(_qrUrl.startsWith('file://')){
+    qrEl.innerHTML='<div style="width:240px;height:240px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;background:#ffffff0a;border-radius:10px;border:2px dashed #ffffff22;padding:1rem;text-align:center;"><div style="font-size:2rem;">⚠️</div><div style="font-size:.8rem;color:#FFD700;font-weight:700;">QR not available locally</div><div style="font-size:.72rem;color:#aaa;">Upload to Netlify or set a custom URL below</div></div>';
+  } else {
+    try{new QRCode(qrEl,{text:_qrUrl,width:240,height:240,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}
+  }
+  // Custom URL input (shown only when local)
+  var _urlWrap=document.getElementById('w-url-wrap');
+  if(_urlWrap){_urlWrap.style.display=_qrUrl.startsWith('file://')?'flex':'none';}
+  if(unsubGame)unsubGame();
+  unsubGame=dbOn('games/'+roomCode+'/players',players=>{
+    const arr=Object.values(players||{});
+    document.getElementById('w-count').textContent=arr.length;
+    document.getElementById('w-chips').innerHTML=arr.map(p=>`<div style="background:linear-gradient(135deg,#7c3aed,#c026d3);border-radius:50px;padding:.35rem 1rem;font-size:.9rem;font-weight:600;">${p.name}</div>`).join('');
+  });
+}
+
+async function beginQuiz(){
+  if(unsubGame){unsubGame();unsubGame=null;}
+  await dbUpd('games/'+roomCode,{phase:'question',currentQ:0,answers:{},bids:{},correctKey:null,timer:Q_SEC,bidPhase:false});
+  setupHostGame();
+}
+
+/* ══ HOST GAME ══ */
+async function setupHostGame(){
+  S('hostgame');
+  requestWakeLock();
+  const g=await dbGet('games/'+roomCode);
+  document.getElementById('h-room').textContent=roomCode;
+  document.getElementById('h-qt').textContent=g.questions.length;
+  const qrEl=document.getElementById('h-qr');qrEl.innerHTML='';
+  const _hqrUrl=window._customQrUrl||window.location.href;
+  if(!_hqrUrl.startsWith('file://')){try{new QRCode(qrEl,{text:_hqrUrl,width:180,height:180,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}}
+  else{qrEl.innerHTML='<div style="font-size:.7rem;color:#FFD700;text-align:center;padding:.3rem;">Set URL in waiting room</div>';}
+  startQuestion(g,0);
+}
+
+/* ══ PHASE ══ */
+function getPhase(g,qIdx){const n=(qIdx!==undefined?qIdx:g.currentQ)+1;if(g.useAuc&&n>=g.aucStart)return 'auction';if(g.useNeg&&n>=g.negStart)return 'negative';return 'normal';}
+function setBadge(ph){const b=document.getElementById('h-badge');const map={normal:['#2ED57322','#2ED573','✅ Normal'],negative:['#FF475722','#FF4757','⚠️ Negative'],auction:['#FFD70022','#FFD700','⚡ Auction']};const[bg,col,lbl]=map[ph]||map.normal;b.style.background=bg;b.style.color=col;b.style.borderColor=col;b.textContent=lbl;}
+
+/* ══ START QUESTION ══ */
+async function startQuestion(g,qIdx){
+  clearInterval(timerInt);clearInterval(bidInt);
+  if(_allAnsweredTimer){clearTimeout(_allAnsweredTimer);_allAnsweredTimer=null;}
+  const q=g.questions[qIdx];const n=qIdx+1;const ph=getPhase(g,qIdx);
+  document.getElementById('h-qn').textContent=n;
+  document.getElementById('h-qlbl').textContent=`Question ${n} of ${g.questions.length}`;
+  setBadge(ph);document.getElementById('h-bars').style.display='none';
+  document.getElementById('h-aans').textContent='0';updateLB(g);
+  if(g.qMusic&&g.qMusic!=='none')playMusic(g.qMusic);
+
+  if(ph==='auction'){
+    await dbUpd('games/'+roomCode,{bidPhase:true,timer:BID_SEC,answers:{},bids:{}});
+    document.getElementById('h-qtxt').innerHTML=`<div class="bid-screen">
+      <div style="font-size:1.4rem;font-weight:700;color:#FFD700;margin-bottom:.5rem;">⚡ AUCTION ROUND — BLIND BIDDING</div>
+      <div style="color:#aaa;margin-bottom:1rem;font-size:1rem;">Players are placing their bids — question hidden</div>
+      <div class="bid-countdown" id="bid-host-cd">${BID_SEC}</div>
+      <div id="bid-host-count" style="color:#aaa;font-size:.9rem;margin-top:.8rem;">Bids: 0 / ${Object.keys(g.players||{}).length}</div>
+    </div>`;
+    document.getElementById('h-opts').innerHTML='';
+    let bs=BID_SEC;setArc('h-arc','h-tsec',bs,BID_SEC);
+    if(unsubAns)unsubAns();
+    unsubAns=dbOn('games/'+roomCode+'/bids',bids=>{
+      const bc=Object.keys(bids||{}).length;const pc=Object.keys(g.players||{}).length;
+      const el=document.getElementById('bid-host-count');if(el)el.textContent=`Bids: ${bc} / ${pc}`;
+      if(pc>0&&bc>=pc&&bs>0)bs=0;
+    });
+    bidInt=setInterval(async()=>{
+      if(paused)return;bs--;
+      setArc('h-arc','h-tsec',Math.max(0,bs),BID_SEC);
+      await dbUpd('games/'+roomCode,{timer:Math.max(0,bs)});
+      const el=document.getElementById('bid-host-cd');if(el)el.textContent=Math.max(0,bs);
+      if(bs<=0){
+        clearInterval(bidInt);if(unsubAns){unsubAns();unsubAns=null;}
+        document.getElementById('h-qtxt').innerHTML=`<div class="bid-screen pop">
+          <div style="font-size:2rem;font-weight:900;color:#FFD700;margin-bottom:.5rem;">🎯 QUESTION REVEALING!</div>
+          <div style="font-size:1.1rem;color:#aaa;">Get ready to answer...</div>
+        </div>`;
+        await dbUpd('games/'+roomCode,{bidPhase:false,timer:Q_SEC});
+        setTimeout(()=>{
+          showHostQuestion(q);startMainTimer(g,qIdx);
+          if(unsubAns)unsubAns();
+          unsubAns=dbOn('games/'+roomCode+'/answers',ans=>{document.getElementById('h-aans').textContent=Object.keys(ans||{}).length;});
+        },1500);
+      }
+    },1000);
+  }else{
+    await dbUpd('games/'+roomCode,{bidPhase:false,timer:Q_SEC,answers:{},bids:{}});
+    showHostQuestion(q);startMainTimer(g,qIdx);
+    if(unsubAns)unsubAns();
+    unsubAns=dbOn('games/'+roomCode+'/answers',ans=>{document.getElementById('h-aans').textContent=Object.keys(ans||{}).length;});
+  }
+}
+
+function showHostQuestion(q){
+  document.getElementById('h-qtxt').textContent=q.q;
+  document.getElementById('h-opts').innerHTML=q.opts.map((o,i)=>`<div class="opt-box opt-${KEYS[i]}" id="hopt-${KEYS[i]}"><span style="font-size:2rem;">${SHAPES[i]}</span>${o}</div>`).join('');
+}
+
+/* ══ TIMER ══ */
+function startMainTimer(g,qIdx){
+  clearInterval(timerInt);let t=Q_SEC;setArc('h-arc','h-tsec',t,Q_SEC);
+  timerInt=setInterval(async()=>{if(paused)return;t--;setArc('h-arc','h-tsec',t,Q_SEC);playTick(t);await dbUpd('games/'+roomCode,{timer:t});if(t<=0){clearInterval(timerInt);doReveal();}},1000);
+}
+
+async function nextQ(){
+  clearInterval(timerInt);clearInterval(bidInt);
+  if(_allAnsweredTimer){clearTimeout(_allAnsweredTimer);_allAnsweredTimer=null;}
+  if(unsubAns){unsubAns();unsubAns=null;}
+  const g=await dbGet('games/'+roomCode);const ni=g.currentQ+1;
+  if(ni>=g.questions.length){endGame();return;}
+  await dbUpd('games/'+roomCode,{currentQ:ni,answers:{},bids:{},correctKey:null,phase:'question',timer:Q_SEC,bidPhase:false});
+  const ng=await dbGet('games/'+roomCode);startQuestion(ng,ni);
+}
+
+async function revealNow(){clearInterval(timerInt);clearInterval(bidInt);if(_allAnsweredTimer){clearTimeout(_allAnsweredTimer);_allAnsweredTimer=null;}doReveal();}
+
+/* ══ REVEAL ══ */
+async function doReveal(){
+  clearInterval(timerInt);clearInterval(bidInt);if(unsubAns){unsubAns();unsubAns=null;}
+  await dbUpd('games/'+roomCode,{phase:'locking',bidPhase:false,timer:0});
+  await new Promise(res=>setTimeout(res,2000));
+  const g=await dbGet('games/'+roomCode);
+  const q=g.questions[g.currentQ];
+  const ci=q.opts.findIndex(o=>o===q.answer);const ck=KEYS[ci];
+  const ph=getPhase(g,g.currentQ);
+  const players=JSON.parse(JSON.stringify(g.players||{}));
+  const answers=g.answers||{};const bids=g.bids||{};
+  Object.keys(players).forEach(pid=>{
+    const p=players[pid];p.score=parseInt(p.score)||0;
+    const ans=answers[pid];const rawBid=parseInt(bids[pid])||5;const bid=Math.min(50,Math.max(5,rawBid));
+    if(ph==='auction'){if(ans===ck)p.score+=bid;else if(ans)p.score-=bid;}
+    else if(ph==='negative'){if(ans===ck)p.score+=10;else if(ans)p.score-=parseInt(g.negPts||5);}
+    else{if(ans===ck)p.score+=10;}
+    players[pid]=p;
+  });
+  await dbUpd('games/'+roomCode,{correctKey:ck,phase:'reveal',players,timer:REV_SEC});
+  KEYS.forEach(k=>{const el=document.getElementById('hopt-'+k);if(el&&k===ck)el.classList.add('opt-correct');});
+  showBars(ck,q,answers);updateLB({...g,players});
+  if(g.rMusic&&g.rMusic!=='none')playMusic(g.rMusic);else playCorrect();
+  let rt=REV_SEC;setArc('h-arc','h-tsec',rt,REV_SEC);
+  timerInt=setInterval(async()=>{if(paused)return;rt--;setArc('h-arc','h-tsec',rt,REV_SEC);await dbUpd('games/'+roomCode,{timer:rt});if(rt<=0){clearInterval(timerInt);nextQ();}},1000);
+}
+
+function showBars(ck,q,answers){
+  const counts={A:0,B:0,C:0,D:0};Object.values(answers).forEach(v=>{if(counts[v]!==undefined)counts[v]++;});
+  const total=Object.values(counts).reduce((a,b)=>a+b,0)||1;
+  const cols=['#FF4757','#1E90FF','#2ED573','#FFA502'];
+  document.getElementById('h-bars').style.display='block';
+  document.getElementById('h-bars-inner').innerHTML=KEYS.map((k,i)=>`
+    <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem;">
+      <div style="width:110px;font-size:.9rem;font-weight:600;flex-shrink:0;">${SHAPES[i]} ${q.opts[i].substring(0,13)}</div>
+      <div style="flex:1;height:34px;background:#ffffff11;border-radius:8px;overflow:hidden;">
+        <div class="bar-fill" style="width:${Math.round(counts[k]/total*100)}%;background:${cols[i]};color:#fff;">${counts[k]>0?counts[k]:''}</div>
+      </div>
+      <span style="font-size:.9rem;width:36px;text-align:right;color:#aaa;font-weight:600;">${Math.round(counts[k]/total*100)}%</span>
+      ${k===ck?'<span style="font-size:1.3rem;">✅</span>':'<span style="width:1.5rem;"></span>'}
+    </div>`).join('');
+}
+
+let _lbRoomCode=null;
+function updateLB(g,forRoom){
+  var targetRoom=forRoom||roomCode;
+  if(_lbRoomCode!==null&&_lbRoomCode!==targetRoom){
+    document.getElementById('h-lb').innerHTML='';
+    document.getElementById('h-pcount').textContent='0';
+  }
+  _lbRoomCode=targetRoom;
+  const sorted=Object.values(g.players||{}).sort((a,b)=>b.score-a.score);
+  document.getElementById('h-pcount').textContent=sorted.length;
+  document.getElementById('h-lb').innerHTML=sorted.map((p,i)=>'<div style="background:#ffffff08;border-radius:8px;padding:.45rem .8rem;margin-bottom:.4rem;display:flex;justify-content:space-between;font-size:.88rem;"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:115px;">'+(i+1)+'. '+p.name+'</span><span style="font-weight:700;color:'+(p.score<0?'#FF4757':'#FFD700')+';flex-shrink:0;">'+p.score+'</span></div>').join('');
+}
+
+function setArc(aId,nId,t,total){
+  const circ=264,pct=Math.max(0,t/total);
+  const arc=document.getElementById(aId),num=document.getElementById(nId);
+  if(arc){arc.style.strokeDashoffset=circ*(1-pct);arc.style.stroke=t<=10?'#FF4757':t<=20?'#FFA502':'#FFD700';}
+  if(num){num.textContent=t;num.style.color=t<=10?'#FF4757':t<=20?'#FFA502':'#FFD700';}
+}
+
+async function togglePause(){paused=!paused;document.getElementById('h-pause').textContent=paused?'▶ Resume':'⏸ Pause';document.getElementById('pause-ov').style.display=paused?'flex':'none';await dbUpd('games/'+roomCode,{paused});}
+
+async function endGame(){
+  clearInterval(timerInt);clearInterval(bidInt);if(unsubAns){unsubAns();unsubAns=null;}
+  releaseWakeLock();
+  await dbUpd('games/'+roomCode,{phase:'ended'});
+  await logSessionEnd();
+  // Clear saved roomCode since game is properly ended
+  try{localStorage.removeItem('qa_roomCode');localStorage.removeItem('qa_hostUid');localStorage.removeItem('qa_startedAt');}catch(e){}
+  const g=await dbGet('games/'+roomCode);showResults(g);
+}
+
+/* ══ RESULTS ══ */
+function showResults(g){
+  S('results');
+  // Sort descending by score
+  resultSorted=Object.values(g.players||{}).sort((a,b)=>b.score-a.score);
+  resultGroup=0;
+  // Build pages of 5, from last place up to first place
+  // e.g. 13 players → page0: rank13-9, page1: rank8-4, page2: rank3-1(top)
+  _resultPages=[];
+  const all=resultSorted;
+  for(let i=all.length-1;i>=0;i-=5){
+    _resultPages.push(all.slice(Math.max(0,i-4),i+1).slice().reverse());
+  }
+  document.getElementById('r-next').style.display='';
+  document.getElementById('r-next').textContent='Next Group ▶';
+  document.getElementById('r-next').onclick=nextResultGroup;
+  nextResultGroup();
+}
+let _resultPages=[];
+function nextResultGroup(){
+  const all=resultSorted;
+  const cur=_resultPages[resultGroup];
+  if(!cur||!cur.length){
+    document.getElementById('r-next').style.display='none';
+    return;
+  }
+  // Safe maxSc — guard against empty array spread
+  const scores=all.map(p=>Math.abs(parseInt(p.score)||0));
+  const maxSc=scores.length?Math.max(...scores,1):1;
+  const firstRank=all.indexOf(cur[cur.length-1])+1;
+  const lastRank=all.indexOf(cur[0])+1;
+  const isTopPage=resultGroup===_resultPages.length-1;
+  document.getElementById('r-subtitle').textContent=isTopPage?'🥇 Top Players!':`Positions ${firstRank} → ${lastRank}`;
+  document.getElementById('r-cards').innerHTML=cur.map(p=>{
+    const rank=all.indexOf(p)+1;
+    const sc=parseInt(p.score)||0;
+    const pct=maxSc>0?Math.max(0,Math.min(100,(sc/maxSc)*100)):0;
+    const medal=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'#'+rank;
+    const rc=rank===1?'#FFD700':rank===2?'#C0C0C0':rank===3?'#CD7F32':'#aaa';
+    return `<div class="card fade" style="display:flex;align-items:center;gap:1.2rem;">
+      <div style="font-size:2rem;font-weight:900;color:${rc};width:55px;text-align:center;">${medal}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:1.1rem;">${p.name}</div>
+        <div style="height:10px;background:#ffffff11;border-radius:5px;overflow:hidden;margin-top:.4rem;">
+          <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#7c3aed,#c026d3);border-radius:5px;transition:width 1s;"></div>
+        </div>
+      </div>
+      <div style="font-size:1.6rem;font-weight:900;color:${sc<0?'#FF4757':'#FFD700'};flex-shrink:0;">${sc}</div>
+    </div>`;
+  }).join('');
+  resultGroup++;
+  if(resultGroup>=_resultPages.length){
+    document.getElementById('r-next').textContent='🏠 Home';
+    document.getElementById('r-next').onclick=()=>S('auth-landing');
+  }
+}
+
+/* ══ PLAYER SIDE ══ */
+
+// Cache of current game players for name-check
+let _cachedGamePlayers={};
+
+async function checkNameExists(nameVal){
+  // When user types name, check if it already exists in the game
+  // If yes show PIN field, if no hide it
+  const code=document.getElementById('j-code').value.toUpperCase().trim();
+  const name=nameVal.trim();
+  if(!code||!name){document.getElementById('j-pin-wrap').style.display='none';return;}
+  const g=await dbGet('games/'+code);
+  if(!g){document.getElementById('j-pin-wrap').style.display='none';return;}
+  _cachedGamePlayers=g.players||{};
+  const existing=Object.values(_cachedGamePlayers).find(p=>p.name===name);
+  document.getElementById('j-pin-wrap').style.display=existing?'block':'none';
+}
+
+async function joinGame(){
+  // Immediately disable button to prevent double-tap / double-click
+  const jBtn=document.getElementById('j-btn');
+  if(jBtn.disabled)return; // already processing — ignore second press
+  jBtn.disabled=true;
+  jBtn.textContent='Joining…';
+
+  const code=document.getElementById('j-code').value.toUpperCase().trim();
+  const name=document.getElementById('j-name').value.trim();
+  document.getElementById('j-err').style.display='none';
+
+  // Helper to re-enable button on any error
+  function joinErr(msg){
+    showErr(msg);
+    jBtn.disabled=false;
+    jBtn.textContent='Join Game 🎮';
+  }
+
+  if(!code||!name){joinErr('Fill in both fields.');return;}
+  if(!window._firebaseReady){joinErr('Firebase not ready.');return;}
+  const g=await dbGet('games/'+code);
+  if(!g){joinErr(`Room "${code}" not found.`);return;}
+  if(g.phase==='ended'){joinErr('This game has already ended.');return;}
+
+  const existing=Object.values(g.players||{}).find(p=>p.name===name);
+
+  if(existing){
+    // Name already taken — verify PIN before allowing rejoin
+    const pinInput=document.getElementById('j-pin').value.trim();
+    if(!pinInput){
+      // Show PIN field and ask for it
+      document.getElementById('j-pin-wrap').style.display='block';
+      joinErr('This name is already in the game. Enter your 4-digit PIN to rejoin.');
+      return;
+    }
+    if(String(existing.pin)!==String(pinInput)){
+      joinErr('❌ Incorrect PIN. Only the original player can rejoin with this name.');
+      return;
+    }
+    // PIN correct — genuine reconnect
+    myId=existing.id;myName=name;roomCode=code;myRole='player';
+    mySlotNum=existing.slotNum||'?';
+    try{sessionStorage.setItem('qa_psession',JSON.stringify({id:existing.id,name:name,code:code,slotNum:existing.slotNum,pin:parseInt(pinInput)}));}catch(e){}
+    requestWakeLock();
+    showPlayerBadge(name,mySlotNum,true);
+    // Clear PIN field for privacy
+    document.getElementById('j-pin').value='';
+    document.getElementById('j-pin-wrap').style.display='none';
+    S('player');startPlayerListener(code);return;
+  }
+
+  // Brand new player — generate random 4-digit PIN
+  if(Object.keys(g.players||{}).length>=(g.maxPlayers||100)){joinErr('Room is full.');return;}
+  myId='p_'+Math.random().toString(36).slice(2,9);
+  myName=name;roomCode=code;myRole='player';
+  const currentCount=Object.keys(g.players||{}).length;
+  mySlotNum=currentCount+1;
+  // Generate 4-digit PIN (1000–9999)
+  const myPin=Math.floor(1000+Math.random()*9000);
+  await dbSet('games/'+code+'/players/'+myId,{id:myId,name,score:0,slotNum:mySlotNum,pin:myPin});
+  try{sessionStorage.setItem('qa_psession',JSON.stringify({id:myId,name:name,code:code,slotNum:mySlotNum,pin:myPin}));}catch(e){}
+  showPlayerBadge(name,mySlotNum,false,myPin);
+  requestWakeLock();
+  S('player');startPlayerListener(code);
+}
+
+function showPlayerBadge(name,slotNum,reconnect,pin){
+  document.getElementById('p-namebadge').textContent=name+(reconnect?' 🔄':'');
+  const existing=document.getElementById('p-slotnum');
+  if(existing)existing.remove();
+  const el=document.createElement('div');
+  el.id='p-slotnum';
+  // Show slot number always, show PIN only on first join (not reconnect)
+  el.innerHTML=`<div style="background:#ffffff11;border:1px solid #FFD70044;border-radius:10px;padding:.5rem 1rem;display:inline-block;font-size:.82rem;color:#FFD700;margin-top:.4rem;text-align:center;">
+    🔖 Login #<strong style="font-size:1rem;">${slotNum}</strong>
+    ${!reconnect&&pin?`&nbsp;·&nbsp; 🔒 PIN: <strong style="font-size:1rem;letter-spacing:.15rem;">${pin}</strong>`:''}
+    <div style="color:#aaa;font-size:.7rem;margin-top:.2rem;">Only you can see this — note your PIN for reconnecting</div>
+  </div>`;
+  const badge=document.getElementById('p-namebadge');
+  badge.parentNode.insertBefore(el,badge.nextSibling);
+}
+function showErr(msg){const e=document.getElementById('j-err');e.textContent=msg;e.style.display='block';}
+
+function startPlayerListener(code){
+  if(unsubGame)unsubGame();
+  unsubGame=dbOn('games/'+code,gs=>{
+    if(!gs)return;
+    if(lastBidPhase===true&&gs.bidPhase===false&&gs.phase==='question'){
+      lastBidPhase=false;
+      renderPC(`<div class="pop" style="text-align:center;padding:2rem;">
+        <div style="font-size:3rem;margin-bottom:.5rem;">🎯</div>
+        <div style="font-size:1.6rem;font-weight:900;color:#FFD700;margin-bottom:.3rem;">Question Revealed!</div>
+        <div style="color:#aaa;">Select your answer now!</div>
+      </div>`);
+      setTimeout(()=>{if(!playerAnswered)renderAnswerBtns(code);},1200);
+      return;
+    }
+    lastBidPhase=!!gs.bidPhase;
+    if(gs.currentQ!==lastPlayerQ){
+      lastPlayerQ=gs.currentQ;playerSelected=null;playerAnswered=false;
+      playerBidDone=false;playerBid=5;lastBidPhase=!!gs.bidPhase;
+    }
+    if(gs.answers&&gs.answers[myId]&&!playerAnswered){playerAnswered=true;playerSelected=gs.answers[myId];}
+    if(gs.bids&&gs.bids[myId]&&!playerBidDone){playerBidDone=true;playerBid=Math.max(5,parseInt(gs.bids[myId])||5);}
+    const me=gs.players?.[myId];if(!me)return;
+    document.getElementById('p-score').textContent=parseInt(me.score)||0;
+    const ph=getPhase(gs,gs.currentQ);
+    document.getElementById('p-phase').textContent=ph==='auction'?'⚡ Auction Mode':ph==='negative'?`⚠️ -${gs.negPts||5} pts Wrong`:'✅ Normal Mode';
+    const isBid=gs.bidPhase;
+    const total=isBid?BID_SEC:gs.phase==='reveal'?REV_SEC:Q_SEC;
+    setArc('p-arc','p-tsec',gs.timer||0,total);
+    document.getElementById('p-ring').style.display=(gs.phase==='question'||gs.phase==='reveal'||gs.phase==='locking'||isBid)?'':'none';
+
+    if(gs.phase==='waiting')renderPC(msgBox('⏳','Waiting...','Game will start soon'));
+    else if(gs.phase==='ended'){releaseWakeLock();renderPC(msgBox('🏁','Game Over!','Check the main screen for results'));if(unsubGame){unsubGame();unsubGame=null;}}
+    else if(gs.phase==='locking'){
+      if(playerSelected&&!playerAnswered){playerAnswered=true;dbSet('games/'+code+'/answers/'+myId,playerSelected).catch(()=>{});}
+      const stored=gs.answers?.[myId];const dk=stored||playerSelected;
+      if(dk)renderPC(msgBox('🔒','Answer Submitted!',`Your choice: ${SHAPES[KEYS.indexOf(dk)]} ${LABELS[KEYS.indexOf(dk)]}`));
+      else renderPC(`<div style="text-align:center;padding:2rem;"><div style="font-size:3.5rem;margin-bottom:.5rem;">⚠️</div><div style="font-size:1.3rem;font-weight:700;color:#FF4757;">No Answer Selected!</div><div style="color:#aaa;margin-top:.4rem;font-size:.95rem;">You did not select any answer for this question.</div><div style="color:#aaa;font-size:.85rem;margin-top:.3rem;">No points will be awarded.</div></div>`);
+    }
+    else if(gs.phase==='question'){
+      if(isBid&&ph==='auction'&&!playerBidDone)renderBidPanel(me,code,gs);
+      else if(isBid&&ph==='auction'&&playerBidDone){const tb=Object.keys(gs.bids||{}).length;const tp=Object.keys(gs.players||{}).length;renderPC(msgBox('✅',`Bid Locked: ${playerBid}`,`Waiting for others… (${tb}/${tp} bids in)`));}
+      else if(!isBid&&!playerAnswered)renderAnswerBtns(code);
+      else if(!isBid&&playerAnswered)renderSelectedState(code);
+      else renderAnswerBtns(code);
+    }
+    else if(gs.phase==='reveal')renderReveal(gs,me);
+  });
+}
+
+function msgBox(icon,title,sub){return `<div style="text-align:center;padding:2rem;"><div style="font-size:3.5rem;margin-bottom:.5rem;">${icon}</div><div style="font-size:1.3rem;font-weight:700;color:#FFD700;">${title}</div><div style="color:#aaa;margin-top:.4rem;font-size:.95rem;">${sub}</div></div>`;}
+function renderPC(html){document.getElementById('p-content').innerHTML=html;}
+
+function renderBidPanel(me,code,gs){
+  const myScore=parseInt(me.score)||0;
+  // Bid rules: min=5, max=min(score,50) but never below 5
+  const maxBid=myScore>=5?Math.min(myScore,50):5;
+  const minBid=5;
+  // Default bid = maxBid (start slider at highest allowed)
+  if(playerBid<minBid||playerBid>maxBid)playerBid=maxBid;
+  const timeLeft=gs.timer||0;const tb=Object.keys(gs.bids||{}).length;const tp=Object.keys(gs.players||{}).length;
+  renderPC(`<div style="background:linear-gradient(135deg,#1a1500,#2a2000);border:2px solid #FFD700;border-radius:20px;padding:1.5rem;text-align:center;width:100%;">
+    <div style="font-size:1.3rem;font-weight:700;color:#FFD700;margin-bottom:.3rem;">⚡ AUCTION ROUND</div>
+    <div style="color:#ccc;font-size:1rem;font-weight:600;margin-bottom:.3rem;">🎯 Place your bid for the next question!</div>
+    <div style="color:#aaa;font-size:.85rem;margin-bottom:.5rem;">Question is hidden — bid wisely before it is revealed</div>
+    <div style="font-size:1.8rem;font-weight:900;color:#FF4757;margin-bottom:.3rem;">⏱ ${timeLeft}s</div>
+    <div style="color:#aaa;font-size:.8rem;margin-bottom:.8rem;">${tb} of ${tp} players have bid</div>
+    <div id="bid-disp" style="font-size:3.5rem;font-weight:900;color:#FFD700;margin-bottom:.3rem;">${playerBid}</div>
+    <input type="range" min="${minBid}" max="${maxBid}" value="${playerBid}" style="width:100%;accent-color:#FFD700;margin-bottom:.4rem;"
+      oninput="playerBid=parseInt(this.value);document.getElementById('bid-disp').textContent=this.value;">
+    <div style="display:flex;justify-content:space-between;color:#aaa;font-size:.8rem;margin-bottom:.3rem;">
+      <span>Min: ${minBid}</span><span style="color:#FFD700;font-weight:700;">Max: ${maxBid}</span>
+    </div>
+    <div style="color:#aaa;font-size:.75rem;margin-bottom:1rem;">
+      ${myScore>=50?'Score ≥ 50 — max bid capped at 50':myScore<5?'Score < 5 — min bid applies':'Max bid = your score ('+myScore+')'}
+    </div>
+    <button class="btn btn-g" style="width:100%;font-size:1.1rem;" onclick="confirmBid('${code}')">🔒 Lock My Bid: ${playerBid}</button>
+    <div style="color:#aaa;font-size:.8rem;margin-top:.8rem;">Question flashes on screen after bid window closes</div>
+  </div>`);
+}
+
+function renderAnswerBtns(code){
+  const cols=[['linear-gradient(135deg,#FF4757,#c0392b)','#FF475766'],['linear-gradient(135deg,#1E90FF,#0066cc)','#1E90FF66'],['linear-gradient(135deg,#2ED573,#1a9a4a)','#2ED57366'],['linear-gradient(135deg,#FFA502,#cc7a00)','#FFA50266']];
+  renderPC(`<div style="margin-bottom:.5rem;text-align:center;color:#aaa;font-size:.85rem;">Tap to select — you can change anytime before time runs out</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">`+KEYS.map((k,i)=>`<button class="pbtn ${playerSelected===k?'selected':''}" id="pbtn-${k}" onclick="selectAnswer('${k}','${code}')" style="background:${cols[i][0]};box-shadow:0 4px 20px ${cols[i][1]};"><span style="font-size:2.8rem;">${SHAPES[i]}</span><span style="font-size:1rem;">${LABELS[i]}</span></button>`).join('')+`</div>`);
+}
+
+function renderSelectedState(code){
+  const cols=[['linear-gradient(135deg,#FF4757,#c0392b)','#FF475766'],['linear-gradient(135deg,#1E90FF,#0066cc)','#1E90FF66'],['linear-gradient(135deg,#2ED573,#1a9a4a)','#2ED57366'],['linear-gradient(135deg,#FFA502,#cc7a00)','#FFA50266']];
+  renderPC(`<div style="text-align:center;margin-bottom:.6rem;"><span style="background:#2ED57322;border:1px solid #2ED573;color:#2ED573;border-radius:50px;padding:.3rem .9rem;font-size:.85rem;font-weight:700;">✅ Selected: ${SHAPES[KEYS.indexOf(playerSelected)]} ${LABELS[KEYS.indexOf(playerSelected)]}</span><div style="color:#aaa;font-size:.8rem;margin-top:.4rem;">You can still change your answer</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">`+KEYS.map((k,i)=>`<button class="pbtn ${playerSelected===k?'selected':''}" id="pbtn-${k}" onclick="selectAnswer('${k}','${code}')" style="background:${cols[i][0]};box-shadow:0 4px 20px ${cols[i][1]};opacity:${playerSelected===k?'1':'.55'};"><span style="font-size:2.8rem;">${SHAPES[i]}</span><span style="font-size:.9rem;">${LABELS[i]}</span></button>`).join('')+`</div>`);
+}
+
+async function selectAnswer(key,code){
+  playerSelected=key;playerAnswered=true;beep(440,.08);
+  try{await dbSet('games/'+code+'/answers/'+myId,key);}catch(e){console.error('Answer write failed:',e);}
+  renderSelectedState(code);
+}
+
+async function confirmBid(code){
+  playerBidDone=true;await dbSet('games/'+code+'/bids/'+myId,playerBid);
+  beep(550,.1);renderPC(msgBox('✅',`Bid Locked: ${playerBid}`,'Question appearing soon...'));
+}
+
+function renderReveal(gs,me){
+  const q=gs.questions[gs.currentQ];const ck=gs.correctKey;
+  const myAns=gs.answers?.[myId];const ok=myAns===ck;const noAns=!myAns;
+  const ph=getPhase(gs,gs.currentQ);const bid=Math.max(5,parseInt((gs.bids||{})[myId])||5);
+  let sc='';
+  if(noAns)sc='No answer — 0';
+  else if(ph==='auction')sc=ok?`+${bid}`:`-${bid}`;
+  else if(ph==='negative')sc=ok?'+10':`-${gs.negPts||5}`;
+  else sc=ok?'+10':'0';
+  if(!noAns){if(ok)playCorrect();else playWrong();}
+  renderPC(`<div style="text-align:center;padding:1rem;" class="pop">
+    <div style="font-size:4.5rem;margin-bottom:.3rem;">${noAns?'⏰':ok?'✅':'❌'}</div>
+    <div style="font-size:1.5rem;font-weight:700;margin-bottom:.3rem;color:${noAns?'#aaa':ok?'#2ED573':'#FF4757'};">${noAns?"Time's Up!":ok?'Correct!':'Wrong!'}</div>
+    <div style="font-size:1.1rem;font-weight:700;color:#FFD700;margin-bottom:.5rem;">${sc}</div>
+    <div style="color:#aaa;font-size:.95rem;margin-bottom:.5rem;">Correct answer: <strong style="color:#FFD700;">${q.answer}</strong></div>
+    <div style="font-size:2.5rem;font-weight:900;color:#FFD700;">${parseInt(me.score)||0}</div>
+    <div style="color:#aaa;font-size:.8rem;margin-top:.3rem;">Next in ${gs.timer||0}s</div>
+  </div>`);
+}
+
+/* ══ ADMIN DASHBOARD ══ */
+let _adminSessions=[],_adminHosts={};
+
+let _adminUnsubSessions=null; // live listener handle
+
+async function loadAdminDashboard(){
+  S('admin');
+  // Load host profiles once
+  const hostsRaw=await dbGet('hosts');
+  _adminHosts=hostsRaw||{};
+  const hostUids=Object.keys(_adminHosts);
+
+  // Set up LIVE listeners for each host's sessions
+  // This means when a host ends a game, admin sees it update instantly
+  if(_adminUnsubSessions){_adminUnsubSessions();_adminUnsubSessions=null;}
+  _adminSessions=[];
+
+  // Use onValue (live) instead of get (one-time) for sessions
+  let listenersReady=0;
+  const totalUids=hostUids.length;
+
+  if(totalUids===0){
+    // No hosts yet — just render empty state
+    renderAdminStats();renderSessionsTable();renderHostsTable();renderLiveTab();
+    return;
+  }
+
+  // Track all unsub functions
+  const unsubs=[];
+  hostUids.forEach(uid=>{
+    const unsub=dbOn('sessions/'+uid, uidSessions=>{
+      // Remove existing sessions for this uid and replace with fresh data
+      _adminSessions=_adminSessions.filter(s=>s.hostUid!==uid);
+      if(uidSessions&&typeof uidSessions==='object'){
+        Object.values(uidSessions).forEach(s=>{if(s)_adminSessions.push(s);});
+      }
+      // Re-render everything live
+      renderAdminStats();
+      autoKillStaleSessions();
+      renderSessionsTable();
+      renderHostsTable();
+      renderLiveTab();
+    });
+    unsubs.push(unsub);
+  });
+
+  // Combined unsub for all listeners
+  _adminUnsubSessions=()=>unsubs.forEach(u=>u());
+  // Stats will be rendered by the live listener once data arrives
+}
+
+function autoKillStaleSessions(){
+  // If a session has been live for more than 6 hours, assume host closed without ending
+  const SIX_HOURS=6*60*60*1000;
+  const now=Date.now();
+  _adminSessions.forEach(async s=>{
+    if(s.status==='live'&&s.startedAt){
+      const age=now-new Date(s.startedAt).getTime();
+      if(age>SIX_HOURS){
+        try{
+          await dbUpd('sessions/'+s.hostUid+'/'+s.key,
+            {status:'ended',endedAt:new Date().toISOString()});
+        }catch(e){}
+      }
+    }
+  });
+}
+
+function renderAdminStats(){
+  const totalHosts=Object.keys(_adminHosts).length;
+  const verified=Object.values(_adminHosts).filter(h=>h.verified).length;
+  const totalPlayers=_adminSessions.reduce((a,s)=>a+(s.peakPlayers||0),0);
+  const liveNow=_adminSessions.filter(s=>s.status==='live').length;
+  const rooms=new Set(_adminSessions.map(s=>s.roomCode)).size;
+  document.getElementById('as-hosts').textContent=totalHosts;
+  document.getElementById('as-verified').textContent=verified;
+  document.getElementById('as-sessions').textContent=_adminSessions.length;
+  document.getElementById('as-players').textContent=totalPlayers;
+  document.getElementById('as-live').textContent=liveNow;
+  document.getElementById('as-rooms').textContent=rooms;
+}
+
+function adminTab(name,btn){
+  ['sessions','hosts','live','leaderboard','subscriptions'].forEach(function(t){
+    var el=document.getElementById('tab-'+t);if(el)el.style.display=t===name?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  if(name==='live')renderLiveTab();
+  if(name==='leaderboard')adminPopulateRoomSelect();
+  if(name==='subscriptions')adminRenderSubscriptions();
+}
+
+function renderSessionsTable(){
+  const search=(document.getElementById('f-search').value||'').toLowerCase();
+  const status=document.getElementById('f-status').value;
+  const sort=document.getElementById('f-sort').value;
+  let rows=[..._adminSessions];
+  if(search)rows=rows.filter(s=>(s.hostName||'').toLowerCase().includes(search)||(s.hostEmail||'').toLowerCase().includes(search)||(s.roomCode||'').toLowerCase().includes(search)||(s.theme||'').toLowerCase().includes(search));
+  if(status)rows=rows.filter(s=>s.status===status);
+  if(sort==='newest')rows.sort((a,b)=>new Date(b.startedAt)-new Date(a.startedAt));
+  else if(sort==='oldest')rows.sort((a,b)=>new Date(a.startedAt)-new Date(b.startedAt));
+  else if(sort==='players')rows.sort((a,b)=>(b.peakPlayers||0)-(a.peakPlayers||0));
+  const tbody=document.getElementById('admin-sessions-body');
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;color:#aaa;padding:2rem;">No sessions found.</td></tr>';return;}
+  tbody.innerHTML=rows.map((s,i)=>`<tr>
+    <td style="color:#aaa;">${i+1}</td>
+    <td style="font-weight:700;">${esc(s.hostName||'—')}</td>
+    <td style="color:#aaa;font-size:.8rem;">${esc(s.hostEmail||'—')}</td>
+    <td style="color:#aaa;font-size:.8rem;">${esc(s.hostMobile||'—')}</td>
+    <td style="color:#aaa;font-size:.8rem;">${esc(s.hostCity||'')}${s.hostCountry?', '+esc(s.hostCountry):''}</td>
+    <td><span style="font-weight:800;color:var(--gold);letter-spacing:.1rem;">${esc(s.roomCode)}</span></td>
+    <td style="font-size:.8rem;color:#aaa;">${esc(s.theme||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${fmtDate(s.startedAt)}</td>
+    <td style="color:var(--accent);font-weight:700;">${s.peakPlayers||0}</td>
+    <td>${s.questionCount||0}</td>
+    <td style="font-size:.8rem;">${esc(s.mode||'Normal')}</td>
+    <td><span class="badge ${s.status==='live'?'badge-live':'badge-end'}">${s.status==='live'?'🔴 Live':'✅ Ended'}</span></td>
+  </tr>`).join('');
+}
+
+function renderHostsTable(){
+  const hosts=Object.values(_adminHosts);
+  const sc={},pc={};
+  _adminSessions.forEach(s=>{sc[s.hostUid]=(sc[s.hostUid]||0)+1;pc[s.hostUid]=(pc[s.hostUid]||0)+(s.peakPlayers||0);});
+  const tbody=document.getElementById('admin-hosts-body');
+  if(!hosts.length){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;color:#aaa;padding:2rem;">No hosts registered yet.</td></tr>';return;}
+  hosts.sort((a,b)=>new Date(b.registeredAt||0)-new Date(a.registeredAt||0));
+  tbody.innerHTML=hosts.map((h,i)=>`<tr>
+    <td style="color:#aaa;">${i+1}</td>
+    <td style="font-weight:700;">${esc(h.name||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${esc(h.email||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${esc(h.mobile||'—')}</td>
+    <td style="font-size:.8rem;">${esc(h.city||'—')}</td>
+    <td style="font-size:.8rem;">${esc(h.country||'—')}</td>
+    <td style="font-size:.8rem;">${esc(h.pin||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${esc(h.org||'—')}</td>
+    <td style="font-size:.8rem;color:#aaa;">${fmtDate(h.registeredAt)}</td>
+    <td style="color:var(--accent);font-weight:700;">${sc[h.uid]||0}</td>
+    <td style="color:var(--c3);font-weight:700;">${pc[h.uid]||0}</td>
+    <td><span class="badge ${h.verified?'badge-live':'badge-no'}">${h.verified?'✅ Yes':'⚠️ No'}</span></td>
+    <td>${(function(){var su=h.subscribedUntil?new Date(h.subscribedUntil):null;var ok=su&&su>new Date();return ok?'<span class="badge badge-live">⭐ '+Math.ceil((su-new Date())/86400000)+'d</span>':'<span class="badge badge-end">—</span>';})()}</td>
+  </tr>`).join('');
+}
+
+function renderLiveTab(){
+  const live=_adminSessions.filter(s=>s.status==='live');
+  const el=document.getElementById('admin-live-body');
+  if(!live.length){el.innerHTML='<div style="text-align:center;color:#aaa;padding:3rem;"><div style="font-size:3rem;margin-bottom:.5rem;">😴</div><div>No live games right now</div></div>';return;}
+  el.innerHTML=live.map(s=>`<div class="card" style="border:1px solid #2ED57344;max-width:700px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;">
+      <div>
+        <div style="font-size:1.2rem;font-weight:800;color:var(--gold);">${esc(s.roomCode)}</div>
+        <div style="color:#ccc;font-weight:600;">${esc(s.hostName||'—')}</div>
+        <div style="color:#aaa;font-size:.85rem;">${esc(s.hostEmail||'')} · ${esc(s.hostMobile||'')}</div>
+        <div style="color:#aaa;font-size:.8rem;">${esc(s.hostCity||'')}${s.hostCountry?', '+s.hostCountry:''}</div>
+      </div>
+      <div style="text-align:right;">
+        <span class="badge badge-live" style="font-size:.9rem;padding:.3rem .9rem;">🔴 LIVE</span>
+        <div style="margin-top:.5rem;color:var(--accent);font-size:1.4rem;font-weight:900;">${s.peakPlayers||0} players</div>
+        <div style="color:#aaa;font-size:.8rem;">${s.questionCount||0} questions · ${esc(s.theme||'—')}</div>
+        <div style="color:#aaa;font-size:.75rem;margin-top:.2rem;">Started ${fmtDate(s.startedAt)}</div>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+/* ═══ ADMIN LEADERBOARD ═══ */
+function adminPopulateRoomSelect(){
+  var sel=document.getElementById('lb-room-select');
+  if(!sel)return;
+  var sorted=[].concat(_adminSessions).sort(function(a,b){return new Date(b.startedAt)-new Date(a.startedAt);});
+  sel.innerHTML='<option value="">— Select a Room Code to view leaderboard —</option>'+sorted.map(function(s){
+    return '<option value="'+esc(s.roomCode)+'">'+esc(s.roomCode)+' · '+esc(s.hostName||'—')+' · '+esc(s.theme||'—')+' · '+(s.status==='live'?'🔴 Live':'✅ Ended')+'</option>';
+  }).join('');
+}
+
+async function adminLoadLeaderboard(){
+  var sel=document.getElementById('lb-room-select');
+  var code=sel?sel.value.trim():'';
+  var out=document.getElementById('admin-lb-content');
+  if(!code){out.innerHTML='<div style="text-align:center;color:#aaa;padding:2rem;">Select a room code first.</div>';return;}
+  out.innerHTML='<div style="text-align:center;color:#aaa;padding:2rem;">&#9203; Loading...</div>';
+  var g=await dbGet('games/'+code);
+  if(!g){out.innerHTML='<div style="text-align:center;color:#FF4757;padding:2rem;">Game data not found for '+esc(code)+'.</div>';return;}
+  var players=Object.values(g.players||{}).sort(function(a,b){return b.score-a.score;});
+  if(!players.length){out.innerHTML='<div style="text-align:center;color:#aaa;padding:2rem;">No players recorded for this room.</div>';return;}
+  var maxSc=Math.max.apply(null,players.map(function(p){return Math.abs(p.score||0);}).concat([1]));
+  var rows=players.map(function(pl,i){
+    var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
+    var sc=parseInt(pl.score)||0;
+    var pct=Math.max(0,Math.min(100,maxSc>0?(Math.abs(sc)/maxSc)*100:0));
+    var col=i===0?'#FFD700':i===1?'#C0C0C0':i===2?'#CD7F32':'#aaa';
+    var fs=i<3?'1.2rem':'.85rem';
+    return '<div style="display:flex;align-items:center;gap:.8rem;padding:.55rem .8rem;background:#ffffff08;border-radius:10px;margin-bottom:.4rem;">'
+      +'<div style="font-size:'+fs+';width:30px;text-align:center;font-weight:900;color:'+col+';">'+medal+'</div>'
+      +'<div style="flex:1;min-width:0;">'
+        +'<div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(pl.name||'—')+'</div>'
+        +'<div style="height:5px;background:#ffffff11;border-radius:3px;margin-top:.3rem;overflow:hidden;">'
+          +'<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#7c3aed,#c026d3);border-radius:3px;"></div>'
+        +'</div>'
+      +'</div>'
+      +'<div style="font-size:1.1rem;font-weight:900;color:'+(sc<0?'#FF4757':'#FFD700')+';flex-shrink:0;">'+sc+'</div>'
+      +'</div>';
+  }).join('');
+  var status=g.phase==='ended'?'Ended':'Live';
+  var statusCol=g.phase==='ended'?'#aaa':'#2ED573';
+  var qInfo='Q'+(g.currentQ>=0?g.currentQ+1:0)+'/'+(g.questions||[]).length;
+  out.innerHTML='<div style="background:var(--card);border-radius:16px;padding:1.2rem;border:1px solid #FFD70033;">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">'
+      +'<div style="font-weight:900;font-size:1.1rem;color:var(--gold);">🏆 Leaderboard — '+esc(code)+'</div>'
+      +'<div style="color:#aaa;font-size:.82rem;">'+players.length+' players &middot; '+qInfo+' &middot; <span style="color:'+statusCol+';">'+status+'</span></div>'
+    +'</div>'
+    +'<div>'+rows+'</div>'
+    +'</div>';
+}
+
+/* ═══ ADMIN SUBSCRIPTIONS ═══ */
+async function adminRenderSubscriptions(){
+  const _pCount=Object.values(_adminHosts).filter(h=>h.perpetual===true).length;
+  const _pEl=document.getElementById('perp-count');
+  if(_pEl){_pEl.textContent=_pCount+'/5';_pEl.style.color=_pCount>=5?'#FF4757':'var(--gold)';}
+  var el=document.getElementById('admin-subs-list');
+  if(!el)return;
+  el.innerHTML='<div style="color:#aaa;padding:1rem;">&#9203; Loading hosts...</div>';
+  var hosts=Object.values(_adminHosts);
+  if(!hosts.length){el.innerHTML='<div style="color:#aaa;padding:1rem;">No hosts registered yet.</div>';return;}
+  hosts.sort(function(a,b){return new Date(b.registeredAt||0)-new Date(a.registeredAt||0);});
+  el.innerHTML=hosts.map(function(h){
+    var subExp=h.subscribedUntil?new Date(h.subscribedUntil):null;
+    var isSubbed=subExp&&subExp>new Date();
+    var daysLeft=isSubbed?Math.ceil((subExp-new Date())/86400000):0;
+    var subBadge=isSubbed
+      ?'<span class="badge badge-live">⭐ Subscribed</span><div style="font-size:.75rem;color:#aaa;margin-top:.2rem;">'+daysLeft+'d left &middot; until '+subExp.toLocaleDateString('en-IN')+'</div>'
+      :'<span class="badge badge-no">No Subscription</span>';
+    var revBtn=isSubbed?'<button class="btn btn-d btn-sm" data-action="revoke" data-uid="'+h.uid+'" data-name="'+esc(h.name||'')+'">&#10005; Revoke</button>':'';
+    return '<div style="background:var(--card);border-radius:14px;padding:1rem 1.2rem;border:1px solid '+(isSubbed?'#FFD70033':'#ffffff11')+';display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">'
+      +'<div style="flex:1;min-width:180px;">'
+        +'<div style="font-weight:700;">'+esc(h.name||'—')+' <span style="font-size:.78rem;color:#aaa;">'+esc(h.email||'')+'</span></div>'
+        +'<div style="font-size:.8rem;color:#aaa;margin-top:.2rem;">'+esc(h.city||'')+( h.country?', '+esc(h.country):'')+' &middot; '+esc(h.org||'—')+'</div>'
+      +'</div>'
+      +'<div style="min-width:140px;text-align:center;">'+subBadge+'</div>'
+      +'<div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">'
+        +'<select id="sub-days-'+h.uid+'" style="background:#ffffff0d;border:1px solid #ffffff22;border-radius:8px;padding:.35rem .6rem;color:#fff;font-size:.8rem;outline:none;">'
+          +'<option value="30">+30 days</option>'
+          +'<option value="60">+60 days</option>'
+          +'<option value="90">+90 days</option>'
+          +'<option value="180">+180 days</option>'
+          +'<option value="9999">Perpetual (No Expiry)</option>'
+          +'<option value="365">+1 year</option>'
+        +'</select>'
+        +'<button class="btn btn-g btn-sm" data-action="grant" data-uid="'+h.uid+'" data-name="'+esc(h.name||'')+'">&#11088; Grant</button>'
+        +revBtn
+      +'</div>'
+      +'</div>';
+  }).join('');
+  // Event delegation for grant/revoke buttons (avoids inline onclick quote issues)
+  el.onclick=function(e){
+    var btn=e.target.closest('[data-action]');
+    if(!btn)return;
+    var action=btn.dataset.action, uid=btn.dataset.uid, name=btn.dataset.name;
+    if(action==='grant')adminGrantSub(uid,name);
+    else if(action==='revoke')adminRevokeSub(uid,name);
+  };
+}
+
+async function adminGrantSub(uid,name){
+  var sel=document.getElementById('sub-days-'+uid);
+  var days=parseInt(sel?sel.value:30)||30;
+  var isPerpetual=days===9999;
+  var now=new Date();
+  var hostData=_adminHosts[uid];
+
+  // Check perpetual limit — max 5 hosts
+  if(isPerpetual){
+    var perpCount=Object.values(_adminHosts).filter(h=>h.perpetual===true).length;
+    var alreadyPerp=hostData&&hostData.perpetual===true;
+    if(!alreadyPerp&&perpCount>=5){
+      alert('Perpetual limit reached. Max 5 hosts allowed. Currently '+perpCount+'/5 used.');return;
+    }
+  }
+
+  var existingExp=hostData&&hostData.subscribedUntil?new Date(hostData.subscribedUntil):null;
+  var base=(existingExp&&existingExp>now)?existingExp:now;
+  var newExpDate=isPerpetual?null:new Date(base.getTime()+days*86400000);
+  var newExpStr=isPerpetual?null:newExpDate.toISOString();
+  var updateData={subscribedUntil:newExpStr,subscribed:true,perpetual:isPerpetual?true:false};
+
+  try{
+    // Try direct write to hosts path
+    try{
+      await dbUpd('hosts/'+uid,updateData);
+    }catch(rulesErr){
+      // Rules blocked — write to admin_grants path as fallback
+      await dbSet('admin_grants/'+uid,{...updateData,grantedAt:new Date().toISOString()});
+      console.log('Saved to admin_grants fallback');
+    }
+    if(_adminHosts[uid]){Object.assign(_adminHosts[uid],updateData);}
+    var msg=isPerpetual?
+      'Perpetual access granted to '+name+'. They must log out and back in to apply.':
+      'Access granted to '+name+' until '+newExpDate.toLocaleDateString('en-IN')+'. They must log out and back in to apply.';
+    alert(msg);
+    adminRenderSubscriptions();
+  }catch(e){alert('Error: '+e.message);}
+}
+
+
+async function adminRevokeSub(uid,name){
+  if(!confirm('Revoke subscription for '+name+'?'))return;
+  try{
+    await dbUpd('hosts/'+uid,{subscribedUntil:null,subscribed:false});
+    if(_adminHosts[uid]){delete _adminHosts[uid].subscribedUntil;_adminHosts[uid].subscribed=false;}
+    alert('Subscription revoked for '+name);
+    adminRenderSubscriptions();
+  }catch(e){alert('Error: '+e.message);}
+}
+
+
+/* ══ CONTACT FORM ══ */
+async function submitContact(){
+  var name=document.getElementById('ct-name').value.trim();
+  var email=document.getElementById('ct-email').value.trim();
+  var subject=document.getElementById('ct-subject').value;
+  var msg=document.getElementById('ct-msg').value.trim();
+  var ok=document.getElementById('contact-ok');
+  var err=document.getElementById('contact-err');
+  ok.style.display='none';err.style.display='none';
+  if(!name||!email||!subject||!msg){err.textContent='Please fill in all required fields.';err.style.display='block';return;}
+  if(!/\S+@\S+\.\S+/.test(email)){err.textContent='Please enter a valid email address.';err.style.display='block';return;}
+  try{
+    var key='contact_'+Date.now();
+    await dbSet('contact_messages/'+key,{name:name,email:email,subject:subject,message:msg,sentAt:new Date().toISOString(),read:false});
+    ok.style.display='block';
+    document.getElementById('ct-name').value='';
+    document.getElementById('ct-email').value='';
+    document.getElementById('ct-subject').value='';
+    document.getElementById('ct-msg').value='';
+  }catch(e){err.textContent='Could not send message. Please try again later.';err.style.display='block';}
+}
+
+function exportMIS(){
+  const rows=[
+    ['#','Host Name','Email','Mobile','City','Country','PIN','Organisation','Room Code','Theme','Mode','Started','Peak Players','Questions','Status','Ended At'],
+    ..._adminSessions.map((s,i)=>[i+1,s.hostName||'',s.hostEmail||'',s.hostMobile||'',s.hostCity||'',s.hostCountry||'',(_adminHosts[s.hostUid]||{}).pin||'',(_adminHosts[s.hostUid]||{}).org||'',s.roomCode||'',s.theme||'',s.mode||'Normal',s.startedAt||'',s.peakPlayers||0,s.questionCount||0,s.status||'',s.endedAt||''])
+  ];
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='QuizArena_MIS_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+/* ══ UTILS ══ */
+function fmtDate(iso){if(!iso)return '—';try{const d=new Date(iso);return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}catch(e){return iso;}}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ══ CUSTOM QR URL ══ */
+function applyCustomQrUrl(){
+  var url=document.getElementById('w-custom-url').value.trim();
+  if(!url){alert('Enter your Netlify URL first.');return;}
+  if(!url.startsWith('http')){url='https://'+url;}
+  window._customQrUrl=url;
+  // Rebuild QR
+  var qrEl=document.getElementById('w-qr');
+  qrEl.innerHTML='';
+  try{new QRCode(qrEl,{text:url,width:240,height:240,colorDark:'#fff',colorLight:'#12122a'});}catch(e){}
+  var wrap=document.getElementById('w-url-wrap');
+  if(wrap)wrap.style.display='none';
+  // Save for reuse this session
+  try{sessionStorage.setItem('qa_customUrl',url);}catch(e){}
+}
+
+/* ══ SCREEN WAKE LOCK ══ */
+var _wakeLock=null;
+
+async function requestWakeLock(){
+  if(!('wakeLock' in navigator)){return;} // API not supported — silent fail
+  try{
+    if(_wakeLock&&_wakeLock.released===false){return;} // already held
+    _wakeLock=await navigator.wakeLock.request('screen');
+    _wakeLock.addEventListener('release',function(){_wakeLock=null;});
+  }catch(e){/* user denied or not available — silent */}
+}
+
+function releaseWakeLock(){
+  if(_wakeLock){_wakeLock.release().catch(function(){});_wakeLock=null;}
+}
+
+// Re-acquire wake lock when tab becomes visible again (OS may release it on tab switch)
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible'&&_wakeLock===null){
+    // Only re-acquire if a game is currently active
+    if(roomCode&&myRole==='host'&&document.getElementById('hostgame').classList.contains('active')){requestWakeLock();}
+    if(roomCode&&myRole==='player'&&document.getElementById('player').classList.contains('active')){requestWakeLock();}
+  }
+});
+
+/* ══ AUTO LOGIN RESTORE ══ */
+document.addEventListener('firebaseReady',()=>{
+  // Restore custom QR URL from previous session
+  try{var _su=sessionStorage.getItem('qa_customUrl');if(_su)window._customQrUrl=_su;}catch(e){}
+
+  window._onAuthStateChanged(window._auth,async user=>{
+    if(user&&user.emailVerified&&document.getElementById('auth-landing').classList.contains('active')){
+      const profile=await dbGet('hosts/'+user.uid);
+      if(profile){currentHostProfile=profile;myRole='host';showHostDashboard();}
+    }
+  });
+
+  // Auto-restore player session on page refresh
+  try{
+    var _ps=sessionStorage.getItem('qa_psession');
+    if(_ps&&document.getElementById('auth-landing').classList.contains('active')){
+      var _pd=JSON.parse(_ps);
+      if(_pd&&_pd.id&&_pd.name&&_pd.code){
+        dbGet('games/'+_pd.code).then(function(g){
+          if(!g||g.phase==='ended'){sessionStorage.removeItem('qa_psession');return;}
+          var _ep=Object.values(g.players||{}).find(function(pl){return pl.id===_pd.id;});
+          if(!_ep){sessionStorage.removeItem('qa_psession');return;}
+          myId=_pd.id;myName=_pd.name;roomCode=_pd.code;myRole='player';mySlotNum=_pd.slotNum||'?';
+          showPlayerBadge(_pd.name,_pd.slotNum,true);
+          var _toast=document.createElement('div');
+          _toast.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:.6rem 1.5rem;border-radius:50px;font-weight:700;z-index:9999;font-size:.9rem;';
+          _toast.textContent='Reconnecting to '+_pd.code+'...';
+          document.body.appendChild(_toast);
+          setTimeout(function(){_toast.remove();requestWakeLock();S('player');startPlayerListener(_pd.code);},1500);
+        }).catch(function(){sessionStorage.removeItem('qa_psession');});
+      }
+    }
+  }catch(e){}
+});
+</script>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ABOUT PAGE                                      -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="about" class="screen" style="background:var(--dark);overflow-y:auto;">
+  <div class="page-hdr">
+    <button class="btn btn-k btn-sm" onclick="S('auth-landing')">&#8592; Back</button>
+    <span class="page-hdr-brand">&#9889; QuizArena</span>
+  </div>
+  <div class="page-wrap">
+    <h1>About QuizArena</h1>
+    <p class="page-sub">The Ultimate Live Quiz Game Show Platform</p>
+
+    <!-- AdSense slot -->
     <ins class="adsbygoogle"
       style="display:block"
       data-ad-client="ca-pub-6461655458619662"
       data-ad-slot="auto"
       data-ad-format="auto"
       data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <h2>What is QuizArena?</h2>
+    <p>QuizArena is a free, browser-based live quiz game show platform that lets any host run real-time interactive quizzes for audiences of any size. No downloads, no installations &mdash; just open the page and start playing.</p>
+
+    <h2>For Hosts</h2>
+    <p>Hosts can upload their own questions from an Excel file and customise every aspect of the game &mdash; from scoring rules and negative marking to blind auction bidding rounds and background music. A live leaderboard updates after every question so the audience stays engaged.</p>
+    <ul>
+      <li>Upload up to 100 questions per session via Excel (.xlsx)</li>
+      <li>Multiple scoring modes: Normal, Negative Marking, Auction Bidding</li>
+      <li>Live leaderboard with real-time score updates</li>
+      <li>QR code for instant player joining</li>
+      <li>Pause, resume, and end controls at any time</li>
+      <li>Session history and performance analytics</li>
+    </ul>
+
+    <h2>For Players</h2>
+    <p>Players join on any smartphone or device by entering a room code or scanning a QR code. No account is needed. Players tap coloured shapes to answer and see their score update live after every question.</p>
+    <ul>
+      <li>Join from any device &mdash; no app required</li>
+      <li>Real-time score feedback after each question</li>
+      <li>Session PIN to rejoin if accidentally disconnected</li>
+      <li>Works on mobile, tablet, and desktop</li>
+    </ul>
+
+    <h2>Our Products</h2>
+    <p>QuizArena is part of a growing suite of interactive tools. We also offer <strong>Quizself</strong> and <strong>Vora</strong> as companion experiences, currently in development.</p>
+
+    <h2>Technology</h2>
+    <p>QuizArena is powered by Google Firebase Realtime Database for live synchronisation across all connected devices, ensuring sub-second updates for every player simultaneously.</p>
+
+    <!-- AdSense slot -->
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6461655458619662"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <h2>Contact Us</h2>
+    <p>Have a question or want to partner with us? <a href="#" onclick="S('contact')">Visit our Contact page</a>.</p>
+  </div>
+  <div class="footer-links">
+    <a onclick="S('auth-landing')" href="#">Home</a>
+    <a onclick="S('privacy')" href="#">Privacy Policy</a>
+    <a onclick="S('terms')" href="#">Terms of Service</a>
+    <a onclick="S('contact')" href="#">Contact Us</a>
+    <span style="color:#ffffff1a;font-size:.8rem;">&copy; 2025 QuizArena</span>
   </div>
 </div>
 
-<div id="scr-auth" class="screen" style="align-items:center;justify-content:center;padding:1.5rem;background:var(--dark);">
-  <div class="auth-card fade">
-    <div class="auth-title" id="auth-title">Host Account</div>
-    <div class="auth-sub" id="auth-sub">Sign in to manage and launch your game rooms</div>
-    
-    <div id="auth-err" class="auth-err"></div>
-    <div id="auth-ok" class="auth-ok"></div>
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PRIVACY POLICY                                  -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="privacy" class="screen" style="background:var(--dark);overflow-y:auto;">
+  <div class="page-hdr">
+    <button class="btn btn-k btn-sm" onclick="S('auth-landing')">&#8592; Back</button>
+    <span class="page-hdr-brand">&#9889; QuizArena</span>
+  </div>
+  <div class="page-wrap">
+    <h1>Privacy Policy</h1>
+    <p class="page-sub">Last updated: June 2025</p>
 
-    <div class="form-row" id="row-name" style="display:none;">
+    <!-- AdSense slot -->
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6461655458619662"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <h2>1. Information We Collect</h2>
+    <p>QuizArena collects minimal information necessary to operate the service:</p>
+    <ul>
+      <li><strong>Host accounts:</strong> Name, email address, mobile number, city, country, PIN code, and organisation (optional). This is required to create and manage your host account.</li>
+      <li><strong>Player data:</strong> Display name chosen at the time of joining a game session. No account is required for players.</li>
+      <li><strong>Game data:</strong> Questions, answers, scores, and session metadata are stored temporarily in Firebase to operate the live game.</li>
+      <li><strong>Usage data:</strong> Standard web server logs including IP address, browser type, and pages visited may be collected automatically.</li>
+    </ul>
+
+    <h2>2. How We Use Your Information</h2>
+    <ul>
+      <li>To provide, operate, and improve the QuizArena service</li>
+      <li>To authenticate hosts and manage their accounts</li>
+      <li>To display live leaderboards and session history to the host</li>
+      <li>To send email verification messages (hosts only)</li>
+      <li>To generate aggregate, anonymised analytics about platform usage</li>
+    </ul>
+
+    <h2>3. Google AdSense</h2>
+    <p>QuizArena uses Google AdSense to display advertisements. Google may use cookies to serve ads based on your prior visits to this or other websites. You can opt out of personalised advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank">Google Ads Settings</a>.</p>
+    <p>Google's use of advertising cookies enables it and its partners to serve ads based on your visit to QuizArena and other sites on the internet. For more information, review Google's <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>.</p>
+
+    <h2>4. Cookies</h2>
+    <p>QuizArena uses browser localStorage and sessionStorage to remember your session between page loads. These are not tracking cookies. Third-party advertising partners (Google AdSense) may set their own cookies as described above.</p>
+
+    <h2>5. Data Sharing</h2>
+    <p>We do not sell, trade, or rent your personal information to third parties. We may share data with:</p>
+    <ul>
+      <li><strong>Firebase (Google):</strong> Our database and authentication provider. Subject to Google's privacy policy.</li>
+      <li><strong>Google AdSense:</strong> For serving advertisements on the platform.</li>
+      <li><strong>Law enforcement:</strong> Where required by applicable law.</li>
+    </ul>
+
+    <h2>6. Data Retention</h2>
+    <p>Host account data is retained until the host requests deletion. Game session data may be retained for up to 12 months for analytics purposes. Player names within sessions are not linked to any persistent identity.</p>
+
+    <h2>7. Your Rights</h2>
+    <p>If you are a registered host, you may request access to, correction of, or deletion of your personal data by contacting us via the <a href="#" onclick="S('contact')">Contact page</a>. We will respond within 30 days.</p>
+
+    <h2>8. Children's Privacy</h2>
+    <p>QuizArena is not directed to children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us immediately.</p>
+
+    <h2>9. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date. Continued use of QuizArena after changes constitutes acceptance of the revised policy.</p>
+
+    <h2>10. Contact</h2>
+    <p>For privacy-related queries, please use our <a href="#" onclick="S('contact')">Contact page</a>.</p>
+
+    <!-- AdSense slot -->
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6461655458619662"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <div class="footer-links">
+    <a onclick="S('auth-landing')" href="#">Home</a>
+    <a onclick="S('about')" href="#">About</a>
+    <a onclick="S('terms')" href="#">Terms of Service</a>
+    <a onclick="S('contact')" href="#">Contact Us</a>
+    <span style="color:#ffffff1a;font-size:.8rem;">&copy; 2025 QuizArena</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TERMS OF SERVICE                                -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="terms" class="screen" style="background:var(--dark);overflow-y:auto;">
+  <div class="page-hdr">
+    <button class="btn btn-k btn-sm" onclick="S('auth-landing')">&#8592; Back</button>
+    <span class="page-hdr-brand">&#9889; QuizArena</span>
+  </div>
+  <div class="page-wrap">
+    <h1>Terms of Service</h1>
+    <p class="page-sub">Last updated: June 2025</p>
+
+    <!-- AdSense slot -->
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6461655458619662"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using QuizArena (&ldquo;the Service&rdquo;), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.</p>
+
+    <h2>2. Description of Service</h2>
+    <p>QuizArena provides a browser-based platform for hosting and participating in live quiz game sessions. The Service is provided free of charge to hosts during the trial period, with optional subscription plans for extended access.</p>
+
+    <h2>3. Host Accounts</h2>
+    <ul>
+      <li>You must register with a valid email address and verify your account before hosting games.</li>
+      <li>You are responsible for maintaining the security of your account credentials.</li>
+      <li>You must provide accurate and truthful information during registration.</li>
+      <li>One person may not maintain multiple accounts.</li>
+      <li>Trial access is valid for 30 days from the date of registration. Extended access requires a subscription granted by the administrator.</li>
+    </ul>
+
+    <h2>4. Acceptable Use</h2>
+    <p>You agree not to use QuizArena to:</p>
+    <ul>
+      <li>Upload, share, or transmit any content that is illegal, harmful, abusive, defamatory, or offensive</li>
+      <li>Infringe on the intellectual property rights of others</li>
+      <li>Conduct commercial quizzes for profit without appropriate licensing</li>
+      <li>Attempt to hack, reverse-engineer, or disrupt the platform</li>
+      <li>Collect or harvest personal information of other users</li>
+      <li>Use the platform for any purpose other than its intended quiz-hosting function</li>
+    </ul>
+
+    <h2>5. Content Responsibility</h2>
+    <p>Hosts are solely responsible for the content of questions uploaded to the platform. QuizArena does not review question content and accepts no liability for any content uploaded by hosts. You warrant that your content does not violate any applicable laws or third-party rights.</p>
+
+    <h2>6. Intellectual Property</h2>
+    <p>The QuizArena platform, including its design, code, and branding, is the intellectual property of QuizArena. You may not copy, redistribute, or create derivative works without express written permission.</p>
+
+    <h2>7. Subscription and Billing</h2>
+    <p>Subscription access is granted manually by the QuizArena administrator upon request. Subscriptions are non-refundable once activated. Subscription periods are as described at the time of grant.</p>
+
+    <h2>8. Advertisements</h2>
+    <p>QuizArena displays advertisements served by Google AdSense. By using the Service, you consent to the display of such advertisements. We are not responsible for the content of third-party advertisements.</p>
+
+    <h2>9. Limitation of Liability</h2>
+    <p>QuizArena is provided &ldquo;as is&rdquo; without warranties of any kind. We are not liable for any loss of data, interruption of service, or damages arising from your use of the platform. The Service may be unavailable during maintenance periods without prior notice.</p>
+
+    <h2>10. Termination</h2>
+    <p>We reserve the right to suspend or terminate any account that violates these Terms of Service, without prior notice. You may delete your account at any time by contacting us.</p>
+
+    <h2>11. Changes to Terms</h2>
+    <p>We reserve the right to modify these Terms at any time. Continued use of the Service after changes are posted constitutes acceptance of the revised terms.</p>
+
+    <h2>12. Governing Law</h2>
+    <p>These Terms shall be governed by and construed in accordance with the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts of India.</p>
+
+    <!-- AdSense slot -->
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6461655458619662"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <div class="footer-links">
+    <a onclick="S('auth-landing')" href="#">Home</a>
+    <a onclick="S('about')" href="#">About</a>
+    <a onclick="S('privacy')" href="#">Privacy Policy</a>
+    <a onclick="S('contact')" href="#">Contact Us</a>
+    <span style="color:#ffffff1a;font-size:.8rem;">&copy; 2025 QuizArena</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- CONTACT PAGE                                    -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="contact" class="screen" style="background:var(--dark);overflow-y:auto;">
+  <div class="page-hdr">
+    <button class="btn btn-k btn-sm" onclick="S('auth-landing')">&#8592; Back</button>
+    <span class="page-hdr-brand">&#9889; QuizArena</span>
+  </div>
+  <div class="page-wrap">
+    <h1>Contact Us</h1>
+    <p class="page-sub">We&rsquo;d love to hear from you</p>
+
+    <!-- AdSense slot -->
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6461655458619662"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h2 style="margin-top:0;">Send us a Message</h2>
+      <div id="contact-ok" style="display:none;background:#2ED57311;border:1px solid #2ED573;border-radius:10px;padding:.8rem 1rem;margin-bottom:1rem;color:#2ED573;font-size:.9rem;">&#10003; Message sent! We will reply within 48 hours.</div>
+      <div id="contact-err" style="display:none;background:#FF475711;border:1px solid #FF4757;border-radius:10px;padding:.8rem 1rem;margin-bottom:1rem;color:#FF4757;font-size:.9rem;"></div>
       <div class="inp-wrap">
-        <label class="inp-label">First Name</label>
-        <input type="text" id="auth-fname" class="inp" placeholder="John">
+        <label class="inp-label">Your Name *</label>
+        <input class="inp" id="ct-name" placeholder="Full name">
       </div>
       <div class="inp-wrap">
-        <label class="inp-label">Last Name</label>
-        <input type="text" id="auth-lname" class="inp" placeholder="Doe">
+        <label class="inp-label">Email Address *</label>
+        <input class="inp" id="ct-email" type="email" placeholder="your@email.com">
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">Subject *</label>
+        <select class="inp" id="ct-subject" style="cursor:pointer;">
+          <option value="">Select a topic...</option>
+          <option>General Enquiry</option>
+          <option>Subscription / Access</option>
+          <option>Technical Issue</option>
+          <option>Privacy / Data Request</option>
+          <option>Partnership / Advertising</option>
+          <option>Report Content</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">Message *</label>
+        <textarea class="inp" id="ct-msg" rows="5" placeholder="Describe your query in detail..." style="resize:vertical;"></textarea>
+      </div>
+      <button class="btn btn-p" style="width:100%;" onclick="submitContact()">Send Message &#10148;</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">&#128140;</div>
+        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">General</div>
+        <div style="color:#aaa;font-size:.85rem;">hello@quizarena.app</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">&#128274;</div>
+        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">Privacy</div>
+        <div style="color:#aaa;font-size:.85rem;">privacy@quizarena.app</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">&#128270;</div>
+        <div style="font-weight:700;color:var(--gold);margin-bottom:.3rem;">Advertising</div>
+        <div style="color:#aaa;font-size:.85rem;">ads@quizarena.app</div>
       </div>
     </div>
 
-    <div class="inp-wrap">
-      <label class="inp-label">Email Address</label>
-      <input type="email" id="auth-email" class="inp" placeholder="name@domain.com">
-    </div>
-
-    <div class="inp-wrap">
-      <label class="inp-label">Password</label>
-      <input type="password" id="auth-pass" class="inp" placeholder="••••••••">
-    </div>
-
-    <button class="btn btn-p" style="width:100%;margin-top:.5rem;" id="btn-auth" onclick="handleAuthSubmit()">Sign In</button>
-
-    <div style="text-align:center;margin-top:1.2rem;font-size:.85rem;color:#888;">
-      <span id="auth-switch-text">Don't have an account?</span>
-      <span id="auth-switch-link" style="color:var(--accent2);cursor:pointer;font-weight:700;margin-left:.3rem;" onclick="toggleAuthMode()">Create Account</span>
-    </div>
-
-    <button class="btn btn-k btn-sm" style="width:100%;margin-top:1rem;" onclick="switchScreen('scr-landing')">Back to Home</button>
+    <!-- AdSense slot -->
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6461655458619662"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <div class="footer-links">
+    <a onclick="S('auth-landing')" href="#">Home</a>
+    <a onclick="S('about')" href="#">About</a>
+    <a onclick="S('privacy')" href="#">Privacy Policy</a>
+    <a onclick="S('terms')" href="#">Terms of Service</a>
+    <span style="color:#ffffff1a;font-size:.8rem;">&copy; 2025 QuizArena</span>
   </div>
 </div>
 
-<div id="scr-host-dashboard" class="screen">
-  <div class="hdr">
-    <div style="display:flex;align-items:center;gap:.6rem;">
-      <span style="font-family:var(--font-display);font-weight:900;font-size:1.3rem;">QuizArena <span class="gold">Studio</span></span>
-    </div>
-    <div style="display:flex;align-items:center;gap:.8rem;">
-      <span id="user-display-name" style="font-weight:600;font-size:.9rem;color:#aaa;">Host Workspace</span>
-      <button class="btn btn-k btn-sm" onclick="handleSignOut()">Logout</button>
-    </div>
-  </div>
-
-  <div class="hbody">
-    <div style="width:100%;max-width:320px;display:flex;flex-direction:column;gap:1rem;">
-      <div class="card">
-        <h4 style="margin-bottom:.8rem;font-family:var(--font-display);font-size:1.05rem;">Quiz Framework Setup</h4>
-        
-        <div class="toggle-row">
-          <div><div style="font-size:.85rem;font-weight:700;">Show Correct Answer</div><div class="muted">After time expiration</div></div>
-          <label class="toggle"><input type="checkbox" id="cfg-show-ans" checked><span class="toggle-slider"></span></label>
-        </div>
-
-        <div class="toggle-row">
-          <div><div style="font-size:.85rem;font-weight:700;">Negative Marking</div><div class="muted">-25% fraction charge</div></div>
-          <label class="toggle"><input type="checkbox" id="cfg-negative-marking"><span class="toggle-slider"></span></label>
-        </div>
-
-        <div class="toggle-row">
-          <div><div style="font-size:.85rem;font-weight:700;">Auction Dynamic</div><div class="muted">Points decline loop</div></div>
-          <label class="toggle"><input type="checkbox" id="cfg-auction-mode" onchange="toggleAuctionMusicRow()"><span class="toggle-slider"></span></label>
-        </div>
-
-        <div class="inp-wrap" style="margin-top:.6rem;">
-          <label class="inp-label">Timer Allocation (Sec)</label>
-          <input type="number" id="cfg-timer-duration" class="inp" value="30" min="5" style="padding:.5rem .8rem;font-size:.9rem;">
-        </div>
-      </div>
-
-      <div class="card">
-        <h4 style="margin-bottom:.3rem;font-family:var(--font-display);font-size:1.05rem;">Audio Integration</h4>
-        <p class="muted" style="margin-bottom:.8rem;">Atmosphere background scores</p>
-        
-        <div>
-          <div class="inp-label">Lobby Background</div>
-          <div class="music-grid">
-            <button class="music-btn active" id="m-lob-1" onclick="selectMusicTrack('lobby','1')">Synth Wave</button>
-            <button class="music-btn" id="m-lob-2" onclick="selectMusicTrack('lobby','2')">Retro Arcade</button>
-          </div>
-        </div>
-
-        <div id="auction-music-wrapper" style="margin-top:.8rem;display:none;">
-          <div class="inp-label">Auction Score Theme</div>
-          <div class="music-grid">
-            <button class="music-btn active" id="m-auc-1" onclick="selectMusicTrack('auction','1')">Tension Loop</button>
-            <button class="music-btn" id="m-auc-2" onclick="selectMusicTrack('auction','2')">Clock Ticking</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="flex:1;display:flex;flex-direction:column;gap:1rem;min-width:300px;">
-      <div class="card">
-        <h3 style="margin-bottom:.4rem;font-family:var(--font-display);font-weight:800;">Deploy Question Spreadsheet</h3>
-        <p class="muted" style="margin-bottom:1.2rem;">Load database configurations using a primary format Excel worksheet matrix.</p>
-        
-        <div class="upload-box" id="drop-zone" onclick="document.getElementById('file-input').click()">
-          <div style="font-size:2.5rem;margin-bottom:.4rem;">📊</div>
-          <div style="font-weight:700;font-size:1rem;color:#c084fc;">Drag and drop file here or click to browse</div>
-          <div class="muted" style="margin-top:.3rem;">Supports .xlsx spreadsheets exclusively</div>
-          <input type="file" id="file-input" accept=".xlsx" style="display:none;" onchange="handleFileSelection(event)">
-        </div>
-
-        <div id="upload-status-bar" style="display:none;align-items:center;gap:.6rem;background:rgba(255,255,255,.03);padding:.7rem 1rem;border-radius:10px;border:1px solid var(--border);">
-          <span style="font-size:1.2rem;">✅</span>
-          <div style="flex:1;"><div id="upload-status-name" style="font-size:.85rem;font-weight:700;">template.xlsx</div><div id="upload-status-rows" class="muted">0 records parsed</div></div>
-          <button class="btn btn-d btn-sm" style="padding:.3rem .8rem;font-size:.7rem;" onclick="clearLoadedExcel()">Remove</button>
-        </div>
-      </div>
-
-      <div class="card" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2.5rem;">
-        <div style="max-width:340px;">
-          <h3 style="font-family:var(--font-display);font-weight:800;margin-bottom:.5rem;">Construct Show Token</h3>
-          <p class="muted" style="margin-bottom:1.5rem;">Initialize synchronization tracks across all active remote target nodes cleanly.</p>
-          <button class="btn btn-p" id="btn-generate-room" disabled onclick="generateLiveRoomSession()">Initialize Live Room</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="scr-join" class="screen" style="align-items:center;justify-content:center;padding:1.5rem;background:var(--dark);">
-  <div class="auth-card fade" style="max-width:400px;">
-    <div class="auth-title">Join Live Show</div>
-    <div class="auth-sub">Enter the PIN code displayed on host screen</div>
-    <div class="inp-wrap">
-      <label class="inp-label">Game PIN</label>
-      <input type="text" id="join-pin" class="inp" placeholder="000000" style="text-align:center;font-size:1.8rem;font-family:var(--font-display);font-weight:800;letter-spacing:4px;" maxlength="6">
-    </div>
-    <div class="inp-wrap" style="margin-bottom:1.5rem;">
-      <label class="inp-label">Your Nickname</label>
-      <input type="text" id="join-nick" class="inp" placeholder="SpeedRunner" maxlength="14">
-    </div>
-    <button class="btn btn-g" style="width:100%;" onclick="handlePlayerJoin()">Enter Arena</button>
-    <button class="btn btn-k btn-sm" style="width:100%;margin-top:.7rem;" onclick="switchScreen('scr-landing')">Back</button>
-  </div>
-</div>
-
-<div id="scr-broadcast" class="screen">
-  <div class="hdr" style="background:#0a0a1f;">
-    <span style="font-family:var(--font-display);font-weight:900;"><span class="gold">STAGE</span> MODULE</span>
-    <button class="btn btn-d btn-sm" onclick="terminateShowSession()">Close Room</button>
-  </div>
-  <div class="hbody" style="padding:1.5rem;gap:1.5rem;">
-    <div style="flex:1;display:flex;flex-direction:column;gap:1.2rem;min-width:320px;">
-      <div class="card" style="text-align:center;position:relative;background:linear-gradient(135deg,#0d0d26,rgba(124,58,237,.05));">
-        <div class="muted" style="text-transform:uppercase;letter-spacing:1px;font-weight:700;font-size:.75rem;">Lobby Registration Token</div>
-        <div id="broadcast-pin" style="font-family:var(--font-display);font-size:4.5rem;font-weight:900;color:var(--gold);line-height:1.1;margin:.3rem 0;">000 000</div>
-        <div id="broadcast-url" class="muted" style="font-size:.83rem;background:rgba(255,255,255,.03);padding:.4rem;border-radius:6px;display:inline-block;">quizarena.netlify.app</div>
-      </div>
-      
-      <div class="card" style="flex:1;display:flex;flex-direction:column;">
-        <div style="display:flex;justify-content:between;align-items:center;margin-bottom:1rem;border-bottom:1px solid var(--border);padding-bottom:.5rem;">
-          <h4 style="font-family:var(--font-display);font-size:1.1rem;">Roster Base (<span id="count-roster">0</span>)</h4>
-        </div>
-        <div id="lobby-roster-list" style="flex:1;overflow-y:auto;display:flex;flex-wrap:wrap;gap:.5rem;align-content:flex-start;">
-          <div class="muted" id="roster-empty-state" style="margin:auto;text-align:center;padding:2rem;">Waiting for connections...</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="width:100%;max-width:340px;display:flex;flex-direction:column;gap:1rem;justify-content:center;align-items:center;" id="broadcast-qrcode-box">
-      <div class="card" style="text-align:center;background:#fff;padding:1.5rem;border-radius:20px;width:100%;max-width:260px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(0,0,0,.4);">
-        <div id="qrcode-target"></div>
-      </div>
-      <button class="btn btn-p" style="width:100%;max-width:260px;" onclick="initiateQuizLoopStart()">Begin Show Engine</button>
-    </div>
-  </div>
-</div>
-
-<div id="scr-engine" class="screen" style="background:#04040f;">
-  <div class="hdr" style="border:none;background:transparent;padding:1.5rem 2rem 0;">
-    <div><span class="muted">Question TRACK</span> <span id="engine-progress" style="font-weight:800;color:#fff;">0/0</span></div>
-    <div id="engine-clock" style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--c4);background:rgba(255,165,2,.1);width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--c4);">00</div>
-  </div>
-
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:1rem 2rem 3rem;max-width:1000px;margin:0 auto;width:100%;gap:2rem;">
-    <div style="text-align:center;">
-      <h1 id="engine-question" style="font-family:var(--font-display);font-size:clamp(1.8rem,4vw,3.2rem);font-weight:900;line-height:1.15;letter-spacing:-.5px;margin-bottom:1.5rem;">Question Statement Node Text Prompt?</h1>
-    </div>
-
-    <div id="engine-chart-panel" style="display:none;height:140px;background:rgba(255,255,255,.02);border-radius:16px;border:1px solid var(--border);padding:1.2rem 2rem;flex-direction:column;gap:.5rem;justify-content:center;">
-      <div style="display:flex;align-items:center;gap:1rem;"><div style="width:18px;font-weight:800;color:var(--c1);">A</div><div style="flex:1;background:#ffffff08;height:12px;border-radius:6px;overflow:hidden;"><div class="bar-fill" id="bar-A" style="width:0%;background:var(--c1);"></div></div></div>
-      <div style="display:flex;align-items:center;gap:1rem;"><div style="width:18px;font-weight:800;color:var(--c2);">B</div><div style="flex:1;background:#ffffff08;height:12px;border-radius:6px;overflow:hidden;"><div class="bar-fill" id="bar-B" style="width:0%;background:var(--c2);"></div></div></div>
-      <div style="display:flex;align-items:center;gap:1rem;"><div style="width:18px;font-weight:800;color:var(--c3);">C</div><div style="flex:1;background:#ffffff08;height:12px;border-radius:6px;overflow:hidden;"><div class="bar-fill" id="bar-C" style="width:0%;background:var(--c3);"></div></div></div>
-      <div style="display:flex;align-items:center;gap:1rem;"><div style="width:18px;font-weight:800;color:var(--c4);">D</div><div style="flex:1;background:#ffffff08;height:12px;border-radius:6px;overflow:hidden;"><div class="bar-fill" id="bar-D" style="width:0%;background:var(--c4);"></div></div></div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1rem;" id="engine-options-grid">
-      <div class="opt-box opt-A" id="e-opt-A"><span style="opacity:.4;margin-right:.4rem;">▲</span> <span id="lbl-A">Option block A</span></div>
-      <div class="opt-box opt-B" id="e-opt-B"><span style="opacity:.4;margin-right:.4rem;">◼</span> <span id="lbl-B">Option block B</span></div>
-      <div class="opt-box opt-C" id="e-opt-C"><span style="opacity:.4;margin-right:.4rem;">✖</span> <span id="lbl-C">Option block C</span></div>
-      <div class="opt-box opt-D" id="e-opt-D"><span style="opacity:.4;margin-right:.4rem;">●</span> <span id="lbl-D">Option block D</span></div>
-    </div>
-
-    <div style="display:flex;justify-content:center;margin-top:1rem;" id="engine-host-controls">
-      <button class="btn btn-g" id="btn-engine-action" onclick="handleEngineActionStep()">Evaluate Selection</button>
-    </div>
-  </div>
-</div>
-
-<div id="scr-bid" class="screen bid-screen fade" style="background:#03030a;justify-content:center;align-items:center;">
-  <div style="max-width:600px;width:100%;">
-    <h2 style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:#c084fc;margin-bottom:1rem;text-transform:uppercase;letter-spacing:2px;">Auction Round Countdown</h2>
-    <div class="bid-countdown pop" id="bid-countdown-value">1000</div>
-    <p class="muted" style="font-size:1.1rem;margin-top:1.5rem;">Points decreasing over time window. Answer quickly to claim maximum reward multipliers!</p>
-  </div>
-</div>
-
-<div id="scr-scoreboard" class="screen" style="background:#050515;">
-  <div class="hdr" style="border:none;background:transparent;padding:2rem 2rem 0;">
-    <h2 style="font-family:var(--font-display);font-size:1.8rem;font-weight:900;"><span class="gold">Lobby</span> Standings</h2>
-    <div id="scoreboard-controls">
-      <button class="btn btn-p btn-sm" onclick="advanceToNextQuestionTrack()">Next Segment ➔</button>
-    </div>
-  </div>
-  
-  <div style="flex:1;max-width:640px;width:100%;margin:0 auto;padding:2rem 1rem 4rem;display:flex;flex-direction:column;justify-content:center;">
-    <div style="display:flex;align-items:flex-end;justify-content:center;gap:.6rem;height:180px;margin-bottom:2rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);">
-      <div style="display:flex;flex-direction:column;align-items:center;width:100px;" id="podium-2-block">
-        <div style="font-weight:700;font-size:.9rem;margin-bottom:.3rem;text-align:center;" id="pod-2-name">--</div>
-        <div style="background:linear-gradient(to top,#1e293b,rgba(255,255,255,.05));border:1px solid var(--border);border-bottom:none;width:100%;height:70px;border-radius:12px 12px 0 0;display:flex;flex-direction:column;justify-content:center;align-items:center;">
-          <span style="font-size:1.5rem;font-weight:900;color:#94a3b8;">2</span>
-          <span class="muted" style="font-size:.7rem;" id="pod-2-score">0 pts</span>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:center;width:110px;" id="podium-1-block">
-        <div style="font-weight:800;font-size:1rem;color:var(--gold);margin-bottom:.3rem;text-align:center;" id="pod-1-name">--</div>
-        <div style="background:linear-gradient(to top,#7c3aed33,rgba(255,215,0,.1));border:1px solid rgba(255,215,0,.3);border-bottom:none;width:100%;height:110px;border-radius:14px 14px 0 0;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 0 30px rgba(124,58,237,.2);">
-          <span style="font-size:2rem;margin-top:-.5rem;">👑</span>
-          <span style="font-size:1.6rem;font-weight:900;color:var(--gold);line-height:1;">1</span>
-          <span style="font-size:.75rem;color:var(--gold);font-weight:700;margin-top:.2rem;" id="pod-1-score">0 pts</span>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:center;width:100px;" id="podium-3-block">
-        <div style="font-weight:700;font-size:.9rem;margin-bottom:.3rem;text-align:center;" id="pod-3-name">--</div>
-        <div style="background:linear-gradient(to top,#1e293b,rgba(255,255,255,.02));border:1px solid var(--border);border-bottom:none;width:100%;height:45px;border-radius:10px 10px 0 0;display:flex;flex-direction:column;justify-content:center;align-items:center;">
-          <span style="font-size:1.3rem;font-weight:900;color:#cd7f32;">3</span>
-          <span class="muted" style="font-size:.7rem;" id="pod-3-score">0 pts</span>
-        </div>
-      </div>
-    </div>
-
-    <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem;" id="scoreboard-rows-container">
-      </div>
-  </div>
-</div>
-
-<div id="scr-client" class="screen" style="background:#060612;">
-  <div class="hdr" style="background:rgba(0,0,0,.2);border:none;">
-    <div style="display:flex;align-items:center;gap:.5rem;"><div style="width:8px;height:8px;background:var(--c3);border-radius:50%;" class="pulse"></div><span id="client-bar-nick" style="font-weight:700;">Player Terminal</span></div>
-    <div style="font-weight:800;color:var(--gold);font-size:1.1rem;" id="client-bar-score">0 Pts</div>
-  </div>
-  
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:1.5rem;max-width:440px;margin:0 auto;width:100%;" id="client-core-frame">
-    <div id="client-state-waiting" style="text-align:center;display:flex;flex-direction:column;gap:1rem;" class="fade">
-      <div style="font-size:3.5rem;" class="pulse">📡</div>
-      <h2 style="font-family:var(--font-display);font-weight:800;">Synchronized tracking connected</h2>
-      <p class="muted">Keep your focus locked on host room presentation monitors. Interaction options materialize automatically below on dispatch intervals.</p>
-    </div>
-
-    <div id="client-state-respond" style="display:none;flex-direction:column;gap:.8rem;width:100%;" class="fade">
-      <button class="pbtn opt-A" style="background:var(--c1);" onclick="submitPlayerSelection('A')">▲ Option A</button>
-      <button class="pbtn opt-B" style="background:var(--c2);" onclick="submitPlayerSelection('B')">◼ Option B</button>
-      <button class="pbtn opt-C" style="background:var(--c3);" onclick="submitPlayerSelection('C')">✖ Option C</button>
-      <button class="pbtn opt-D" style="background:var(--c4);" onclick="submitPlayerSelection('D')">● Option D</button>
-    </div>
-
-    <div id="client-state-feedback" style="display:none;text-align:center;" class="fade">
-      <div id="feedback-icon" style="font-size:4rem;margin-bottom:1rem;">⚡</div>
-      <h2 id="feedback-headline" style="font-family:var(--font-display);font-weight:900;font-size:2rem;margin-bottom:.4rem;">Response Logged</h2>
-      <p id="feedback-subtitle" class="muted">Standby for global scoring computations</p>
-    </div>
-  </div>
-</div>
-
-<div id="scr-admin-login" class="screen" style="align-items:center;justify-content:center;padding:1.5rem;">
-  <div class="auth-card fade">
-    <div class="auth-title">Admin Console</div>
-    <div class="auth-sub">Sign in to check global platform metrics</div>
-    <div id="admin-login-err" class="auth-err"></div>
-    <div class="inp-wrap">
-      <label class="inp-label">Admin Email</label>
-      <input type="email" id="admin-email" class="inp" placeholder="admin@quizarena.app">
-    </div>
-    <div class="inp-wrap">
-      <label class="inp-label">Security Password</label>
-      <input type="password" id="admin-pass" class="inp" placeholder="••••••••">
-    </div>
-    <button class="btn btn-p" style="width:100%;margin-top:.5rem;" onclick="processAdminLogin()">Verify Authorization</button>
-    <button class="btn btn-k btn-sm" style="width:100%;margin-top:.7rem;" onclick="switchScreen('scr-landing')">Back</button>
-  </div>
-</div>
-
-<div id="scr-admin-dashboard" class="screen">
-  <div class="admin-hdr">
-    <div style="display:flex;align-items:center;gap:.6rem;">
-      <div style="width:12px;height:12px;background:var(--gold);border-radius:50%;"></div>
-      <span style="font-family:var(--font-display);font-weight:900;font-size:1.3rem;letter-spacing:-.5px;">QUIZARENA <span style="color:var(--gold)">MIS</span></span>
-    </div>
-    <button class="btn btn-k btn-sm" onclick="switchScreen('scr-landing')">Disconnect Console</button>
-  </div>
-  
-  <div class="stat-grid">
-    <div class="stat-card"><div class="stat-num" id="stat-hosts-count">25+</div><div class="stat-lbl">Active Live Hosts</div></div>
-    <div class="stat-card"><div class="stat-num" id="stat-total-quizzes">0</div><div class="stat-lbl">Tracked Session Keys</div></div>
-  </div>
-
-  <div class="tab-bar">
-    <button class="tab active">Live Hosts Stream</button>
-  </div>
-
-  <div class="mis-section">
-    <div class="mis-wrap">
-      <table class="mis-table">
-        <thead>
-          <tr>
-            <th>Host Session Identifiers</th>
-            <th>Current Quiz Target</th>
-            <th>Status Flag</th>
-            <th>Action Endpoint</th>
-          </tr>
-        </thead>
-        <tbody id="mis-live-hosts-tbody">
-          <tr>
-            <td colspan="4" style="text-align:center;color:#666;padding:2rem;">Listening for database changes...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ═══════════════════════════════════════════
-   QUIZARENA — PLATFORM RUNTIME ENGINE
-   ═══════════════════════════════════════════ */
-let currentUserProfile = null;
-let structuredQuizData = null;
-let contextRoomToken = null;
-let isHostContext = false;
-let globalQuizActiveIndex = 0;
-
-let countdownReferenceInterval = null;
-let currentRemainingClockUnits = 0;
-let stageRunningState = 'question';
-
-let auctionPointsReferenceInterval = null;
-let currentAuctionPointsPool = 1000;
-
-let activeRosterCache = {};
-let activeAnswersAggregation = { A:0, B:0, C:0, D:0 };
-let processedUserSelection = null;
-
-// Routing control setup mapping layouts smoothly
-function switchScreen(screenId) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById(screenId);
-  if(target) {
-    target.classList.add('active');
-    if(screenId === 'scr-admin-dashboard') {
-      initializeAdminDataPipeline();
-    }
-  }
-}
-
-// Global Core Auth State Observers
-document.addEventListener('firebaseReady', () => {
-  window._onAuthStateChanged(window._auth, (user) => {
-    if(user) {
-      currentUserProfile = user;
-      document.getElementById('user-display-name').innerText = user.displayName || user.email;
-      if(document.getElementById('scr-auth').classList.contains('active')) {
-        switchScreen('scr-host-dashboard');
-      }
-    } else {
-      currentUserProfile = null;
-      if(document.getElementById('scr-host-dashboard').classList.contains('active') || document.getElementById('scr-broadcast').classList.contains('active')) {
-        switchScreen('scr-landing');
-      }
-    }
-  });
-
-  // Fetch dynamic system state counters
-  window._onValue(window._ref(window._db, 'metrics'), (snap) => {
-    if(snap.exists()){
-      const m = snap.val();
-      if(m.players) document.getElementById('land-count-live').innerText = m.players;
-      if(m.games) document.getElementById('land-count-games').innerText = m.games;
-    }
-  });
-});
-
-// Authentication logic switches profiles clean
-let interfaceModeState = 'login';
-function toggleAuthMode() {
-  const nameRow = document.getElementById('row-name');
-  const title = document.getElementById('auth-title');
-  const sub = document.getElementById('auth-sub');
-  const btn = document.getElementById('btn-auth');
-  const switchTxt = document.getElementById('auth-switch-text');
-  const switchLnk = document.getElementById('auth-switch-link');
-  
-  if(interfaceModeState === 'login') {
-    interfaceModeState = 'signup';
-    nameRow.style.display = 'flex';
-    title.innerText = 'Create Account';
-    sub.innerText = 'Register to host customizable quiz game shows';
-    btn.innerText = 'Register';
-    switchTxt.innerText = 'Already possess a profile?';
-    switchLnk.innerText = 'Sign In';
-  } else {
-    interfaceModeState = 'login';
-    nameRow.style.display = 'none';
-    title.innerText = 'Host Account';
-    sub.innerText = 'Sign in to manage and launch your game rooms';
-    btn.innerText = 'Sign In';
-    switchTxt.innerText = "Don't have an account?";
-    switchLnk.innerText = 'Create Account';
-  }
-}
-
-function handleAuthSubmit() {
-  const email = document.getElementById('auth-email').value.trim();
-  const pass = document.getElementById('auth-pass').value.trim();
-  const errBox = document.getElementById('auth-err');
-  const okBox = document.getElementById('auth-ok');
-  
-  errBox.style.display = 'none';
-  okBox.style.display = 'none';
-  
-  if(!email || !pass) {
-    errBox.innerText = 'Please complete all parameter boxes.';
-    errBox.style.display = 'block';
-    return;
-  }
-  
-  if(interfaceModeState === 'login') {
-    window._signIn(window._auth, email, pass).catch(e => {
-      errBox.innerText = e.message;
-      errBox.style.display = 'block';
-    });
-  } else {
-    const fn = document.getElementById('auth-fname').value.trim();
-    const ln = document.getElementById('auth-lname').value.trim();
-    if(!fn || !ln) {
-      errBox.innerText = 'First name and surname parameters required.';
-      errBox.style.display = 'block';
-      return;
-    }
-    window._createUser(window._auth, email, pass).then((cred) => {
-      window._updateProfile(cred.user, { displayName: `${fn} ${ln}` }).then(() => {
-        okBox.innerText = 'Profile initialization completed securely.';
-        okBox.style.display = 'block';
-      });
-    }).catch(e => {
-      errBox.innerText = e.message;
-      errBox.style.display = 'block';
-    });
-  }
-}
-
-function handleSignOut() {
-  window._signOut(window._auth);
-}
-
-// Audio configuration visual indicators toggled
-function toggleAuctionMusicRow() {
-  const wrapper = document.getElementById('auction-music-wrapper');
-  wrapper.style.display = document.getElementById('cfg-auction-mode').checked ? 'block' : 'none';
-}
-
-function selectMusicTrack(category, index) {
-  const prefix = category === 'lobby' ? 'm-lob-' : 'm-auc-';
-  document.getElementById(prefix + '1').classList.remove('active');
-  document.getElementById(prefix + '2').classList.remove('active');
-  document.getElementById(prefix + index).classList.add('active');
-}
-
-// File system uploads parser tracking structures securely
-function handleFileSelection(ev) {
-  const file = ev.target.files[0];
-  if(!file) return;
-  parseExcelFileMatrix(file);
-}
-
-function parseExcelFileMatrix(file) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const items = XLSX.utils.sheet_to_json(worksheet);
-      
-      if(items.length === 0) {
-        alert("The designated sheet layout parameters appear empty.");
-        return;
-      }
-      
-      structuredQuizData = items;
-      document.getElementById('upload-status-name').innerText = file.name;
-      document.getElementById('upload-status-rows').innerText = `${items.length} matrix elements parsed successfully`;
-      document.getElementById('upload-status-bar').style.display = 'flex';
-      document.getElementById('drop-zone').style.display = 'none';
-      document.getElementById('btn-generate-room').disabled = false;
-    } catch(err) {
-      alert("Error parsing matrix rows: verify structure formats.");
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-function clearLoadedExcel() {
-  structuredQuizData = null;
-  document.getElementById('file-input').value = '';
-  document.getElementById('upload-status-bar').style.display = 'none';
-  document.getElementById('drop-zone').style.display = 'block';
-  document.getElementById('btn-generate-room').disabled = true;
-}
-
-// Room generator links setup configurations securely to backend trees
-function generateLiveRoomSession() {
-  if(!structuredQuizData || !window._firebaseReady) return;
-  
-  const token = String(Math.floor(100000 + Math.random() * 900000));
-  contextRoomToken = token;
-  isHostContext = true;
-  globalQuizActiveIndex = 0;
-  
-  const sessionPayload = {
-    hostUid: currentUserProfile.uid,
-    hostName: currentUserProfile.displayName || currentUserProfile.email,
-    status: 'lobby',
-    currentQuestionIndex: 0,
-    timestamp: Date.now(),
-    questions: structuredQuizData,
-    config: {
-      showAnswer: document.getElementById('cfg-show-ans').checked,
-      negativeCharge: document.getElementById('cfg-negative-marking').checked,
-      auctionActive: document.getElementById('cfg-auction-mode').checked,
-      duration: parseInt(document.getElementById('cfg-timer-duration').value) || 30
-    }
-  };
-  
-  window._set(window._ref(window._db, 'quizzes/' + token), sessionPayload).then(() => {
-    document.getElementById('broadcast-pin').innerText = `${token.substring(0,3)} ${token.substring(3,6)}`;
-    
-    // QR compilation setup rendering clean blocks
-    const qrBox = document.getElementById('qrcode-target');
-    qrBox.innerHTML = '';
-    new QRCode(qrBox, {
-      text: `https://quizarena.netlify.app/?pin=${token}`,
-      width: 200,
-      height: 200,
-      colorDark : "#0f0f26",
-      colorLight : "#ffffff"
-    });
-    
-    switchScreen('scr-broadcast');
-    establishLobbyDataListeners(token);
-  });
-}
-
-// Roster synchronization listeners loop tracking changes live
-function handlePlayerJoin() {
-  const pin = document.getElementById('join-pin').value.trim();
-  const nick = document.getElementById('join-nick').value.trim();
-  
-  if(pin.length !== 6 || !nick) {
-    alert("Provide a functional room token and handle matching usernames.");
-    return;
-  }
-  
-  contextRoomToken = pin;
-  isHostContext = false;
-  
-  // Handshake loop checking room authorization structures
-  window._get(window._ref(window._db, `quizzes/${pin}`)).then((snap) => {
-    if(!snap.exists()) {
-      alert("Designated live room sequence not found.");
-      return;
-    }
-    
-    const session = snap.val();
-    if(session.status === 'ended') {
-      alert("The session requested has already reached its final lifecycle point.");
-      return;
-    }
-    
-    // Setup participant access leaf nodes cleanly
-    const playerIdentifierUID = 'p_uid_' + Math.random().toString(36).substring(2,12);
-    currentUserProfile = { uid: playerIdentifierUID, nickname: nick };
-    
-    window._set(window._ref(window._db, `quizzes/${pin}/participants/${playerIdentifierUID}`), {
-      nickname: nick,
-      score: 0,
-      timestamp: Date.now()
-    }).then(() => {
-      document.getElementById('client-bar-nick').innerText = nick;
-      document.getElementById('client-bar-score').innerText = '0 Pts';
-      switchScreen('scr-client');
-      establishPlayerSyncTracks(pin, playerIdentifierUID);
-    });
-  });
-}
-
-function establishLobbyDataListeners(token) {
-  // Sync roster listings tracking connection records cleanly
-  window._onValue(window._ref(window._db, `quizzes/${token}/participants`), (snap) => {
-    const listContainer = document.getElementById('lobby-roster-list');
-    const emptyState = document.getElementById('roster-empty-state');
-    const badgeCounter = document.getElementById('count-roster');
-    
-    if(!snap.exists()) {
-      listContainer.innerHTML = '';
-      listContainer.appendChild(emptyState);
-      badgeCounter.innerText = '0';
-      activeRosterCache = {};
-      return;
-    }
-    
-    const roster = snap.val();
-    activeRosterCache = roster;
-    listContainer.innerHTML = '';
-    
-    let totalPlayers = 0;
-    Object.keys(roster).forEach(uid => {
-      totalPlayers++;
-      const p = roster[uid];
-      const pTag = document.createElement('div');
-      pTag.style.cssText = 'background:rgba(255,255,255,.06);padding:.4rem 1rem;border-radius:50px;font-size:.9rem;font-weight:600;border:1px solid var(--border);color:var(--gold);animation:popIn .25s ease;';
-      pTag.innerText = p.nickname;
-      listContainer.appendChild(pTag);
-    });
-    badgeCounter.innerText = totalPlayers;
-  });
-
-  // Track player choices live during quiz loop to update response metrics chart layout rows
-  window._onValue(window._ref(window._db, `quizzes/${token}/responses`), (snap) => {
-    activeAnswersAggregation = { A:0, B:0, C:0, D:0 };
-    if(snap.exists()) {
-      const resp = snap.val();
-      Object.keys(resp).forEach(uid => {
-        const choice = resp[uid].answer;
-        if(activeAnswersAggregation[choice] !== undefined) activeAnswersAggregation[choice]++;
-      });
-    }
-    updateResponseChartBarsVisuals();
-  });
-}
-
-function updateResponseChartBarsVisuals() {
-  const total = activeAnswersAggregation.A + activeAnswersAggregation.B + activeAnswersAggregation.C + activeAnswersAggregation.D || 1;
-  document.getElementById('bar-A').style.width = ((activeAnswersAggregation.A / total) * 100) + '%';
-  document.getElementById('bar-B').style.width = ((activeAnswersAggregation.B / total) * 100) + '%';
-  document.getElementById('bar-C').style.width = ((activeAnswersAggregation.C / total) * 100) + '%';
-  document.getElementById('bar-D').style.width = ((activeAnswersAggregation.D / total) * 100) + '%';
-  
-  document.getElementById('bar-A').innerText = activeAnswersAggregation.A > 0 ? `${activeAnswersAggregation.A} choices` : '';
-  document.getElementById('bar-B').innerText = activeAnswersAggregation.B > 0 ? `${activeAnswersAggregation.B} choices` : '';
-  document.getElementById('bar-C').innerText = activeAnswersAggregation.C > 0 ? `${activeAnswersAggregation.C} choices` : '';
-  document.getElementById('bar-D').innerText = activeAnswersAggregation.D > 0 ? `${activeAnswersAggregation.D} choices` : '';
-}
-
-// Client monitoring streams synchronization maps interface dynamically
-function establishPlayerSyncTracks(pin, pUid) {
-  window._onValue(window._ref(window._db, `quizzes/${pin}`), (snap) => {
-    if(!snap.exists()) {
-      switchScreen('scr-landing');
-      return;
-    }
-    
-    const session = snap.val();
-    if(session.status === 'ended') {
-      alert("Host terminated session loop paths.");
-      switchScreen('scr-landing');
-      return;
-    }
-    
-    // Sync score labels directly from core leaf nodes cleanly
-    if(session.participants && session.participants[pUid]) {
-      document.getElementById('client-bar-score').innerText = `${session.participants[pUid].score} Pts`;
-    }
-
-    const currentIdx = session.currentQuestionIndex;
-    const questions = session.questions;
-    
-    // Dynamic interface transformations matching engine states perfectly
-    if(session.status === 'bid' && session.config.auctionActive) {
-      document.getElementById('client-state-waiting').style.display = 'none';
-      document.getElementById('client-state-respond').style.display = 'none';
-      document.getElementById('client-state-feedback').style.display = 'none';
-      
-      const bidScr = document.getElementById('scr-bid');
-      if(!bidScr.classList.contains('active')) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        bidScr.classList.add('active');
-      }
-      
-      // Mirror auction decrements inside client screen tracking spaces live
-      if(session.auctionCurrentPoints !== undefined) {
-        document.getElementById('bid-countdown-value').innerText = session.auctionCurrentPoints;
-      }
-      return;
-    }
-
-    if(session.status === 'question') {
-      // Re-route player layout to processing choices panel safely
-      const bidScr = document.getElementById('scr-bid');
-      if(bidScr.classList.contains('active')) bidScr.classList.remove('active');
-      
-      const clientScr = document.getElementById('scr-client');
-      if(!clientScr.classList.contains('active')) clientScr.classList.add('active');
-
-      if(processedUserSelection && processedUserSelection.index === currentIdx) {
-        // Player choice already written for this question index branch block
-        document.getElementById('client-state-waiting').style.display = 'none';
-        document.getElementById('client-state-respond').style.display = 'none';
-        document.getElementById('client-state-feedback').style.display = 'block';
-        document.getElementById('feedback-headline').innerText = "Response Logged";
-        document.getElementById('feedback-subtitle').innerText = "Standby for host evaluation loop step updates.";
-        document.getElementById('feedback-icon').innerText = "⏳";
-      } else {
-        // Expose selection blocks to collect feedback lines cleanly
-        document.getElementById('client-state-waiting').style.display = 'none';
-        document.getElementById('client-state-respond').style.display = 'flex';
-        document.getElementById('client-state-feedback').style.display = 'none';
-      }
-      return;
-    }
-
-    if(session.status === 'chart' || session.status === 'scoreboard') {
-      const bidScr = document.getElementById('scr-bid');
-      if(bidScr.classList.contains('active')) bidScr.classList.remove('active');
-      
-      const clientScr = document.getElementById('scr-client');
-      if(!clientScr.classList.contains('active')) clientScr.classList.add('active');
-
-      document.getElementById('client-state-waiting').style.display = 'flex';
-      document.getElementById('client-state-respond').style.display = 'none';
-      document.getElementById('client-state-feedback').style.display = 'none';
-      
-      if(session.status === 'scoreboard') {
-        processedUserSelection = null; // Clean target context tracking flags securely
-      }
-    }
-  });
-}
-
-function submitPlayerSelection(choice) {
-  if(!contextRoomToken || !currentUserProfile) return;
-  
-  window._get(window._ref(window._db, `quizzes/${contextRoomToken}`)).then((snap) => {
-    if(!snap.exists()) return;
-    const session = snap.val();
-    const idx = session.currentQuestionIndex;
-    
-    processedUserSelection = { index: idx, answer: choice };
-    
-    // Write answer payload node tracking auction modifications perfectly
-    const scoreWeightValue = session.config.auctionActive ? (session.auctionCurrentPoints || 1000) : 1000;
-    
-    window._set(window._ref(window._db, `quizzes/${contextRoomToken}/responses/${currentUserProfile.uid}`), {
-      nickname: currentUserProfile.nickname,
-      answer: choice,
-      weight: scoreWeightValue,
-      timestamp: Date.now()
-    }).then(() => {
-      document.getElementById('client-state-respond').style.display = 'none';
-      document.getElementById('client-state-feedback').style.display = 'block';
-      document.getElementById('feedback-headline').innerText = "Selection Sent";
-      document.getElementById('feedback-icon').innerText = "🚀";
-    });
-  });
-}
-
-// Host Quiz Main Engine Loops Processing Routines
-function initiateQuizLoopStart() {
-  if(!contextRoomToken) return;
-  globalQuizActiveIndex = 0;
-  loadQuestionIntoEngineView(contextRoomToken, globalQuizActiveIndex);
-}
-
-function loadQuestionIntoEngineView(token, idx) {
-  window._get(window._ref(window._db, `quizzes/${token}`)).then((snap) => {
-    if(!snap.exists()) return;
-    const session = snap.val();
-    const config = session.config;
-    const questions = session.questions;
-    
-    if(idx >= questions.length) {
-      terminateShowSession();
-      return;
-    }
-    
-    // Clear answer selections blocks styles configurations completely
-    resetEngineOptionBoxesVisualStyles();
-    document.getElementById('engine-chart-panel').style.display = 'none';
-    
-    const activeItem = questions[idx];
-    document.getElementById('engine-progress').innerText = `${idx + 1}/${questions.length}`;
-    document.getElementById('engine-question').innerText = activeItem.Question || activeItem.question || "Live Segment Question Text Prompt Error";
-    
-    document.getElementById('lbl-A').innerText = activeItem.A || activeItem.a || "Option Parameter Block A";
-    document.getElementById('lbl-B').innerText = activeItem.B || activeItem.b || "Option Parameter Block B";
-    document.getElementById('lbl-C').innerText = activeItem.C || activeItem.c || "Option Parameter Block C";
-    document.getElementById('lbl-D').innerText = activeItem.D || activeItem.d || "Option Parameter Block D";
-    
-    // Route workflow matching auction constraints setups perfectly
-    if(config.auctionActive) {
-      stageRunningState = 'bid';
-      currentAuctionPointsPool = 1000;
-      
-      window._update(window._ref(window._db, `quizzes/${token}`), {
-        status: 'bid',
-        currentQuestionIndex: idx,
-        auctionCurrentPoints: 1000,
-        responses: null // Clear previous responses structural keys tracking layers
-      }).then(() => {
-        switchScreen('scr-bid');
-        launchAuctionIntervalTracker(token, config.duration);
-      });
-    } else {
-      stageRunningState = 'question';
-      window._update(window._ref(window._db, `quizzes/${token}`), {
-        status: 'question',
-        currentQuestionIndex: idx,
-        responses: null
-      }).then(() => {
-        switchScreen('scr-engine');
-        launchClockCountdownTracker(token, config.duration);
-      });
-    }
-  });
-}
-
-function launchAuctionIntervalTracker(token, totalSeconds) {
-  clearInterval(auctionPointsReferenceInterval);
-  document.getElementById('bid-countdown-value').innerText = '1000';
-  
-  // Transition into question loop context after set window
-  let auctionTimerDelay = setTimeout(() => {
-    clearInterval(auctionPointsReferenceInterval);
-    stageRunningState = 'question';
-    window._update(window._ref(window._db, `quizzes/${token}`), { status: 'question' }).then(() => {
-      switchScreen('scr-engine');
-      launchClockCountdownTracker(token, totalSeconds);
-    });
-  }, 4000);
-
-  // Decrement potential points dynamically to establish auction game logic
-  auctionPointsReferenceInterval = setInterval(() => {
-    currentAuctionPointsPool -= 75;
-    if(currentAuctionPointsPool < 250) currentAuctionPointsPool = 250;
-    document.getElementById('bid-countdown-value').innerText = currentAuctionPointsPool;
-    window._update(window._ref(window._db, `quizzes/${token}`), { auctionCurrentPoints: currentAuctionPointsPool });
-  }, 250);
-}
-
-function launchClockCountdownTracker(token, duration) {
-  clearInterval(countdownReferenceInterval);
-  currentRemainingClockUnits = duration;
-  document.getElementById('engine-clock').innerText = currentRemainingClockUnits;
-  document.getElementById('btn-engine-action').innerText = "Evaluate Selection";
-  
-  countdownReferenceInterval = setInterval(() => {
-    currentRemainingClockUnits--;
-    if(currentRemainingClockUnits <= 0) {
-      currentRemainingClockUnits = 0;
-      document.getElementById('engine-clock').innerText = '00';
-      clearInterval(countdownReferenceInterval);
-      evaluateResponsesPipelineTrack();
-    } else {
-      document.getElementById('engine-clock').innerText = currentRemainingClockUnits < 10 ? '0' + currentRemainingClockUnits : currentRemainingClockUnits;
-    }
-  }, 1000);
-}
-
-function handleEngineActionStep() {
-  if(stageRunningState === 'question') {
-    clearInterval(countdownReferenceInterval);
-    evaluateResponsesPipelineTrack();
-  } else if(stageRunningState === 'chart') {
-    renderScoreboardStandingsView();
-  }
-}
-
-function evaluateResponsesPipelineTrack() {
-  stageRunningState = 'chart';
-  document.getElementById('btn-engine-action').innerText = "Reveal Standings";
-  
-  window._get(window._ref(window._db, `quizzes/${contextRoomToken}`)).then((snap) => {
-    if(!snap.exists()) return;
-    const session = snap.val();
-    const activeQuestion = session.questions[session.currentQuestionIndex];
-    const rawCorrectAnswer = String(activeQuestion.Answer || activeQuestion.answer || "A").trim().toUpperCase();
-    
-    // Highlight correct response visual blocks natively
-    if(session.config.showAnswer) {
-      const matchBox = document.getElementById(`e-opt-${rawCorrectAnswer}`);
-      if(matchBox) matchBox.classList.add('opt-correct');
-    }
-    
-    // Expose metrics bars calculation maps seamlessly
-    document.getElementById('engine-chart-panel').style.display = 'flex';
-    window._update(window._ref(window._db, `quizzes/${contextRoomToken}`), { status: 'chart' });
-    
-    // Handle processing algorithms charges mapping rules records securely
-    if(session.responses && session.participants) {
-      const responses = session.responses;
-      const participants = session.participants;
-      const updates = {};
-      
-      Object.keys(participants).forEach(uid => {
-        let currentScore = participants[uid].score || 0;
-        if(responses[uid]) {
-          if(responses[uid].answer === rawCorrectAnswer) {
-            currentScore += (responses[uid].weight || 1000);
-          } else {
-            if(session.config.negativeCharge) currentScore -= 250; // charge reduction deduction safely
-          }
-        }
-        updates[`quizzes/${contextRoomToken}/participants/${uid}/score`] = currentScore;
-      });
-      
-      window._update(window._ref(window._ref(window._db), '/'), updates);
-    }
-  });
-}
-
-function renderScoreboardStandingsView() {
-  stageRunningState = 'scoreboard';
-  window._update(window._ref(window._db, `quizzes/${contextRoomToken}`), { status: 'scoreboard' }).then(() => {
-    switchScreen('scr-scoreboard');
-    
-    window._get(window._ref(window._db, `quizzes/${contextRoomToken}/participants`)).then((snap) => {
-      const container = document.getElementById('scoreboard-rows-container');
-      container.innerHTML = '';
-      
-      // Clear podium structural tags placeholders completely
-      document.getElementById('pod-1-name').innerText = '--'; document.getElementById('pod-1-score').innerText = '0 pts';
-      document.getElementById('pod-2-name').innerText = '--'; document.getElementById('pod-2-score').innerText = '0 pts';
-      document.getElementById('pod-3-name').innerText = '--'; document.getElementById('pod-3-score').innerText = '0 pts';
-
-      if(!snap.exists()) return;
-      
-      const roster = snap.val();
-      const sortedArray = Object.keys(roster).map(k => ({ uid: k, ...roster[k] })).sort((a,b) => b.score - a.score);
-      
-      // Inject top records directly into podium layers cleanly
-      if(sortedArray[0]) { document.getElementById('pod-1-name').innerText = sortedArray[0].nickname; document.getElementById('pod-1-score').innerText = `${sortedArray[0].score} pts`; }
-      if(sortedArray[1]) { document.getElementById('pod-2-name').innerText = sortedArray[1].nickname; document.getElementById('pod-2-score').innerText = `${sortedArray[1].score} pts`; }
-      if(sortedArray[2]) { document.getElementById('pod-3-name').innerText = sortedArray[2].nickname; document.getElementById('pod-3-score').innerText = `${sortedArray[2].score} pts`; }
-      
-      // Construct table visual layout dynamically tracking roster elements
-      sortedArray.forEach((item, index) => {
-        const row = document.createElement('div');
-        row.style.cssText = 'background:var(--card);padding:.8rem 1.2rem;border-radius:12px;display:flex;align-items:center;justify-content:between;border:1px solid var(--border);animation:fadeUp .3s ease;';
-        row.innerHTML = `
-          <div style="display:flex;align-items:center;gap:1rem;">
-            <span style="font-family:var(--font-display);font-weight:900;color:${index===0?'var(--gold)':index===1?'#94a3b8':index===2?'#cd7f32':'#444'};width:24px;">#${index+1}</span>
-            <span style="font-weight:700;">${item.nickname}</span>
-          </div>
-          <span style="font-family:var(--font-display);font-weight:800;color:var(--c2);">${item.score} pts</span>
-        `;
-        container.appendChild(row);
-      });
-    });
-  });
-}
-
-function advanceToNextQuestionTrack() {
-  globalQuizActiveIndex++;
-  loadQuestionIntoEngineView(contextRoomToken, globalQuizActiveIndex);
-}
-
-function resetEngineOptionBoxesVisualStyles() {
-  document.getElementById('e-opt-A').className = 'opt-box opt-A';
-  document.getElementById('e-opt-B').className = 'opt-box opt-B';
-  document.getElementById('e-opt-C').className = 'opt-box opt-C';
-  document.getElementById('e-opt-D').className = 'opt-box opt-D';
-}
-
-function terminateShowSession() {
-  clearInterval(countdownReferenceInterval);
-  clearInterval(auctionPointsReferenceInterval);
-  if(contextRoomToken && isHostContext) {
-    window._update(window._ref(window._db, `quizzes/${contextRoomToken}`), { status: 'ended' }).then(() => {
-      contextRoomToken = null;
-      switchScreen('scr-host-dashboard');
-    });
-  } else {
-    switchScreen('scr-landing');
-  }
-}
-
-function processAdminLogin() {
-  const email = document.getElementById('admin-email').value.trim();
-  const pass = document.getElementById('admin-pass').value.trim();
-  const errorFrame = document.getElementById('admin-login-err');
-  
-  if(!email || !pass) {
-    errorFrame.innerText = "Please complete all authorization values.";
-    errorFrame.style.display = "block";
-    return;
-  }
-  errorFrame.style.display = "none";
-  switchScreen('scr-admin-dashboard');
-}
-
-/* ═══════════════════════════════════════════
-   FIXED ADMINISTRATIVE DATA ENGINE PIPELINE
-   ═══════════════════════════════════════════ */
-function initializeAdminDataPipeline() {
-  if (!window._firebaseReady) return;
-  
-  try {
-    const db = window._db;
-    const hostsRef = window._ref(db, 'quizzes'); 
-    
-    window._onValue(hostsRef, (snapshot) => {
-      const tbody = document.getElementById('mis-live-hosts-tbody');
-      const hostsCountEl = document.getElementById('stat-hosts-count');
-      const totalQuizzesEl = document.getElementById('stat-total-quizzes');
-      
-      if(!snapshot.exists()) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#666;padding:2rem;">No operational quiz records found in database path.</td></tr>`;
-        hostsCountEl.innerText = "25+";
-        totalQuizzesEl.innerText = "0";
-        return;
-      }
-      
-      const data = snapshot.val();
-      tbody.innerHTML = "";
-      let continuousHostCounter = 0;
-      let sessionKeysCounter = 0;
-      
-      Object.keys(data).forEach((rootKey) => {
-        sessionKeysCounter++;
-        const currentSessionNode = data[rootKey];
-        
-        let targetTitle = "General Live Room";
-        let statusMarker = "LIVE";
-        
-        if (currentSessionNode && typeof currentSessionNode === 'object') {
-          if (currentSessionNode.title || currentSessionNode.quizTitle) {
-            targetTitle = currentSessionNode.title || currentSessionNode.quizTitle;
-          } else if (currentSessionNode.hostName) {
-            targetTitle = "Shared Room Run: " + currentSessionNode.hostName;
-          }
-          if (currentSessionNode.status) {
-            statusMarker = String(currentSessionNode.status).toUpperCase();
-          }
-          continuousHostCounter++;
-        }
-        
-        const tableRow = document.createElement('tr');
-        tableRow.innerHTML = `
-          <td style="font-weight:600;color:#fff;">PIN: ${rootKey}</td>
-          <td style="color:#aaa;">${targetTitle}</td>
-          <td><span class="badge ${statusMarker === 'LIVE' || statusMarker === 'LOBBY' || statusMarker === 'QUESTION' ? 'badge-live' : 'badge-end'}">${statusMarker}</span></td>
-          <td><button class="btn btn-k btn-sm" style="font-size:10px;padding:3px 8px;" onclick="alert('Auditing Key Session: ${rootKey}')">Audit Session</button></td>
-        `;
-        tbody.appendChild(tableRow);
-      });
-      
-      hostsCountEl.innerText = continuousHostCounter > 0 ? continuousHostCounter : "25+";
-      totalQuizzesEl.innerText = sessionKeysCounter;
-      
-    }, (error) => {
-      console.error("MIS Database verification failed: ", error);
-    });
-  } catch(e) {
-    console.error("Pipeline breakdown tracking: ", e);
-  }
-}
-</script>
 </body>
 </html>
