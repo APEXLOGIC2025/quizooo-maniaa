@@ -1142,7 +1142,6 @@ async function doSignOut(){
   try{await window._signOut(window._auth);}catch(e){}
   if(_adminUnsubSessions){_adminUnsubSessions();_adminUnsubSessions=null;}
   if(typeof _adminUnsubHosts!=='undefined'&&_adminUnsubHosts){_adminUnsubHosts();_adminUnsubHosts=null;}
-  _stopTimers();
   currentHostProfile=null;myRole=null;roomCode=null;_sessionLogKey=null;
   S('auth-landing');
 }
@@ -1321,20 +1320,17 @@ async function hostResumeGame(code){
     document.getElementById('h-bars').style.display='none';
 
     if(g.phase==='reveal'){
-      const ci=q.opts.findIndex(o=>o===q.answer);
-      const ck=KEYS[ci];
+      const ci=q.opts.findIndex(o=>o===q.answer);const ck=KEYS[ci];
       KEYS.forEach(k=>{const el=document.getElementById('hopt-'+k);if(el&&k===ck)el.classList.add('opt-correct');});
       showBars(ck,q,g.answers||{});
       _revealInProgress=true;
       let rt=Math.max(1,g.timer||REV_SEC);setArc('h-arc','h-tsec',rt,REV_SEC);
       clearInterval(timerInt);timerInt=null;
-      const _rS=Date.now();let _rL=-1;const _rBase=g.timer||REV_SEC;
+      const _rS=Date.now();let _rL=-1;const _rB=g.timer||REV_SEC;
       timerInt=setInterval(()=>{
         if(paused)return;
-        const el2=Math.floor((Date.now()-_rS)/1000);
-        if(el2===_rL)return;_rL=el2;
-        rt=Math.max(0,_rBase-el2);
-        setArc('h-arc','h-tsec',rt,REV_SEC);
+        const _e=Math.floor((Date.now()-_rS)/1000);if(_e===_rL)return;_rL=_e;
+        rt=Math.max(0,_rB-_e);setArc('h-arc','h-tsec',rt,REV_SEC);
         dbUpd('games/'+code,{timer:rt});
         if(rt<=0){clearInterval(timerInt);timerInt=null;_revealInProgress=false;nextQSafe();}
       },400);
@@ -1342,14 +1338,12 @@ async function hostResumeGame(code){
       _revealInProgress=false;
       let t=Math.max(1,g.timer||Q_SEC);setArc('h-arc','h-tsec',t,Q_SEC);
       clearInterval(timerInt);timerInt=null;
-      const _qS=Date.now();let _qL=-1;const _qBase=g.timer||Q_SEC;
+      const _qS=Date.now();let _qL=-1;const _qB=g.timer||Q_SEC;
       timerInt=setInterval(()=>{
         if(paused)return;
-        const el2=Math.floor((Date.now()-_qS)/1000);
-        if(el2===_qL)return;_qL=el2;
-        t=Math.max(0,_qBase-el2);
-        setArc('h-arc','h-tsec',t,Q_SEC);
-        playTick(t);dbUpd('games/'+code,{timer:t});
+        const _e=Math.floor((Date.now()-_qS)/1000);if(_e===_qL)return;_qL=_e;
+        t=Math.max(0,_qB-_e);setArc('h-arc','h-tsec',t,Q_SEC);playTick(t);
+        dbUpd('games/'+code,{timer:t});
         if(t<=0){clearInterval(timerInt);timerInt=null;if(!_revealInProgress)doReveal();}
       },400);
       if(unsubAns)unsubAns();
@@ -1626,9 +1620,7 @@ async function startQuestion(g,qIdx){
           showHostQuestion(q);startMainTimer(g,qIdx);
           if(unsubAns)unsubAns();
           unsubAns=dbOn('games/'+roomCode+'/answers',ans=>{document.getElementById('h-aans').textContent=Object.keys(ans||{}).length;});
-          // Re-enable buttons once auction question is visible
-          const nb=document.getElementById('h-next-btn');if(nb){nb.disabled=false;nb.style.opacity='';}
-          const gb=document.getElementById('h-goto-btn');if(gb){gb.disabled=false;gb.style.opacity='';}
+          _reEnableNextBtn();
         },1500);
       }
     },1000);
@@ -1638,9 +1630,7 @@ async function startQuestion(g,qIdx){
     showHostQuestion(q);startMainTimer(g,qIdx);
     if(unsubAns)unsubAns();
     unsubAns=dbOn('games/'+roomCode+'/answers',ans=>{document.getElementById('h-aans').textContent=Object.keys(ans||{}).length;});
-    // Re-enable buttons when new question is visible
-    const nb=document.getElementById('h-next-btn');if(nb){nb.disabled=false;nb.style.opacity='';}
-    const gb=document.getElementById('h-goto-btn');if(gb){gb.disabled=false;gb.style.opacity='';}
+    _reEnableNextBtn();
   }
 }
 
@@ -1649,8 +1639,7 @@ function showHostQuestion(q){
   document.getElementById('h-opts').innerHTML=q.opts.map((o,i)=>`<div class="opt-box opt-${KEYS[i]}" id="hopt-${KEYS[i]}"><span style="font-size:2rem;">${SHAPES[i]}</span>${o}</div>`).join('');
 }
 
-/* ══ TIMER — drift-corrected, never goes negative ══ */
-// _revealInProgress: mutex so doReveal never runs twice concurrently
+/* ══ TIMER — drift-corrected, mutex-guarded ══ */
 let _revealInProgress=false;
 
 function _stopTimers(){
@@ -1658,18 +1647,21 @@ function _stopTimers(){
   if(_allAnsweredTimer){clearTimeout(_allAnsweredTimer);_allAnsweredTimer=null;}
 }
 
-/* nextQSafe — called by the Next button.
-   Disables ONLY the Next button on first press; re-enables when next question is ready. */
+function _reEnableNextBtn(){
+  const nb=document.getElementById('h-next-btn');if(nb){nb.disabled=false;nb.style.opacity='';}
+  const gb=document.getElementById('h-goto-btn');if(gb){gb.disabled=false;gb.style.opacity='';}
+}
+
+/* nextQSafe: only the Next button disables itself on press */
 async function nextQSafe(){
   const btn=document.getElementById('h-next-btn');
   if(btn&&btn.disabled)return;
   if(btn){btn.disabled=true;btn.style.opacity='.38';}
-  try{ await nextQ(); }
-  catch(e){ console.error('nextQ error',e); if(btn){btn.disabled=false;btn.style.opacity='';} }
+  try{await nextQ();}
+  catch(e){console.error('nextQ',e);if(btn){btn.disabled=false;btn.style.opacity='';}}
 }
 
-/* gotoQ — jump to any question number entered in the input.
-   Disables Go button until the question is rendered. */
+/* gotoQ: jump directly to a question number */
 async function gotoQ(){
   const gbtn=document.getElementById('h-goto-btn');
   if(gbtn&&gbtn.disabled)return;
@@ -1677,9 +1669,7 @@ async function gotoQ(){
   const g=await dbGet('games/'+roomCode);
   const total=(g&&g.questions)?g.questions.length:0;
   const target=parseInt(inp?inp.value:'');
-  if(isNaN(target)||target<1||target>total){
-    alert('Enter a valid question number between 1 and '+total+'.');return;
-  }
+  if(isNaN(target)||target<1||target>total){alert('Enter a valid question number between 1 and '+total+'.');return;}
   const ni=target-1;
   if(ni===g.currentQ){alert('Already on question '+target+'.');return;}
   if(gbtn){gbtn.disabled=true;gbtn.style.opacity='.38';}
@@ -1690,31 +1680,19 @@ async function gotoQ(){
     await dbUpd('games/'+roomCode,{currentQ:ni,answers:{},bids:{},correctKey:null,phase:'question',timer:Q_SEC,bidPhase:false});
     const ng=await dbGet('games/'+roomCode);
     await startQuestion(ng,ni);
-  }catch(e){
-    console.error('gotoQ error',e);
-    if(gbtn){gbtn.disabled=false;gbtn.style.opacity='';}
-  }
+  }catch(e){console.error('gotoQ',e);_reEnableNextBtn();}
 }
 
 function startMainTimer(g,qIdx){
   _stopTimers();
-  let t=Q_SEC;
-  setArc('h-arc','h-tsec',t,Q_SEC);
-  const _start=Date.now();
-  let _lastTick=-1;
+  let t=Q_SEC;setArc('h-arc','h-tsec',t,Q_SEC);
+  const _s=Date.now();let _lt=-1;
   timerInt=setInterval(()=>{
     if(paused)return;
-    const elapsed=Math.floor((Date.now()-_start)/1000);
-    if(elapsed===_lastTick)return;
-    _lastTick=elapsed;
-    t=Math.max(0,Q_SEC-elapsed);
-    setArc('h-arc','h-tsec',t,Q_SEC);
-    playTick(t);
+    const el=Math.floor((Date.now()-_s)/1000);if(el===_lt)return;_lt=el;
+    t=Math.max(0,Q_SEC-el);setArc('h-arc','h-tsec',t,Q_SEC);playTick(t);
     dbUpd('games/'+roomCode,{timer:t});
-    if(t<=0){
-      clearInterval(timerInt);timerInt=null;
-      if(!_revealInProgress)doReveal();
-    }
+    if(t<=0){clearInterval(timerInt);timerInt=null;if(!_revealInProgress)doReveal();}
   },400);
 }
 
@@ -1740,21 +1718,15 @@ async function doReveal(){
   _revealInProgress=true;
   _stopTimers();
   if(unsubAns){unsubAns();unsubAns=null;}
-
-  // Snapshot answers & bids NOW before any await (prevents ghost scoring)
   const gSnap=await dbGet('games/'+roomCode);
   if(!gSnap||gSnap.phase==='ended'){_revealInProgress=false;return;}
   const answersSnap=gSnap.answers?JSON.parse(JSON.stringify(gSnap.answers)):{};
   const bidsSnap=gSnap.bids?JSON.parse(JSON.stringify(gSnap.bids)):{};
-
   await dbUpd('games/'+roomCode,{phase:'locking',bidPhase:false,timer:0,answers:answersSnap});
   await new Promise(res=>setTimeout(res,1800));
-
   const g=await dbGet('games/'+roomCode);
-  if(!g||g.phase==='ended'||g.phase==='question'){_revealInProgress=false;return;}
-  const q=g.questions[g.currentQ];
-  if(!q){_revealInProgress=false;return;}
-
+  if(!g||g.phase==='ended'||g.phase==='question'){_revealInProgress=false;_reEnableNextBtn();return;}
+  const q=g.questions[g.currentQ];if(!q){_revealInProgress=false;_reEnableNextBtn();return;}
   const ci=q.opts.findIndex(o=>o===q.answer);const ck=KEYS[ci];
   const ph=getPhase(g,g.currentQ);
   const players=JSON.parse(JSON.stringify(g.players||{}));
@@ -1771,28 +1743,15 @@ async function doReveal(){
   KEYS.forEach(k=>{const el=document.getElementById('hopt-'+k);if(el&&k===ck)el.classList.add('opt-correct');});
   showBars(ck,q,answers);updateLB({...g,players});
   if(g.rMusic&&g.rMusic!=='none')playMusic(g.rMusic);else playCorrect();
-
-  // Re-enable Next button now that reveal is visible
-  const nb=document.getElementById('h-next-btn');if(nb){nb.disabled=false;nb.style.opacity='';}
-  const gb=document.getElementById('h-goto-btn');if(gb){gb.disabled=false;gb.style.opacity='';}
-
-  // Drift-corrected reveal countdown
-  let rt=REV_SEC;
-  setArc('h-arc','h-tsec',rt,REV_SEC);
-  const _rStart=Date.now();let _rLast=-1;
+  _reEnableNextBtn();
+  let rt=REV_SEC;setArc('h-arc','h-tsec',rt,REV_SEC);
+  const _rs=Date.now();let _rl=-1;
   timerInt=setInterval(()=>{
     if(paused)return;
-    const el=Math.floor((Date.now()-_rStart)/1000);
-    if(el===_rLast)return;
-    _rLast=el;
-    rt=Math.max(0,REV_SEC-el);
-    setArc('h-arc','h-tsec',rt,REV_SEC);
+    const el=Math.floor((Date.now()-_rs)/1000);if(el===_rl)return;_rl=el;
+    rt=Math.max(0,REV_SEC-el);setArc('h-arc','h-tsec',rt,REV_SEC);
     dbUpd('games/'+roomCode,{timer:rt});
-    if(rt<=0){
-      clearInterval(timerInt);timerInt=null;
-      _revealInProgress=false;
-      nextQSafe();
-    }
+    if(rt<=0){clearInterval(timerInt);timerInt=null;_revealInProgress=false;nextQSafe();}
   },400);
 }
 
@@ -2126,63 +2085,94 @@ function renderReveal(gs,me){
 /* ══ ADMIN DASHBOARD ══ */
 let _adminSessions=[],_adminHosts={};
 let _adminUnsubSessions=null;
-let _adminUnsubHosts=null; // live listener so subscriptions tab always has fresh data
+let _adminUnsubHosts=null;
+
+/* _rebuildHostsFromSessions: if the hosts/ path is blocked by rules,
+   reconstruct host records from session data (sessions store host info inline) */
+function _rebuildHostsFromSessions(){
+  const built={};
+  _adminSessions.forEach(s=>{
+    if(!s.hostUid)return;
+    if(!built[s.hostUid]){
+      built[s.hostUid]={
+        uid:s.hostUid,name:s.hostName||'—',email:s.hostEmail||'—',
+        mobile:s.hostMobile||'—',city:s.hostCity||'—',country:s.hostCountry||'—',
+        pin:'—',org:'—',registeredAt:s.startedAt||null,verified:true
+      };
+    }
+  });
+  return built;
+}
+
+function _adminRenderAll(){
+  renderAdminStats();autoKillStaleSessions();
+  renderSessionsTable();renderHostsTable();renderLiveTab();
+  // Refresh subscriptions tab if open
+  const subTab=document.getElementById('tab-subscriptions');
+  if(subTab&&subTab.style.display!=='none')adminRenderSubscriptions();
+}
 
 async function loadAdminDashboard(){
   S('admin');
-  // Tear down previous hosts listener if any
-  if(_adminUnsubHosts){_adminUnsubHosts();_adminUnsubHosts=null;}
-  // One-time read first so we have data immediately
-  const hostsRaw=await dbGet('hosts');
-  _adminHosts=hostsRaw||{};
-  // Then attach live listener — keeps _adminHosts in sync for subscriptions tab
-  _adminUnsubHosts=dbOn('hosts',freshHosts=>{
-    _adminHosts=freshHosts||{};
-    renderAdminStats();
-    renderHostsTable();
-    // Refresh subscriptions tab if it is currently open
-    const subTab=document.getElementById('tab-subscriptions');
-    if(subTab&&subTab.style.display!=='none')adminRenderSubscriptions();
-  });
-  const hostUids=Object.keys(_adminHosts);
 
-  // Set up LIVE listeners for each host's sessions
-  // This means when a host ends a game, admin sees it update instantly
+  // Show loading state
+  document.getElementById('as-hosts').textContent='…';
+  document.getElementById('as-sessions').textContent='…';
+
+  // Tear down previous listeners
   if(_adminUnsubSessions){_adminUnsubSessions();_adminUnsubSessions=null;}
-  _adminSessions=[];
+  if(_adminUnsubHosts){_adminUnsubHosts();_adminUnsubHosts=null;}
+  _adminSessions=[];_adminHosts={};
 
-  // Use onValue (live) instead of get (one-time) for sessions
-  let listenersReady=0;
-  const totalUids=hostUids.length;
-
-  if(totalUids===0){
-    // No hosts yet — just render empty state
-    renderAdminStats();renderSessionsTable();renderHostsTable();renderLiveTab();
-    return;
-  }
-
-  // Track all unsub functions
-  const unsubs=[];
-  hostUids.forEach(uid=>{
-    const unsub=dbOn('sessions/'+uid, uidSessions=>{
-      // Remove existing sessions for this uid and replace with fresh data
-      _adminSessions=_adminSessions.filter(s=>s.hostUid!==uid);
-      if(uidSessions&&typeof uidSessions==='object'){
-        Object.values(uidSessions).forEach(s=>{if(s)_adminSessions.push(s);});
-      }
-      // Re-render everything live
-      renderAdminStats();
-      autoKillStaleSessions();
-      renderSessionsTable();
-      renderHostsTable();
-      renderLiveTab();
-    });
-    unsubs.push(unsub);
+  // ── STEP 1: Attach a LIVE listener on the entire sessions/ tree ──────────
+  // This fires immediately with all existing data and updates live.
+  // sessions/ is written by hosts themselves so rules should allow admin to read.
+  let sessionsLoaded=false;
+  _adminUnsubSessions=dbOn('sessions', allSessions=>{
+    _adminSessions=[];
+    if(allSessions&&typeof allSessions==='object'){
+      Object.values(allSessions).forEach(perUid=>{
+        if(perUid&&typeof perUid==='object'){
+          Object.values(perUid).forEach(s=>{if(s&&s.roomCode)_adminSessions.push(s);});
+        }
+      });
+    }
+    // If hosts/ read failed, rebuild host list from session data
+    if(!Object.keys(_adminHosts).length){
+      _adminHosts=_rebuildHostsFromSessions();
+    }
+    sessionsLoaded=true;
+    _adminRenderAll();
   });
 
-  // Combined unsub for all listeners
-  _adminUnsubSessions=()=>unsubs.forEach(u=>u());
-  // Stats will be rendered by the live listener once data arrives
+  // ── STEP 2: Also try to read hosts/ for richer profile data ─────────────
+  // This may be blocked by Firebase rules — we handle that gracefully.
+  try{
+    const hostsRaw=await dbGet('hosts');
+    if(hostsRaw&&typeof hostsRaw==='object'&&Object.keys(hostsRaw).length>0){
+      _adminHosts=hostsRaw;
+      // Attach live listener on hosts/ for real-time subscription updates
+      if(_adminUnsubHosts){_adminUnsubHosts();_adminUnsubHosts=null;}
+      _adminUnsubHosts=dbOn('hosts',freshHosts=>{
+        if(freshHosts&&typeof freshHosts==='object')_adminHosts=freshHosts;
+        _adminRenderAll();
+      });
+      _adminRenderAll();
+    } else {
+      // hosts/ returned empty — may be a rules issue or genuinely no hosts
+      console.warn('Admin: hosts/ returned empty. Using session-derived host data.');
+      if(sessionsLoaded&&!Object.keys(_adminHosts).length){
+        _adminHosts=_rebuildHostsFromSessions();
+        _adminRenderAll();
+      }
+    }
+  }catch(e){
+    console.warn('Admin: hosts/ read failed (rules?):',e.message,'— using session data.');
+    if(!Object.keys(_adminHosts).length){
+      _adminHosts=_rebuildHostsFromSessions();
+      _adminRenderAll();
+    }
+  }
 }
 
 function autoKillStaleSessions(){
