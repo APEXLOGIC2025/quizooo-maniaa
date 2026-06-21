@@ -840,7 +840,7 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
   <div id="w-chips" style="display:flex;flex-wrap:wrap;gap:.6rem;max-width:800px;justify-content:center;min-height:40px;"></div>
 
   <!-- AD CONTAINER FOR WAITING ROOM -->
-  <div id="adContainer" style="display:none; margin: 1.5rem auto; max-width: 320px; min-height: 250px; border: 1px solid rgba(255,255,255,0.1); padding: 10px; background: rgba(255,255,255,0.03); border-radius: 12px; text-align: center;">
+  <div id="adContainer" style="display:none !important; margin: 1.5rem auto; width: 90%; max-width: 320px; min-height: 250px; border: 1px solid rgba(255,255,255,0.1); padding: 10px; background: rgba(255,255,255,0.03); border-radius: 12px; text-align: center; box-sizing: border-box;">
     <div style="font-size: 12px; color: #999; margin-bottom: 10px;">Advertisement</div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6461655458619662" crossorigin="anonymous"></script>
     <ins class="adsbygoogle" style="display:inline-block;width:320px;height:250px" data-ad-client="ca-pub-6461655458619662" data-ad-slot="4312157390"></ins>
@@ -1545,11 +1545,18 @@ async function hostStart(){
 /* ══ WAITING ══ */
 function showWaitingAd(){
   var adDiv=document.getElementById('adContainer');
-  if(adDiv)adDiv.style.display='block';
+  if(adDiv){
+    adDiv.style.display='block !important';
+    adDiv.style.visibility='visible';
+  }
+  console.log('Ad shown');
 }
 function hideWaitingAd(){
   var adDiv=document.getElementById('adContainer');
-  if(adDiv)adDiv.style.display='none';
+  if(adDiv){
+    adDiv.style.display='none';
+  }
+  console.log('Ad hidden');
 }
 function showWaiting(){
   S('waiting');
