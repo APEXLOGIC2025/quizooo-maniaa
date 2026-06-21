@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - QuizOoo Mania</title>
+    <meta name="description" content="Frequently asked questions about QuizOoo Mania - our free banking quiz platform.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { background: #1a365d; color: white; padding: 40px 0; text-align: center; margin-bottom: 40px; }
+        header h1 { font-size: 2em; margin-bottom: 10px; }
+        .faq-item { background: white; border: 1px solid #ddd; margin-bottom: 20px; border-radius: 8px; overflow: hidden; }
+        .faq-question { background: #e8f4f8; padding: 20px; cursor: pointer; font-weight: bold; color: #1a365d; }
+        .faq-question:hover { background: #d0e8f0; }
+        .faq-answer { padding: 20px; display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        footer { background: #333; color: white; padding: 20px; text-align: center; margin-top: 60px; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>Frequently Asked Questions</h1>
+            <p>Everything you need to know about QuizOoo Mania</p>
+        </div>
+        <nav style="display: flex; gap: 20px; font-size: 0.9rem;">
+            <a href="/" style="color: #fbbf24; text-decoration: none;">Home</a>
+            <a href="/about.html" style="color: #fbbf24; text-decoration: none;">About</a>
+            <a href="/blog.html" style="color: #fbbf24; text-decoration: none;">Blog</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="faq-item active">
+        <div class="faq-question" onclick="toggleFaq(this)">❓ What is QuizOoo Mania?</div>
+        <div class="faq-answer">
+            <p>QuizOoo Mania is a free quiz platform focused on modern banking and finance topics — including digital banking applications, behavioral science in finance, AI and analytics in banking, and general financial awareness. It's designed for students, banking exam aspirants, and professionals who want to test and build their knowledge in a quick, interactive format.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">💰 Is QuizOoo Mania free to use?</div>
+        <div class="faq-answer">
+            <p>Yes, our core quiz content is completely free. You can take quizzes without creating an account or paying anything. We believe everyone should have access to quality banking education.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">👥 Who should use this platform?</div>
+        <div class="faq-answer">
+            <p>Anyone interested in modern banking and finance — including:</p>
+            <ul style="padding-left: 20px; margin-top: 10px;">
+                <li>Students preparing for banking exams (IBPS, SBI, RBI, and similar)</li>
+                <li>Professionals working in banking or fintech</li>
+                <li>Anyone curious about how AI and digital technology are changing the financial industry</li>
+                <li>Career changers exploring the banking sector</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">📅 How often are new quizzes added?</div>
+        <div class="faq-answer">
+            <p>We add and update quiz questions regularly across all categories to keep up with changes in banking technology, regulation, and industry trends. This ensures our content stays relevant and reflects current practices.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">📚 Are the questions based on real exam patterns?</div>
+        <div class="faq-answer">
+            <p>Our <strong>General Banking Awareness</strong> category is designed with exam preparation in mind, covering topics commonly found in IBPS, SBI, and RBI examinations. Our <strong>Digital Banking, Behavioral Science, and AI/Analytics</strong> categories focus on practical, real-world industry knowledge rather than specific exam syllabi, making them valuable for anyone working in or studying modern finance.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔓 Do I need to create an account to take a quiz?</div>
+        <div class="faq-answer">
+            <p>No, you can start taking quizzes immediately without creating an account. If you'd like to track your scores over time, you can create a free account, but it's entirely optional.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">⏱️ How long does each quiz take?</div>
+        <div class="faq-answer">
+            <p>Most quizzes are designed to take between 5 and 10 minutes, so you can fit learning into short breaks throughout your day. We keep questions focused and relevant, avoiding unnecessary complexity.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">💬 Can I suggest a quiz topic or report an incorrect question?</div>
+        <div class="faq-answer">
+            <p>Yes — we welcome feedback. Email us at <strong><a href="mailto:apexlogic2025@gmail.com">apexlogic2025@gmail.com</a></strong> with your suggestion or correction, and we'll review it. Your input helps us improve the platform for everyone.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">👨‍💼 Who created QuizOoo Mania?</div>
+        <div class="faq-answer">
+            <p>QuizOoo Mania is built and maintained by <strong>Apexlogic</strong>, a technology company focused on interactive educational platforms. It was founded by Deepak (Lead Developer) and Madhuri Shukla (Co-founder & CEO). You can learn more on our <a href="/about.html">About page</a>.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔒 Is my data safe if I create an account?</div>
+        <div class="faq-answer">
+            <p>We take data privacy seriously. If you create an account, we only collect the minimum information needed to provide our quiz services, and we do not sell user data to third parties. All data is stored securely and protected against unauthorized access.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🎯 How are questions graded?</div>
+        <div class="faq-answer">
+            <p>All questions are objectively graded based on correct answers. You receive immediate feedback after completing a quiz, showing you which questions you got right or wrong. This helps you identify knowledge gaps and focus your learning.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔄 Can I retake a quiz?</div>
+        <div class="faq-answer">
+            <p>Yes, you can retake any quiz as many times as you like. This is especially useful for studying for exams or reinforcing concepts you're learning.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">💡 Which category should I start with?</div>
+        <div class="faq-answer">
+            <p>It depends on your goals:
+            <ul style="padding-left: 20px; margin-top: 10px;">
+                <li><strong>Preparing for banking exams?</strong> Start with General Banking & Finance Awareness</li>
+                <li><strong>Interested in fintech?</strong> Explore Digital Banking Applications and AI & Analytics</li>
+                <li><strong>Want to understand financial psychology?</strong> Try Behavioral Science in Finance</li>
+                <li><strong>Want broad knowledge?</strong> Start with General Banking and explore from there</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">📱 Is QuizOoo Mania mobile-friendly?</div>
+        <div class="faq-answer">
+            <p>Yes, QuizOoo Mania is fully responsive and works great on smartphones, tablets, and desktop computers. You can take quizzes on any device with a web browser.</p>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2024 Apexlogic. All rights reserved. | <a href="/" style="color: #fbbf24;">Home</a> | <a href="/about.html" style="color: #fbbf24;">About</a></p>
+</footer>
+
+<script>
+function toggleFaq(element) {
+    const item = element.parentElement;
+    item.classList.toggle('active');
+}
+</script>
+
+</body>
+</html>

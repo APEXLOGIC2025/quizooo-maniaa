@@ -838,6 +838,18 @@ input:checked+.toggle-slider:before{transform:translateX(24px);}
     </div>
   </div>
   <div id="w-chips" style="display:flex;flex-wrap:wrap;gap:.6rem;max-width:800px;justify-content:center;min-height:40px;"></div>
+
+  <!-- AD CONTAINER FOR WAITING ROOM -->
+  <div id="adContainer" style="display:none; margin: 1.5rem auto; max-width: 320px; min-height: 250px; border: 1px solid rgba(255,255,255,0.1); padding: 10px; background: rgba(255,255,255,0.03); border-radius: 12px; text-align: center;">
+    <div style="font-size: 12px; color: #999; margin-bottom: 10px;">Advertisement</div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6461655458619662" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:inline-block;width:320px;height:250px" data-ad-client="ca-pub-6461655458619662" data-ad-slot="4312157390"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  <!-- END AD CONTAINER -->
+
   <button class="btn btn-p" style="font-size:1.1rem;padding:1rem 3rem;" onclick="beginQuiz()">▶ Begin Quiz</button>
 </div>
 
@@ -1531,8 +1543,17 @@ async function hostStart(){
 }
 
 /* ══ WAITING ══ */
+function showWaitingAd(){
+  var adDiv=document.getElementById('adContainer');
+  if(adDiv)adDiv.style.display='block';
+}
+function hideWaitingAd(){
+  var adDiv=document.getElementById('adContainer');
+  if(adDiv)adDiv.style.display='none';
+}
 function showWaiting(){
   S('waiting');
+  showWaitingAd();
   document.getElementById('w-code').textContent=roomCode;
   const qrEl=document.getElementById('w-qr');qrEl.innerHTML='';
   const _qrUrl=window._customQrUrl||window.location.href;
@@ -1553,6 +1574,7 @@ function showWaiting(){
 }
 
 async function beginQuiz(){
+  hideWaitingAd();
   if(unsubGame){unsubGame();unsubGame=null;}
   await dbUpd('games/'+roomCode,{phase:'question',currentQ:0,answers:{},bids:{},correctKey:null,timer:Q_SEC,bidPhase:false});
   setupHostGame();
