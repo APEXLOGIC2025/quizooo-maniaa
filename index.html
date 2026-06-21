@@ -1563,7 +1563,11 @@ function showWaitingAd(){
 }
 function hideWaitingAd(){
   var adDiv=document.getElementById('adContainer');
-  if(adDiv)adDiv.style.display='none';
+  if(adDiv){
+    adDiv.style.display='none';
+    adDiv.style.opacity='0';
+  }
+  console.log('Ad hidden');
 }
 function showWaiting(){
   S('waiting');
