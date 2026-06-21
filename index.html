@@ -1548,7 +1548,18 @@ async function hostStart(){
 /* ══ WAITING ══ */
 function showWaitingAd(){
   var adDiv=document.getElementById('adContainer');
-  if(adDiv)adDiv.style.display='block';
+  if(adDiv){
+    adDiv.style.display='block';
+    adDiv.style.visibility='visible';
+    adDiv.style.opacity='1';
+    adDiv.style.pointerEvents='auto';
+    setTimeout(function(){
+      if(adsbygoogle && window.adsbygoogle){
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      }
+    }, 100);
+  }
+  console.log('Ad shown on mobile');
 }
 function hideWaitingAd(){
   var adDiv=document.getElementById('adContainer');
